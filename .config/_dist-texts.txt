@@ -1,0 +1,6 @@
+../README.md
+../LICENSE.txt
+../MIT.txt
+../SECURITY.md
+../CONTRIBUTING.md
+../CODE_OF_CONDUCT.md

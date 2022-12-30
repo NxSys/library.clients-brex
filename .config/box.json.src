@@ -1,0 +1,21 @@
+{
+	"base-path": "./",
+
+	"output":	"@@dir.buildArtifacts@@/@@prj.identkey@@.phar",
+	"algorithm":	"SHA512",
+	"banner-file":	"@@dir.buildConfs@@/masthead.txt",
+	"blacklist":	["@@dir.libs@@", "@@dir.etc@@"],
+	"compression":	"NONE",
+	"directories":	["@@dir.src@@", "@@dir.vendor@@", "src-gen"],
+	"directories-bin": ["@@dir.res@@"],
+
+	"intercept": true,
+	"main": "PharMain.php",
+	"replacements":
+	{
+		"PRJ.IDENTKEY": "@@prj.identkey@@",
+		"BUILD_ID": "@@build_id@@"
+	},
+	"datetime": "PHAR_TIMESTAMP",
+	"stub":	true
+}

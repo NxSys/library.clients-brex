@@ -1,0 +1,713 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Expenses API",
+    "description": "\nThe Expenses API allows you to manage accounting and expenses information.\n",
+    "contact": {
+      "name": "Admin",
+      "url": "https://brex.com",
+      "email": "developer-access@brex.com"
+    },
+    "version": "0.1"
+  },
+  "servers": [
+    {
+      "url": "https://platform.brexapis.com",
+      "description": "Production"
+    },
+    {
+      "url": "https://platform.staging.brexapps.com",
+      "description": "Staging (Note: This is not a sandbox. It will not work with customer tokens.)"
+    }
+  ],
+  "security": [
+    {
+      "oAuth2ClientCredentials": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Card Expenses",
+      "description": "View and manage card expenses data."
+    },
+    {
+      "name": "Receipt Match",
+      "description": "Upload receipt and match automatically."
+    }
+  ],
+  "paths": {
+    "/v1/expenses/card": {
+      "get": {
+        "tags": [
+          "Card Expenses"
+        ],
+        "summary": "List expenses",
+        "description": "List expenses under the same account. Admin and bookkeeper have access to any expense, and regular users can only access their own.",
+        "operationId": "listExpenses",
+        "parameters": [
+          {
+            "name": "expand[]",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "`location`, `department`, and `receipts.download_uris` can be passed to `expand[]` query parameter to get expanded, e.g., `?expand[]=location&expand[]=receipts.download_uris`.",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "user_id[]",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "Get expenses belong to provided user(s).",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "parent_expense_id[]",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "Get itemized expenses belong to provided parent expenses ID(s).",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "listExpenses 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_ExpandableExpense_"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "expenses.card.readonly",
+              "expenses.card"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/expenses/card/receipt_match": {
+      "post": {
+        "tags": [
+          "Receipt Match"
+        ],
+        "summary": "Create a new receipt match",
+        "description": "\nThe `uri` will be a pre-signed S3 URL allowing you to upload the receipt securely. This URL can only be used for a `PUT` operation and expires 30 minutes after its creation. Once your upload is complete, we will try to match the receipt with existing expenses.\n\nRefer to these [docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) on how to upload to this pre-signed S3 URL. We highly recommend using one of AWS SDKs if they're available for your language to upload these files.\n",
+        "operationId": "receiptMatch",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptMatchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "receiptMatch 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAsyncFileUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/expenses/card/{expense_id}": {
+      "get": {
+        "tags": [
+          "Card Expenses"
+        ],
+        "summary": "Get an expense",
+        "description": "Get an expense by its ID.",
+        "operationId": "getExpense",
+        "parameters": [
+          {
+            "name": "expense_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "expand[]",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "`location`, `department`, and `receipts.download_uris` can be passed to `expand[]` query parameter to get expanded, e.g., `?expand[]=location&expand[]=receipts.download_uris`.",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "getExpense 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpandableExpense"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "expenses.card.readonly",
+              "expenses.card"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Card Expenses"
+        ],
+        "summary": "Update an expense",
+        "description": "Update an expense. Admin and bookkeeper have access to any expense, and regular users can only access their own.",
+        "operationId": "updateExpense",
+        "parameters": [
+          {
+            "name": "expense_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExpenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "updateExpense 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Expense"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "expenses.card"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/expenses/card/{expense_id}/receipt_upload": {
+      "post": {
+        "tags": [
+          "Receipt Upload"
+        ],
+        "summary": "Create a new receipt upload",
+        "description": "\nThe `uri` will be a pre-signed S3 URL allowing you to upload the receipt securely. This URL can only be used for a `PUT` operation and expires 30 minutes after its creation. Once your upload is complete, we will try to match the receipt with existing expenses.\n\nRefer to these [docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) on how to upload to this pre-signed S3 URL. We highly recommend using one of AWS SDKs if they're available for your language to upload these files.\n",
+        "operationId": "receiptUpload",
+        "parameters": [
+          {
+            "name": "expense_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptUploadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "receiptUpload 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAsyncFileUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Category": {
+        "type": "string",
+        "description": "The category of expenses.",
+        "enum": [
+          "ADVERTISING_AND_MARKETING",
+          "GROCERY",
+          "TELEPHONY",
+          "OFFICE_SUPPLIES",
+          "PRIVATE_AIR_TRAVEL",
+          "CLOTHING",
+          "CAR_RENTAL",
+          "VEHICLE_EXPENSES",
+          "RESTAURANTS",
+          "GAMBLING",
+          "FLOWERS",
+          "ELECTRONICS",
+          "LEGAL_SERVICES",
+          "UTILITIES",
+          "FURNITURE",
+          "BARS_AND_NIGHTLIFE",
+          "LAUNDRY",
+          "EVENT_EXPENSES",
+          "SHIPPING",
+          "OTHER_TRAVEL_EXPENSES",
+          "CHARITY",
+          "SOFTWARE_NON_RECURRING",
+          "LODGING",
+          "FACILITIES_EXPENSES",
+          "SERVERS",
+          "CONFERENCES",
+          "FOOD_DELIVERY",
+          "RENT",
+          "AIRLINE_EXPENSES",
+          "OTHER_BUSINESS_EXPENSES",
+          "BANK_AND_FINANCIAL_FEES",
+          "BOOKS_AND_NEWSPAPERS",
+          "CONSULTANT_AND_CONTRACTOR",
+          "CORPORATE_INSURANCE",
+          "DIGITAL_GOODS",
+          "FEES_AND_LICENSES_AND_TAXES",
+          "GAS_AND_FUEL",
+          "GENERAL_MERCHANDISE",
+          "MEDICAL",
+          "MEMBERSHIPS_AND_CLUBS",
+          "PARKING_EXPENSES",
+          "POLITICAL_DONATIONS",
+          "PUBLIC_TRANSPORTATION",
+          "RECURRING_SOFTWARE_AND_SAAS",
+          "RIDESHARE_AND_TAXI",
+          "TOLL_AND_BRIDGE_FEES",
+          "TRAINING_AND_EDUCATION",
+          "TRAVEL_WIFI"
+        ]
+      },
+      "CreateAsyncFileUploadResponse": {
+        "required": [
+          "id",
+          "uri"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The unique identifier for the request."
+          },
+          "uri": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The pre-signed S3 link that should be used to upload the file.\nThe maximum size accepted for this document is 50 MB.\n"
+          }
+        },
+        "description": "The pre-signed file upload URI and unique identifier of the request.\n"
+      },
+      "Department": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The unique identifier for the department."
+          },
+          "name": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The name of the department."
+          }
+        },
+        "description": "The department associated with the expense."
+      },
+      "ExpandableExpense": {
+        "required": [
+          "id",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "Unique ID associated with the expense."
+          },
+          "memo": {
+            "type": "string",
+            "description": "The memo of the expense.",
+            "nullable": true
+          },
+          "location_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "nullable": true
+              }
+            ]
+          },
+          "department_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "department": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Department"
+              },
+              {
+                "nullable": true
+              }
+            ]
+          },
+          "updated_at": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The last time the expense was updated.",
+            "format": "date-time"
+          },
+          "category": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              },
+              {
+                "nullable": true
+              }
+            ]
+          },
+          "receipts": {
+            "type": "array",
+            "description": "A list of receipts associated with the expense.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Receipt"
+            }
+          }
+        },
+        "description": "The expense object that has expandable fields, e.g., `location`, `department`, and `receipts`."
+      },
+      "Expense": {
+        "required": [
+          "id",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "Unique ID associated with the expense."
+          },
+          "memo": {
+            "type": "string",
+            "description": "The memo of the expense.",
+            "nullable": true
+          },
+          "location_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "department_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "updated_at": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The last time the expense was updated.",
+            "format": "date-time"
+          },
+          "category": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              },
+              {
+                "nullable": true
+              }
+            ]
+          }
+        }
+      },
+      "Location": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The unique identifier for the location."
+          },
+          "name": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The name of the location."
+          }
+        },
+        "description": "The location associated with the expense."
+      },
+      "Page_ExpandableExpense_": {
+        "required": [
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpandableExpense"
+            }
+          }
+        }
+      },
+      "Receipt": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The unique identifier for the receipt."
+          },
+          "download_uris": {
+            "type": "array",
+            "description": "[Presigned S3 link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)(s) to download file(s) of the receipt. Link(s) expire in 15 minutes.",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "The receipt associated with the expense."
+      },
+      "ReceiptMatchRequest": {
+        "required": [
+          "receipt_name"
+        ],
+        "type": "object",
+        "properties": {
+          "receipt_name": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The name of the receipt (with the file extension). It will be used in the matching result email."
+          }
+        },
+        "description": "The parameter for creating a receipt match."
+      },
+      "ReceiptUploadRequest": {
+        "required": [
+          "receipt_name"
+        ],
+        "type": "object",
+        "properties": {
+          "receipt_name": {
+            "required": [
+              "true"
+            ],
+            "type": "string",
+            "description": "The name of the receipt (with the file extension)."
+          }
+        },
+        "description": "The parameter for creating a receipt upload."
+      },
+      "UpdateExpenseRequest": {
+        "type": "object",
+        "properties": {
+          "memo": {
+            "type": "string",
+            "description": "Expense memo.",
+            "nullable": true
+          }
+        },
+        "description": "The parameter for updating an expense."
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth2 security scheme",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://accounts-api.brex.com/oauth2/default/v1/authorize",
+            "tokenUrl": "https://accounts-api.brex.com/oauth2/default/v1/token",
+            "scopes": {
+              "openid": "openid",
+              "offline_access": "offline access",
+              "expenses.card": "View and manage card expenses data",
+              "expenses.card.readonly": "View card expenses data"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-explorer-enabled": false
+}

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://raw.githubusercontent.com/phingofficial/phing/3.0.0-RC3/etc/phing-grammar.rng"
+            type="application/xml"
+            schematypens="http://relaxng.org/ns/structure/1.0" ?>
+<!-- ===========================================================================
+# build.xml
+# $Id$
+#
+# Description:
+#  Build file for PHP SDK for Brex
+#
+# @link http://nxsys.org/spaces/library.client-brex
+# @link https://onx.zulipchat.com Questions? Get project help!
+# @package NAME\SUB
+# @author ONX Group <onx@nxs.systems>
+# @author $LastChangedBy: feamsr00 $
+#
+# @version $Revision: 1337 $
+# @copyright Copyright 2023 Nexus Systems Inc.
+# @license http://nxsys.org/spaces/library.client-brexlibrary.client-brex/wiki/license.html
+# Please see the license.txt file or the url above for full copyright and
+# license terms.
+============================================================================ -->
+<project name="library.client-brex" default="dist-full">
+	<property name="dir.buildConfs"  value=".config" />
+	<property file="${dir.buildConfs}/build.properties" />
+	<fileset dir="." includesfile="${dir.buildConfs}/_dist-texts.txt" id="dist-texts"/>
+	<if>
+		<not>
+			<or>
+				<available file="${dir.buildConfs}/box.json.src" />
+				<available file="${dir.buildConfs}/masthead.txt" />
+				<available file="PharMain.php" />
+				<available file="${dir.buildConfs}/build.properties" />
+			</or>
+		</not>
+		<then>
+			<fail message="One of build.properties, box.json, PharMain.php or masthead.txt is missing!"/>
+		</then>
+	</if>
+	<tstamp />
+	<tstamp>
+		<format property="YEAR" pattern="%Y"/>
+	</tstamp>
+	<!--Needs "sed"-->
+	<!--Needs "sed"-->
+	<exec executable='svn' outputProperty='svnParentDir'>
+		<arg line='info | sed -n "/URL:/s/.*\///p"' />
+	</exec>
+
+	<!-- ============================================  -->
+	<!-- Target: Generate Skel Flesh                   -->
+	<!-- ============================================  -->
+	<target name="generate">
+		<exec executable="composer">
+			<arg value="init"/>
+			<arg value="--name=nxsys/${prj.identkey}"/>
+			<arg value="--homepage=${prj.homepage}"/>
+			<arg value="--author=ONX Group &lt;onx@nxs.systems&gt;"/>
+			<arg value="--description=${prj.name}"/>
+		</exec>
+		<echo msg="Setting Version.txt to ${prj.initver}..." />
+		<echo file="${dir.buildConfs}/version.txt" msg="${prj.initver}" />
+		<version releasetype="Minor" file="${dir.buildConfs}/version.txt" property="prj.ver"/>
+
+		<reflexive>
+			<fileset dir="${dir.buildConfs}"
+				includes="build.xml masthead.txt"/>
+			<filterchain>
+				<replacetokens begintoken="@@" endtoken="@@">
+					<token key="prj.identkey" value="${prj.identkey}" />
+					<token key="prj.name" value="${prj.name}" />
+					<token key="prj.ver" value="${prj.ver}" />
+					<token key="year" value="${YEAR}" />
+				</replacetokens>
+			</filterchain>
+		</reflexive>
+		<echo msg="Making base dirs ./src, ./res, &amp; ./vendor... et al" />
+		<mkdir dir="${dir.src}" />
+		<mkdir dir="${dir.res}" />
+		<mkdir dir="${dir.vendor}" />
+
+		<!-- Redist Dirs -->
+		<mkdir dir="${dir.libs}" />
+		<mkdir dir="${dir.etc}" />
+		<mkdir dir="${dir.docs.dev}" />
+		<mkdir dir="${dir.docs.user}" />
+
+		<echo msg="Creating stubs for Common, ConsoleMain, &amp; WebMain et al..." />
+		<echo file="${dir.src}/Common.php"
+			  msg="&lt;php${line.separator}//place loader and bootstrap code here${line.separator}namespace ${prj.identkey};" />
+
+		<echo file="ConsoleMain.php"
+			  msg="&lt;php require_once 'src/Common.php';${line.separator}//If applicable, place CLI init code here." />
+
+		<echo file="WebMain.php"
+			  msg="&lt;php require_once 'src/Common.php';${line.separator}//If applicable, place web controller init code here." />
+
+		<echo file="${prj.identkey}.conf"
+			  msg="# NEON ${prj.name} Config File${line.separator}base:${line.separator}    dir: ${prj.identkey}" />
+
+	</target>
+    <!-- ============================================  -->
+    <!-- Target: prepare                               -->
+    <!-- ============================================  -->
+    <target name="prepare" depends="license-inventory">
+        <echo msg="Making directory ./${dir.buildArtifacts}" />
+        <mkdir dir="./${dir.buildArtifacts}" />
+		<exec executable='composer'>
+			<arg line='install' />
+		</exec>
+    </target>
+
+	<!-- ============================================  -->
+	<!-- Target: license-inventory                     -->
+	<!-- compiles the licenses together                -->
+	<!-- ============================================  -->
+	<target name="license-inventory"
+		description="==>Licence Inventory Report">
+		<selector id="license-inventory"/>
+		<exec executable="pll" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate" />
+			<arg line="--verbose" />
+		</exec>
+		<move file="./licenses.md" tofile="${dir.buildConfs}/_license_inventory.txt" />
+		<append destFile="./LICENSE.txt" append="false" fixlastline="true">
+			<filelist dir="${dir.buildConfs}"
+				files="license-head.txt _license_inventory.txt">
+			</filelist>
+		</append>
+		<!-- ${dir.buildArtifacts} -->
+		<copy file="./LICENSE.txt" todir="${dir.buildArtifacts}" />
+	</target>
+
+    <!-- ============================================  -->
+    <!-- Target: janegen                               -->
+    <!-- ============================================  -->
+	<target name="janegen">
+		<echo msg="Generating code from Brex OpenAPI spec..." />
+
+		<echo msg="... for Team API" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-team_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+
+		<echo msg="... for Payments API" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-payments_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+
+		<echo msg="... for Transactions API" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-transactions_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+
+		<echo msg="... for Expenses API" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-expenses_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+
+		<echo msg="... for Webhooks API" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-webhooks_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+
+		<echo msg="... for Budgets API (last one!)" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-budgets_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+	</target>
+
+ 	<!-- ============================================  -->
+	<!-- Target: docs                                  -->
+	<!-- ============================================  -->
+	<target name="classrefdocs">
+		<echo msg="Creating Class Reference Documentation ..." />
+		<copy file="${dir.buildConfs}/apigen.neon.src" tofile="${dir.buildConfs}/apigen.neon" />
+		<reflexive>
+			<fileset dir="${dir.buildConfs}"
+				includes="apigen.neon"/>
+			<filterchain>
+				<replacetokens begintoken="@@" endtoken="@@">
+					<token key="dir.buildArtifacts" value="${dir.buildArtifacts}" />
+					<token key="dir.buildConfs" value="${dir.buildConfs}" />
+
+					<token key="dir.src" value="${dir.src}" />
+					<token key="dir.etc" value="${dir.etc}" />
+					<token key="dir.res" value="${dir.res}" />
+					<token key="dir.libs" value="${dir.libs}" />
+					<token key="dir.vendor" value="${dir.vendor}" />
+					<token key="dir.docs.dev" value="${dir.docs.dev}" />
+
+					<token key="prj.identkey" value="${prj.identkey}" />
+					<token key="prj.name" value="${prj.name}" />
+					<token key="prj.ver" value="${prj.ver}" />
+					<token key="year" value="${YEAR}" />
+				</replacetokens>
+			</filterchain>
+		</reflexive>
+
+		<exec executable="apigen" passthru="${build.isVerbose}">
+			<arg line="--config='${dir.buildConfs}/apigen.neon'"/>
+			<arg value="-verbose"/>
+		</exec>
+
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: (DEFAULT) build                       -->
+	<!-- ============================================  -->
+	<target name="build" depends="janegen">
+		<selector id="a" ></selector>
+
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: analyze                               -->
+	<!-- ============================================  -->
+	<target name="analyze">
+		<selector refid="nil"/>
+		<sonar executable="sonar-scanner">
+			<property name="sonar.projectKey"     value="nxsys-${prj.identkey}" />
+			<property name="sonar.projectName"    value="${prj.name}" />
+			<property name="sonar.projectVersion" value="${prj.ver}" />
+			<property name="sonar.sources"        value="${dir.src},src-gen" />
+		</sonar>
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: build-docs                            -->
+	<!-- ============================================  -->
+	<target name="manual" depends="prepare">
+		<echo msg="Creating Doc Binder ..." />
+
+		<!-- Sphinx Generation -->
+		<echo msg="Creating Manuals..." />
+		<mkdir dir="${dir.buildArtifacts}/docs/user" />
+		<delete dir="${dir.buildArtifacts}/docs/user" includeemptydirs="true" failonerror="true" />
+		<echo msg="... for HTML directories" />
+
+		<property name="_spx.ops" value="-W -D release=${prj.ver}" />
+		<!-- Set passthru="true" to inspect errors -->
+		<exec executable="sphinx-build" passthru="${build.isVerbose}" checkreturn="true">
+			<arg line="-b dirhtml" />
+			<arg path="${dir.docs.user}/source" />
+			<arg path="${dir.buildArtifacts}/docs/user/dirhtml" />
+			<arg line="${_spx.ops}" />
+		</exec>
+		<echo msg="... for man pages" />
+		<exec executable="sphinx-build" passthru="${build.isVerbose}" checkreturn="true">
+			<arg line="-b man" />
+			<arg path="${dir.docs.user}/source" />
+			<arg path="${dir.buildArtifacts}/docs/user/man" />
+			<arg line="${_spx.ops}" />
+		</exec>
+		<echo msg="... for CHM (last one!)" />
+		<exec executable="sphinx-build" passthru="${build.isVerbose}" checkreturn="true">
+			<arg line="-b htmlhelp" />
+			<arg path="${dir.docs.user}/source" />
+			<arg path="${dir.buildArtifacts}/docs/user/htmlhelp" />
+			<arg line="${_spx.ops}" />
+		</exec>
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: buildbox                              -->
+	<!-- ============================================  -->
+	<target name="phar">
+		<selector refid="nil"/>
+		<echo msg="Building and Boxing phar..." />
+
+		<!-- Only processes tokens in box config -->
+		<copy file="${dir.buildConfs}/box.json.src" tofile="${dir.buildConfs}/box.json" />
+		<reflexive>
+			<fileset dir="${dir.buildConfs}"
+				includes="box.json"/>
+			<filterchain>
+				<replacetokens begintoken="@@" endtoken="@@">
+					<token key="dir.buildArtifacts" value="${dir.buildArtifacts}" />
+					<token key="dir.buildConfs" value="${dir.buildConfs}" />
+
+					<token key="dir.src" value="${dir.src}" />
+					<token key="dir.etc" value="${dir.etc}" />
+					<token key="dir.res" value="${dir.res}" />
+					<token key="dir.libs" value="${dir.libs}" />
+					<token key="dir.vendor" value="${dir.vendor}" />
+
+					<token key="prj.identkey" value="${prj.identkey}" />
+					<token key="prj.name" value="${prj.name}" />
+					<token key="prj.ver" value="${prj.ver}" />
+					<token key="year" value="${YEAR}" />
+				</replacetokens>
+			</filterchain>
+		</reflexive>
+
+		<mkdir dir="${dir.buildArtifacts}" />
+		<exec executable="box" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="compile"/>
+			<arg line="--config='${dir.buildConfs}/box.json'"/>
+			<arg value="--verbose"/>
+		</exec>
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: docs                                  -->
+	<!-- ============================================  -->
+	<target name="docs" depends="classrefdocs, manual">
+		<echo msg="Creating API\Class Reference..." />
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: prepare-dist                          -->
+	<!-- ============================================  -->
+	<target name="prepare-dist" depends="build, phar, docs">
+		<version releasetype="Bugfix" file="${dir.buildConfs}/version.txt" property="prj.ver"/>
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: dist-phar (Phar Only)                 -->
+	<!-- ============================================  -->
+	<target name="dist-phar" depends="prepare-dist">
+		<echo msg="Creating archive..." />
+		<zip destfile="${dir.buildArtifacts}/${prj.identkey}-phar_${prj.ver}+${DSTAMP}${TSTAMP}.zip">
+			<fileset dir="${dir.buildArtifacts}">
+				<include name="${prj.identkey}.phar" />
+			</fileset>
+			<fileset dir=".">
+				<include name="README.md"/>
+				<include name="LICENSE.txt"/>
+				<include name="MIT.txt"/>
+				<include name="SECURITY.md"/>
+				<include name="CONTRIBUTING.md"/>
+				<include name="CODE_OF_CONDUCT.md"/>
+			</fileset>
+		</zip>
+		<echo msg="Files copied and compressed in build directory OK!" />
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: dist-full (FULL dir structure)        -->
+	<!-- ============================================  -->
+	<target name="dist-full" depends="prepare-dist">
+		<echo msg="Creating archive..." />
+		<zip destfile="${dir.buildArtifacts}/${prj.identkey}-full_${prj.ver}+${DSTAMP}${TSTAMP}.zip">
+			<fileset refid="dist-texts" />
+			<fileset dir="${dir.buildArtifacts}">
+				<include name="${prj.identkey}.phar" />
+				<include name="docs/" />
+			</fileset>
+			<fileset dir=".">
+				<include name="README.md"/>
+				<include name="LICENSE.txt"/>
+				<include name="MIT.txt"/>
+				<include name="SECURITY.md"/>
+				<include name="CONTRIBUTING.md"/>
+				<include name="CODE_OF_CONDUCT.md"/>
+			</fileset>
+		</zip>
+		<echo msg="Files copied and compressed in build directory OK!" />
+	</target>
+</project>

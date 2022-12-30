@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'openapi-file' => '.config/jane-gen/brex-transactions_1.0.json',
+    'namespace' => 'NxSys\Library\Clients\Brex\API\Transactions',
+    'directory' => __DIR__ . '../../../src-gen/Transactions',
+    'use-fixer' => true,
+];

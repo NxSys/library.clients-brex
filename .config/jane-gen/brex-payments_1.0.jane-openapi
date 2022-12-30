@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'openapi-file' => '.config/jane-gen/brex-payments_1.0.json',
+    'namespace' => 'NxSys\Library\Clients\Brex\API\Payments',
+    'directory' => __DIR__ . '../../../src-gen/Payments',
+    'use-fixer' => true,
+];

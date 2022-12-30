@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'openapi-file' => '.config/jane-gen/brex-budgets_1.0.json',
+    'namespace' => 'NxSys\Library\Clients\Brex\API\Budgets',
+    'directory' => __DIR__ . '../../../src-gen/Budgets',
+    'use-fixer' => true,
+];

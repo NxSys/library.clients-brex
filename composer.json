@@ -1,0 +1,40 @@
+{
+    "name": "nxsys/library.clients-brex",
+    "description": "PHP SDK for Brex",
+    "type": "library",
+    "homepage": "http://nxsys.org/spaces/onx",
+    "require": {
+        "psr/http-message": "^1.0",
+        "psr/http-client-implementation": "*",
+        "php-http/httplug": "^2.3",
+        "php-http/message-factory": "^1.0",
+        "php-http/discovery": "^1.14",
+        "jane-php/open-api-runtime": "^7.4",
+        "php-http/curl-client": "*",
+        "guzzlehttp/psr7": "*",
+        "php-http/message": "^1.13",
+        "http-interop/http-factory-guzzle": "^1.2"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "NxSys\\Library\\Clients\\Brex\\API\\": "src-gen/",
+            "NxSys\\Library\\Clients\\Brex\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nexus Systems, Inc.",
+            "email": "onx@Nxs.Systems"
+        }
+    ],
+    "require-dev": {
+        "php-http/mock-client": "^1.5",
+        "php-http/guzzle6-adapter": "^2.0",
+        "jane-php/open-api-3": "^7.4",
+        "friendsofphp/php-cs-fixer": "^3.13",
+        "php-http/logger-plugin": "^1.3",
+        "monolog/monolog": "^3.2",
+		"phing/phing":"^2.17"
+    }
+}

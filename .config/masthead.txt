@@ -1,0 +1,13 @@
+Babylon EMCOM
+$Id$
+
+DESCRIPTION
+
+@package Babylon EMCOM
+@copyright © 2015 F2 Developments, Inc. All rights reserved.
+@license http://f2dev.com/prjs/prj/lic
+
+@author YOUR NAME <EMAIL@f2developments.com>
+@author $LastChangedBy$
+
+@version $Revision$

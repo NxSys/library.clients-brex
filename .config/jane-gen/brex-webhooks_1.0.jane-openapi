@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'openapi-file' => '.config/jane-gen/brex-webhooks_1.0.json',
+    'namespace' => 'NxSys\Library\Clients\Brex\API\Webhooks',
+    'directory' => __DIR__ . '../../../src-gen/Webhooks',
+    'use-fixer' => true,
+];
