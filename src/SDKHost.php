@@ -37,9 +37,17 @@ class SDKHost
 
 
 
-	public function setupAllClients($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [])
+	public function setupAllClients($httpClient = null, array $additionalPlugins = [],
+		array $additionalNormalizers = []): self
 	{
+		$this->setupBudgetsClient($httpClient, $additionalPlugins, $additionalNormalizers);
+		$this->setupExpensesClient($httpClient, $additionalPlugins, $additionalNormalizers);
+		$this->setupPaymentsClient($httpClient, $additionalPlugins, $additionalNormalizers);
 		$this->setupTeamClient($httpClient, $additionalPlugins, $additionalNormalizers);
+		$this->setupTransactionsClient($httpClient, $additionalPlugins, $additionalNormalizers);
+		$this->setupWebhooksClient($httpClient, $additionalPlugins, $additionalNormalizers);
+
+		return $this;
 	}
 
 	/**
@@ -48,9 +56,10 @@ class SDKHost
 	 * @param PsrHttpClient|null $httpClient
 	 * @param HttpPlugin[] $additionalPlugins
 	 * @param array $additionalNormalizers
-	 * @return void
+	 * @return API\Team\Client
 	 */
-	public function setupTeamClient($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [])
+	public function setupTeamClient($httpClient = null, array $additionalPlugins = [],
+		array $additionalNormalizers = []): API\Team\Client
 	{
 		if(!$httpClient)
 		{
@@ -228,6 +237,7 @@ class SDKHost
 	 * Load your Brex token here
 	 *
 	 * @var string $sBearerToken
+	 * @return self
 	 */
 	public function setAuthKey(string $sBearerToken): self
 	{

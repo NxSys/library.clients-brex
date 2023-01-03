@@ -18,7 +18,7 @@ BE SURE YOU'RE SECURE
 
 If there are any vulnerabilities in this library, don't hesitate to _report them_.
 
-1. Use any of the [private contact addresses](https://github.com/GITHUB_USERNAME/REPO_SLUG#support).
+1. Use any of the [private contact addresses](https://github.com/NxSys/library.clients-brex#authors).
 2. Describe the vulnerability.
 
    If you have a fix, that is most welcome -- please attach or summarize it in your message!
