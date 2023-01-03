@@ -12,11 +12,11 @@
   <br />
 </div>
 
-This is a SDK to allow PHP applications to quickly use the Brex [REST API](https://developer.brex.com/) to accomplish all common banking tasks available from the API. Through [code generation](https://jane.readthedocs.io/en/latest) we currently support full API coverage.
+This is an SDK to allow PHP applications to quickly use the Brex [REST API](https://developer.brex.com/) to accomplish all common banking tasks available from the API. Through [code generation](https://jane.readthedocs.io/en/latest) we currently support full API coverage.
 
 You will, of course, [need to be a Brex client](https://www.brex.com/sales) to get any use from this library.
 
-CAUTION: This is financial software. The nature of the Brex API means that most usage will involve dealing with highly sensitive financial data and/or money transfers. You are entirely responsible for ensuring that proper security measures are implemented to protect your property (money and information). Please observe the [LICENSE](LICENSE.txt) (and its *disclaimer*) and thoroughly understand [SECURITY](SECURITY.md) (and the limitations of this implementation).
+CAUTION: This is financial software. The nature of the Brex API means that most usage will involve dealing with highly sensitive financial data and/or money transfers. You are entirely responsible for ensuring that proper security measures are implemented to protect your property (money and information). Please observe the [LICENSE](LICENSE.txt) (and its *disclaimer*), and thoroughly understand [SECURITY](SECURITY.md) (and the limitations of this implementation).
 
 
 
@@ -55,7 +55,7 @@ use NxSys\Library\Clients\Brex as BrexSdk;
 
 $oSDK=new BrexSdk\SDKHost;
 
-//Lets get company details to start
+//Let's get company details to start
 $oTeamClient=$oSDK->setAuthKey('BREX TOKEN') #consider using a token vault
 	->setupTeamClient();
 
