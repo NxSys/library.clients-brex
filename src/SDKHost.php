@@ -13,7 +13,7 @@ use Psr\Http\Client\ClientInterface as PsrHttpClient;
 
 class SDKHost
 {
-	public PsrHttpClient $oHttpClient=null;
+	public ?PsrHttpClient $oHttpClient=null;
 	public array $aApiClients = [];
 
 	/**
