@@ -1,4 +1,10 @@
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://choosealicense.com/licenses/mit/) | ![Packagist Version](https://img.shields.io/packagist/v/nxsys/library.clients-brex?style=flat-square&include_prereleases) | ![GitHub issues](https://img.shields.io/github/issues/nxsys/library.clients-brex?style=flat-square) | ![GitHub issues](https://img.shields.io/github/issues-closed-raw/nxsys/library.clients-brex?style=flat-square) | ![AppVeyor branch](https://img.shields.io/appveyor/build/NxSys/library-clients-brex/trunk?style=flat-square) | ![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/NxSys_library.clients-brex?server=https%3A%2F%2Fsonarcloud.io&style=flat-square) | ![Sonar Tech Debt](https://img.shields.io/sonar/tech_debt/NxSys_library.clients-brex?server=http%3A%2F%2Fsonarcloud.io&style=flat-square)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
+| [![Packagist Version](https://img.shields.io/packagist/v/nxsys/library.clients-brex?style=flat-square&include_prereleases)](https://packagist.org/packages/nxsys/library.clients-brex)
+| [![GitHub issues](https://img.shields.io/github/issues/nxsys/library.clients-brex?style=flat-square)](https://github.com/NxSys/library.clients-brex/labels/bug)
+| [![GitHub issues](https://img.shields.io/github/issues-closed-raw/nxsys/library.clients-brex?style=flat-square)](https://github.com/NxSys/library.clients-brex/issues?q=is%3Aclosed+label%3Abug+)
+| [![AppVeyor branch](https://img.shields.io/appveyor/build/NxSys/library-clients-brex/trunk?style=flat-square)](https://ci.appveyor.com/project/NxSys/library-clients-brex)
+| [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/NxSys_library.clients-brex?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/summary/overall?id=NxSys_library.clients-brex)
+| [![Sonar Tech Debt](https://img.shields.io/sonar/tech_debt/NxSys_library.clients-brex?server=http%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/component_measures?metric=sqale_debt_ratio&id=NxSys_library.clients-brex)
 
 # Brex SDK for PHP
 
@@ -155,14 +161,9 @@ See [LICENSE](LICENSE.txt) for more information and third party notices.
 
 - Open Nexus Group onx@nxs.systems
 
-
-## Appendix
-
-Any additional information goes here
-
-
 ## Acknowledgements
 
  - [Brex](https://developer.brex.com/)
  - [Jane](https://jane.readthedocs.io/en/latest)
  - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
+ - [Write the Docs: Documentation Guide](https://www.writethedocs.org/guide/)
