@@ -1,5 +1,4 @@
-CLI tool for accessing your Brex account.
-Reference app for the BrexSDKClient.
+PHP SDK for Brex
 
 Copyright (c) 2023 Nexus Systems, Inc. Any rights not expressly granted herein are reserved.
 
@@ -30,8 +29,9 @@ Post:
 
     Open Source Initiatives
     c/o Nexus Systems, Inc.
-    630 North 16th St, 3rd Floor
-    Philadelphia PA 19130-3421
+	1650 Limekiln Pike
+	Suite B19 PMB 1052
+	Dresher, PA 19025
     USA
 
 "Brex" is a registered trademark of Brex, Inc. Use of the Brex API is subject to the Brex Access Agreement.
