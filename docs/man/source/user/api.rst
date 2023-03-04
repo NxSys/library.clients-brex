@@ -2,12 +2,20 @@
 Using the API
 =============
 
+In order to use this API, there's some requirements that must be followed in your application.
 
 Brex Requirements
 -------------------
-https://developer.brex.com/docs/authentication/
-https://developer.brex.com/docs/roles_permissions_scopes/
-https://developer.brex.com/docs/checklist/
+
+#. You will need to be a Brex client
+#. You will need to have an API key
+	https://developer.brex.com/docs/authentication/
+#. You will need to select the minimum required scope for your application
+	https://developer.brex.com/docs/roles_permissions_scopes/
+#. Brex has an helpful for you to complete along your journey.
+	https://developer.brex.com/docs/checklist/
+
+Additionally, there are some limits your application will need to abide by:
 
 +--------------------------------------------+
 | Up to 1000 requests in 60 seconds.         |
@@ -19,9 +27,9 @@ https://developer.brex.com/docs/checklist/
 | Up to 5000 cards created in 24 hours.      |
 +--------------------------------------------+
 
-What that looks like in the sdk
-https://developer.brex.com/docs/pagination/
-https://developer.brex.com/docs/idempotency/
+.. What that looks like in the sdk
+.. https://developer.brex.com/docs/pagination/
+.. https://developer.brex.com/docs/idempotency/
 
 
 Getting Data
@@ -73,8 +81,8 @@ Putting Data
 
 
 
-Webhooks
--------------------
+.. Webhooks
+.. -------------------
 
 Plugins
 -------------------
@@ -103,7 +111,7 @@ Adding Logging
 
 Using Staging
 
-.. note::  ``Psr\Http\Message\UriInterface``
+.. .. note::  ``Psr\Http\Message\UriInterface``
 
 .. code-block:: php
 

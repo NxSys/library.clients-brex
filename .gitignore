@@ -10,3 +10,10 @@ composer.phar
 
 # Folder config file
 [Dd]esktop.ini
+
+_build/
+doxy/
+.config/box.json
+.config/apigen.neon
+tests/_output/
+tests/Support/_generated/

@@ -44,9 +44,9 @@ This library allows you to keep the http client library you may already
 be using in your application. It does this through [service discovery](https://docs.php-http.org/en/latest/discovery.html).
 If you are not using an [PSR-7 aware HTTP client](https://docs.php-http.org/en/latest/message/message-factory.html) you will need to [install one](https://packagist.org/providers/psr/http-factory-implementation).
 
-We have tested this against GuzzlePHP (via curl). Install the packages below.
+We have tested this against [Symfony's HTTP Client](https://symfony.com/doc/current/http_client.html). Install the package below.
 
-    composer require php-http/curl-client guzzlehttp/psr7 php-http/message
+    composer require symfony/http-client
 
 >If this is confusing please read https://docs.php-http.org/en/latest/httplug/users.html and don't hesitate to [chat with us](https://onx.zulipchat.com)!
 
@@ -55,7 +55,7 @@ We have tested this against GuzzlePHP (via curl). Install the packages below.
 ```php
 <?php
 #if using composer use the autoloader
-require 'vendors\autoload.php';
+require 'vendor\autoload.php';
 
 use NxSys\Library\Clients\Brex as BrexSdk;
 

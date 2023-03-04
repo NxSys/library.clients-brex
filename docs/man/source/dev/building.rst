@@ -19,7 +19,7 @@ Build Targets
 
 	Main targets:
 	-------------------------------------------------------------------------------
-	license-inventory  ==>Licence Inventory Report
+	license-inventory  ==>License Inventory Report
 
 	Subtargets:
 	-------------------------------------------------------------------------------
@@ -36,10 +36,11 @@ Build Targets
 	prepare             - depends on: license-inventory
 	prepare-dist        - depends on: build, phar, docs
 
-.. _code-generation:
 
 Reproducible builds
 ^^^^^^^^^^^^^^^^^^^
+
+.. _code-generation:
 
 Code Generation
 -------------------

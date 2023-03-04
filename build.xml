@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://raw.githubusercontent.com/phingofficial/phing/3.0.0-RC3/etc/phing-grammar.rng"
+<?xml-model href="https://raw.githubusercontent.com/phingofficial/phing/3.0.0-RC4/etc/phing-grammar.rng"
             type="application/xml"
             schematypens="http://relaxng.org/ns/structure/1.0" ?>
 <!-- ===========================================================================
@@ -117,7 +117,6 @@
 	<!-- ============================================  -->
 	<target name="license-inventory"
 		description="==>Licence Inventory Report">
-		<selector id="license-inventory"/>
 		<exec executable="pll" passthru="${build.isVerbose}" checkreturn="true">
 			<arg value="generate" />
 			<arg line="--verbose" />
@@ -221,7 +220,6 @@
 	<!-- Target: (DEFAULT) build                       -->
 	<!-- ============================================  -->
 	<target name="build" depends="janegen">
-		<selector id="a" ></selector>
 
 	</target>
 
@@ -229,13 +227,26 @@
 	<!-- Target: analyze                               -->
 	<!-- ============================================  -->
 	<target name="analyze">
-		<selector refid="nil"/>
 		<sonar executable="sonar-scanner">
 			<property name="sonar.projectKey"     value="nxsys-${prj.identkey}" />
 			<property name="sonar.projectName"    value="${prj.name}" />
 			<property name="sonar.projectVersion" value="${prj.ver}" />
 			<property name="sonar.sources"        value="${dir.src},src-gen" />
 		</sonar>
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: QA                                    -->
+	<!-- ============================================  -->
+	<target name="testcov">
+		<exec executable="codecept" passthru="${build.isVerbose}">
+			<arg line="-c ${dir.buildConfs}/codeception.yml" />
+			<arg line="run Unit" />
+			<!-- <arg line="-env=CI" / -->
+			<arg line="--skip-group=Writers" />
+			<arg line="--html --xml --phpunit-xml" />
+			<arg line="--coverage --coverage-xml --coverage-html --coverage-phpunit" />
+		</exec>
 	</target>
 
 	<!-- ============================================  -->
@@ -278,7 +289,6 @@
 	<!-- Target: buildbox                              -->
 	<!-- ============================================  -->
 	<target name="phar">
-		<selector refid="nil"/>
 		<echo msg="Building and Boxing phar..." />
 
 		<!-- Only processes tokens in box config -->

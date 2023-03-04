@@ -3,8 +3,8 @@
 
 .. _security_warning:
 
-An Admonishment Regarding Security
-==================================
+An Admonishment Regarding :index:`Security`
+===========================================
 
 Operational :index:`Risks`
 ---------------------------
@@ -26,7 +26,7 @@ Universal Recommendations
 
 Data in transit
 ^^^^^^^^^^^^^^^
-Data that passes through this library is processed in memory, and communicated over the internet. By design this SDK communicates with only hosts owned by Brex, Inc. E.g. ``platform.brexapis.com`` et. al. Commercially reasonable protection of your data in-transit should consist of a web application firewall between your application host and the network connecting to Brex. You can then begin to monitor and mitigate various HTTP and SSL risks and perform auditing of your application traffic.
+Data that passes through this library is processed in memory, and communicated over the internet. By design this SDK communicates with only hosts owned by Brex, Inc. E.g. ``platform.brexapis.com`` et. al. Commercially reasonable :index:`protection` of your data in-transit should consist of a web application firewall between your application host and the network connecting to Brex. You can then begin to monitor and mitigate various HTTP and SSL risks and perform auditing of your application traffic.
 
 Data at rest
 ^^^^^^^^^^^^^

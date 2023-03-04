@@ -9,7 +9,7 @@ Brex SDK for PHP: User and Developer Manual
 
 Introduction
 ------------
-This is an SDK to allow PHP applications to quickly use the Brex `REST API <https://developer.brex.com/>`_ to accomplish all common banking tasks available from the API. Through :ref:`code-generation` we currently support full API coverage.
+This is an (unofficial) SDK to allow PHP applications to quickly use the Brex `REST API <https://developer.brex.com/>`_ to accomplish all common banking tasks available from the API. Through :ref:`code-generation` we currently support full API coverage.
 
 You will, of course, `need to be a Brex client <https://www.brex.com/sales>`_ to get any use from this library.
 
@@ -20,7 +20,9 @@ License
 -------
 This SDK provided to you under the `MIT License <https://github.com/NxSys/library.clients-brex/blob/main/LICENSE.txt>`_. You generally permitted to deal in this software without restriction. Please refer to the file above for the full license text.
 
-`Copyright (c) 2023 Nexus Systems, Inc. Any rights not expressly granted herein are reserved.`
+*Copyright (c) 2023 Nexus Systems, Inc. Any rights not expressly granted herein are reserved.*
+
+*"Brex" is a registered trademark of Brex, Inc. Use of the Brex API is subject to the* `Brex Access Agreement <https://www.brex.com/legal/developer-portal>`_.
 
 
 .. toctree::
@@ -28,17 +30,31 @@ This SDK provided to you under the `MIT License <https://github.com/NxSys/librar
    :caption: User Manual:
    :glob:
 
-   about
+   user/about
    getting-started/*
-   user*
+   user/*
 
 .. toctree::
    :maxdepth: 1
    :caption: Developer Manual:
    :glob:
 
-   dev/dev*
+   dev/*
 
+.. _support:
+
+Support
+=======
+
+The following communication channels are open:
+
+* Chat: https://onx.zulipchat.com
+* Issues: https://github.com/NxSys/library.clients-brex/issues
+* Forum: https://github.com/NxSys/library.clients-brex/discussions
+
+.. <!-- - Wiki: https://nxsys.assembla.com/spaces/library.client-brex/wiki -->
+
+If you have any additional feedback, or commercial inquiries, please reach out to us at onx@nxs.systems.
 
 Indices and tables
 ==================

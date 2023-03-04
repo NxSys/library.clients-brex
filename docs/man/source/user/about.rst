@@ -16,16 +16,45 @@ The `Brex API <https://developer.brex.com/>`_ allows you to do specific, custom,
 
 How does this work?
 -------------------
-This SDK can marshal access to the entire API through a single host object. We're able to leverage code generation through `Jane PHP <https://jane.readthedocs.io/en/latest/>`_  to consume the published OpenAPI specification of Brex's API. Further we're able to use `HTTPlug <http://httplug.io/>`_ to allow our generated code to support a HTTP request client you may already be using, through auto discovery. (A default implementation is discussed if are not already using one)
+This SDK marshal's access to the entire API through a single host object. We leverage code generation through `Jane PHP <https://jane.readthedocs.io/en/latest/>`_  to consume the published OpenAPI specification of Brex's API. Further we're able to use `HTTPlug <http://httplug.io/>`_ to allow our generated code to support a HTTP request client you may already be using, through auto discovery. (A default implementation of `Symfony's HTTP Client <https://symfony.com/doc/current/http_client.html#psr-18-and-psr-17>`_ is suggested and is discussed here (:ref:`autoclient`), if you are not already using one)
 
 Selected Use Cases
 ------------------
 
 Pulling the Most Recent Transactions
 
+.. code-block:: php
+
+	<?php
+	//...
+	//this returns a page <https://developer.brex.com/docs/pagination>
+	/** @var \NxSys\Library\Clients\Brex\API\Transactions\Client $oTransactionsClient */
+	$oPagedAccounts = $oTransactionsClient->listAccounts();
+	$oAccounts=$oPagedAccounts->getItems(); //only first 100
+
+	foreach ($oAccounts as $oAccount)
+	{
+		$oTransactions = $oTransactionsClient->listCashTransactions($oAccount->getId())->getItems();
+		/** @var \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransaction[] $oTransactions */
+		print_r($oTransactions);
+	}
+
+
 Adding a User
 
-Locking a Users Card
+.. code-block:: php
+
+	<?php
+	//...
+	$oNewUser=new \NxSys\Library\Clients\Brex\API\Team\Model\CreateUserRequest;
+	$oNewUser->setFirstName('Test');
+	$oNewUser->setLastName('User');
+	$oNewUser->setEmail('TUser.codeception@acme.example');
+
+	//@throws on failure
+	$oCreatedUser=$oTeamClient->createUser($oNewUser);
+
+.. Locking a Users Card
 
 Support
 ---------

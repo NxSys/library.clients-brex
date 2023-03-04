@@ -3,8 +3,17 @@
 # Suite for unit or integration tests.
 
 actor: UnitTester
+bootstrap: ../../vendor/autoload.php
 modules:
     enabled:
         - Asserts
-        - \Helper\Unit
-    step_decorators: ~        
+        - Tests\Support\Helper\Unit
+    step_decorators: ~
+
+env:
+  live:
+  stage:
+    modules:
+      config:
+        serverSelector:
+          server: https://platform.staging.brexapps.com
