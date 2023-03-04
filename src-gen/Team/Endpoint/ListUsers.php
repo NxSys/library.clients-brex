@@ -74,19 +74,21 @@ class ListUsers extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Base
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersUnauthorizedException
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersForbiddenException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageUserResponse', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersForbiddenException($response);
         }
     }
 

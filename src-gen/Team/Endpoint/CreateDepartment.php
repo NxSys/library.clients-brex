@@ -73,19 +73,21 @@ class CreateDepartment extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clie
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentUnauthorizedException
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentForbiddenException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\DepartmentResponse', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentForbiddenException($response);
         }
     }
 

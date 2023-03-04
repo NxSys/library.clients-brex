@@ -73,22 +73,24 @@ class CreateSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionForbiddenException
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionInternalServerErrorException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\WebhookSubscription', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionForbiddenException($response);
         }
         if (500 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionInternalServerErrorException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionInternalServerErrorException($response);
         }
     }
 

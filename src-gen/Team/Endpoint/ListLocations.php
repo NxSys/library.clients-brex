@@ -72,19 +72,21 @@ class ListLocations extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsUnauthorizedException
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsForbiddenException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageLocationResponse', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsForbiddenException($response);
         }
     }
 

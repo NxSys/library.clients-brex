@@ -59,22 +59,24 @@ class UpdateSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionForbiddenException
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionInternalServerErrorException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\WebhookSubscription', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionForbiddenException($response);
         }
         if (500 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionInternalServerErrorException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionInternalServerErrorException($response);
         }
     }
 

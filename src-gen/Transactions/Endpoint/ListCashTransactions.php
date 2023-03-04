@@ -76,19 +76,21 @@ class ListCashTransactions extends \NxSys\Library\Clients\Brex\API\Transactions\
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsUnauthorizedException
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsForbiddenException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageCashTransaction', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsForbiddenException($response);
         }
     }
 

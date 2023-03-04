@@ -20,7 +20,7 @@ class SDKHost
 	 * Array of HttpPlugins
 	 * @var HttpPlugin[]
 	 */
-	public array $aHttpPlugins;
+	public array $aHttpPlugins=[];
 
 	private $oAuthPlugin;
 
@@ -63,6 +63,7 @@ class SDKHost
 	{
 		if(!$httpClient)
 		{
+			// might still be null tho...
 			$httpClient = $this->getHttpClient();
 		}
 		$additionalPlugins = array_merge(
@@ -76,7 +77,7 @@ class SDKHost
 
 	public function getTeamClient(): API\Team\Client
 	{
-		return $this->aApiClients['team'];
+		return $this->aApiClients['team']??throw new \RuntimeException("Team client has not been setup yet.");
 	}
 
 	/**
@@ -104,7 +105,7 @@ class SDKHost
 	}
 	public function getBudgetsClient(): API\Budgets\Client
 	{
-		return $this->aApiClients['budgets'];
+		return $this->aApiClients['budgets']??throw new \RuntimeException("Budget client has not been setup yet.");
 	}
 
 	/**
@@ -133,7 +134,7 @@ class SDKHost
 
 	public function getExpensesClient(): API\Expenses\Client
 	{
-		return $this->aApiClients['expenses'];
+		return $this->aApiClients['expenses']??throw new \RuntimeException("Expenses client has not been setup yet.");
 	}
 
 	/**
@@ -162,7 +163,8 @@ class SDKHost
 
 	public function getPaymentsClient(): API\Payments\Client
 	{
-		return $this->aApiClients['payments'];
+		return $this->aApiClients['payments']??throw new \RuntimeException("Payment client has not been setup yet.");
+		;
 	}
 
 	/**
@@ -192,7 +194,7 @@ class SDKHost
 
 	public function getTransactionsClient(): API\Transactions\Client
 	{
-		return $this->aApiClients['transactions'];
+		return $this->aApiClients['transactions']??throw new \RuntimeException("Transactions Client has not been setup yet.");
 	}
 
 	/**
@@ -222,7 +224,7 @@ class SDKHost
 
 	public function getWebhooksClient(): API\Webhooks\Client
 	{
-		return $this->aApiClients['webhooks'];
+		return $this->aApiClients['webhooks']??throw new \RuntimeException("Webhooks client has not been setup yet.");
 	}
 
 	/**

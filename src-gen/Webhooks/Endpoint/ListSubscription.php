@@ -70,22 +70,24 @@ class ListSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionForbiddenException
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionInternalServerErrorException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\PageWebhookSubscription', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionForbiddenException($response);
         }
         if (500 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionInternalServerErrorException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionInternalServerErrorException($response);
         }
     }
 

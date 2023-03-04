@@ -70,19 +70,21 @@ class ListLinkedAccounts extends \NxSys\Library\Clients\Brex\API\Payments\Runtim
      * @throws \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsUnauthorizedException
      * @throws \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsForbiddenException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\PageBankConnection', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsForbiddenException($response);
         }
     }
 

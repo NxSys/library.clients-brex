@@ -73,8 +73,10 @@ class SetUserLimit extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\B
      *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse|null
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserLimitResponse', 'json');
         }

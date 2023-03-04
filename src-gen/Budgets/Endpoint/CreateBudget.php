@@ -73,19 +73,21 @@ class CreateBudget extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Clien
      * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetUnauthorizedException
      * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetForbiddenException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\Budget', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetForbiddenException($response);
         }
     }
 

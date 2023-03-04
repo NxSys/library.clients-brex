@@ -56,16 +56,18 @@ class ReceiptMatch extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Clie
      * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchBadRequestException
      * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchUnauthorizedException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\CreateAsyncFileUploadResponse', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchUnauthorizedException($response);
         }
     }
 

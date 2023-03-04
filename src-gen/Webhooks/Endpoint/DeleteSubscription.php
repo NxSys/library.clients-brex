@@ -48,22 +48,24 @@ class DeleteSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionForbiddenException
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionInternalServerErrorException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (200 === $status) {
             return null;
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionForbiddenException($response);
         }
         if (500 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionInternalServerErrorException();
+            throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionInternalServerErrorException($response);
         }
     }
 

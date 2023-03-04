@@ -60,22 +60,24 @@ class ReceiptUpload extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Cli
      * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadForbiddenException
      * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadNotFoundException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\CreateAsyncFileUploadResponse', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadForbiddenException($response);
         }
         if (404 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadNotFoundException();
+            throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadNotFoundException($response);
         }
     }
 

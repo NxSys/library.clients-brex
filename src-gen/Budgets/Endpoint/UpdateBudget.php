@@ -76,22 +76,24 @@ class UpdateBudget extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Clien
      * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetForbiddenException
      * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetNotFoundException
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\Budget', 'json');
         }
         if (400 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetBadRequestException();
+            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetBadRequestException($response);
         }
         if (401 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetUnauthorizedException();
+            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetUnauthorizedException($response);
         }
         if (403 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetForbiddenException();
+            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetForbiddenException($response);
         }
         if (404 === $status) {
-            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetNotFoundException();
+            throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetNotFoundException($response);
         }
     }
 
