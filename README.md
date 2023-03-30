@@ -8,6 +8,9 @@
 
 # Brex SDK for PHP
 
+<p style="text-align: center"><a href="https://bestpractices.coreinfrastructure.org/projects/6930"><img alt="CII Best Practices Summary" src="https://img.shields.io/cii/summary/6930?style=for-the-badge"></a></p>
+
+
 <div align="center">
   <a href="https://github.com/NxSys/library.clients-brex/issues/new?assignees=&labels=bug&template=01_BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
   ·

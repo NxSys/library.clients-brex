@@ -2,7 +2,7 @@
 Using the API
 =============
 
-In order to use this API, there's some requirements that must be followed in your application.
+To use this API, some requirements must be followed in your application.
 
 Brex Requirements
 -------------------
@@ -12,7 +12,7 @@ Brex Requirements
 	https://developer.brex.com/docs/authentication/
 #. You will need to select the minimum required scope for your application
 	https://developer.brex.com/docs/roles_permissions_scopes/
-#. Brex has an helpful for you to complete along your journey.
+#. Brex has a very helpful checklist for you to complete along your journey to assist in keeping track of what’s needed.
 	https://developer.brex.com/docs/checklist/
 
 Additionally, there are some limits your application will need to abide by:

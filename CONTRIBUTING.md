@@ -8,27 +8,45 @@ Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in
 
 To set up a development environment, please follow these steps:
 
-1. Clone the repo
+0. (Optional-ish) Get a Brex API key. Without this key, you will not be able to test your code. We may still accept simple patches however.
+
+1. Install `composer`. https://getcomposer.org/doc/00-intro.md
+
+2. Install `phing`. https://www.phing.info/guide/chunkhtml/ch03s02.html
+
+2. Obtain the code and install packages
 
    ```sh
-   svn co https://github.com/NxSys/library.clients-brex.git
+   composer create-project nxsys/library.clients-brex --stability dev
    ```
-
-2. TODO
 
 ## Tests and Builds
 
 ### Testing and Testing Implications!
-> ⚠️ If you are a "[Brex Client](https://developer.brex.com/docs/checklist/)", there is no sandbox. You are running tests against your own account!
+> ⚠️ If you are a "[Brex Client](https://developer.brex.com/docs/checklist/)", there is no sandbox. You are running tests against your own account. Contact Brex's support if you want them to setup a new sandbox account for you.
 
-* Tests that read account data are disabled
-* Tests that modify account data do not exist
+You must set `BREX_TOKEN` and `BREX_ENDPOINT` in your environment before running tests.
 
-#### Why don't we use mocking?
+``` sh
+	set BREX_TOKEN=3a6a5c7b4747e5f5a577
+	set BREX_ENDPOINT=https://platform.brexapis.com
+	phing testcov
+```
+> To get code coverage reports, you should also install Xdebug and ensure coverage reporting is [enabled] (https://xdebug.org/docs/all_settings#mode).
+
+* Tests that modify account data are skipped by default. If you wish to run these separately:
+
+``` sh
+	 codecept -c .config\codeception.yml run Unit -g writers
+```
+We encourage you to contribute by adding even more unit tests.
 
 ### Release Builds
 
+
 #### Reproducible builds
+
+If you update a composer package to add a feature or fix a bug, or otherwise run `composer update` please be sure to commit the `composer.lock` file as well as `composer.josn`. This ensures that all vendor packages can be tested and released at the same time.
 
 
 ## Issues and feature requests

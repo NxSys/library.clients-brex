@@ -51,7 +51,8 @@
 	<!-- ============================================  -->
 	<!-- Target: Generate Skel Flesh                   -->
 	<!-- ============================================  -->
-	<target name="generate">
+	<target name="generate"
+			description="Creates project skel. For first run only">
 		<exec executable="composer">
 			<arg value="init"/>
 			<arg value="--name=nxsys/${prj.identkey}"/>
@@ -103,7 +104,8 @@
     <!-- ============================================  -->
     <!-- Target: prepare                               -->
     <!-- ============================================  -->
-    <target name="prepare" depends="license-inventory">
+    <target name="prepare" depends="license-inventory"
+			description="Creates _build and runs `composer install`">
         <echo msg="Making directory ./${dir.buildArtifacts}" />
         <mkdir dir="./${dir.buildArtifacts}" />
 		<exec executable='composer'>
@@ -116,8 +118,8 @@
 	<!-- compiles the licenses together                -->
 	<!-- ============================================  -->
 	<target name="license-inventory"
-		description="==>Licence Inventory Report">
-		<exec executable="pll" passthru="${build.isVerbose}" checkreturn="true">
+		description="Licence Inventory Report">
+		<exec executable="php-legal-licenses" passthru="${build.isVerbose}" checkreturn="true">
 			<arg value="generate" />
 			<arg line="--verbose" />
 		</exec>
@@ -134,7 +136,8 @@
     <!-- ============================================  -->
     <!-- Target: janegen                               -->
     <!-- ============================================  -->
-	<target name="janegen">
+	<target name="janegen"
+			description="Generate code from Brex OpenAPI spec with JanePHP" >
 		<echo msg="Generating code from Brex OpenAPI spec..." />
 
 		<echo msg="... for Team API" />
@@ -183,7 +186,8 @@
  	<!-- ============================================  -->
 	<!-- Target: docs                                  -->
 	<!-- ============================================  -->
-	<target name="classrefdocs">
+	<target name="classrefdocs"
+			description="Creates class reference documentation with Apigen">
 		<echo msg="Creating Class Reference Documentation ..." />
 		<copy file="${dir.buildConfs}/apigen.neon.src" tofile="${dir.buildConfs}/apigen.neon" />
 		<reflexive>
@@ -219,7 +223,8 @@
 	<!-- ============================================  -->
 	<!-- Target: (DEFAULT) build                       -->
 	<!-- ============================================  -->
-	<target name="build" depends="janegen">
+	<target name="build" depends="testcov,docs,phar"
+			description="Shortcut for `testcov,docs,phar`">
 
 	</target>
 
@@ -237,13 +242,24 @@
 
 	<!-- ============================================  -->
 	<!-- Target: QA                                    -->
+	<target name="QA" depends="testcov,analyze"
+			description="Shortcut for `testcov,analyze`">
+
+	</target>
 	<!-- ============================================  -->
-	<target name="testcov">
+	<!-- ============================================  -->
+	<!-- Target: testcov                                    -->
+	<!-- ============================================  -->
+	<target name="testcov"
+			description="Runs test suite wit code coverage reports">
+		<echo message="Note: Ensure BREX_TOKEN and BREX_ENDPOINT are defined in your environment." />
+		<echo message="BREX_ENDPOINT must be https://platform.brexapis.com or https://platform.staging.brexapps.com" />
+		<echo message="If not, your tests, and build, will likely fail." />
 		<exec executable="codecept" passthru="${build.isVerbose}">
 			<arg line="-c ${dir.buildConfs}/codeception.yml" />
 			<arg line="run Unit" />
 			<!-- <arg line="-env=CI" / -->
-			<arg line="--skip-group=Writers" />
+			<arg line="--skip-group=${test.skipGroup}" />
 			<arg line="--html --xml --phpunit-xml" />
 			<arg line="--coverage --coverage-xml --coverage-html --coverage-phpunit" />
 		</exec>
@@ -252,13 +268,16 @@
 	<!-- ============================================  -->
 	<!-- Target: build-docs                            -->
 	<!-- ============================================  -->
-	<target name="manual" depends="prepare">
+	<target name="manual" depends="prepare"
+			description="Compiles Sphinx docs for dirhtml, man, and htmlhelp">
 		<echo msg="Creating Doc Binder ..." />
 
 		<!-- Sphinx Generation -->
 		<echo msg="Creating Manuals..." />
 		<mkdir dir="${dir.buildArtifacts}/docs/user" />
-		<delete dir="${dir.buildArtifacts}/docs/user" includeemptydirs="true" failonerror="true" />
+
+		<!-- This makes infinate loops?! Comment if this breaks your build -->
+		<delete dir="${dir.buildArtifacts}/docs/user" includeemptydirs="" failonerror="true" />
 		<echo msg="... for HTML directories" />
 
 		<property name="_spx.ops" value="-W -D release=${prj.ver}" />
@@ -288,7 +307,8 @@
 	<!-- ============================================  -->
 	<!-- Target: buildbox                              -->
 	<!-- ============================================  -->
-	<target name="phar">
+	<target name="phar"
+			description="Creats Phar with Box">
 		<echo msg="Building and Boxing phar..." />
 
 		<!-- Only processes tokens in box config -->
@@ -326,21 +346,24 @@
 	<!-- ============================================  -->
 	<!-- Target: docs                                  -->
 	<!-- ============================================  -->
-	<target name="docs" depends="classrefdocs, manual">
+	<target name="docs" depends="classrefdocs, manual"
+			description="shortcut for `classrefdocs, manual`">
 		<echo msg="Creating API\Class Reference..." />
 	</target>
 
 	<!-- ============================================  -->
 	<!-- Target: prepare-dist                          -->
 	<!-- ============================================  -->
-	<target name="prepare-dist" depends="build, phar, docs">
+	<target name="prepare-dist" depends="build"
+			description="shortcut for `build, phar, docs`">
 		<version releasetype="Bugfix" file="${dir.buildConfs}/version.txt" property="prj.ver"/>
 	</target>
 
 	<!-- ============================================  -->
 	<!-- Target: dist-phar (Phar Only)                 -->
 	<!-- ============================================  -->
-	<target name="dist-phar" depends="prepare-dist">
+	<target name="dist-phar" depends="prepare-dist"
+			description="zip phar for dist">
 		<echo msg="Creating archive..." />
 		<zip destfile="${dir.buildArtifacts}/${prj.identkey}-phar_${prj.ver}+${DSTAMP}${TSTAMP}.zip">
 			<fileset dir="${dir.buildArtifacts}">
@@ -361,7 +384,8 @@
 	<!-- ============================================  -->
 	<!-- Target: dist-full (FULL dir structure)        -->
 	<!-- ============================================  -->
-	<target name="dist-full" depends="prepare-dist">
+	<target name="dist-full" depends="prepare-dist"
+			description="zip FULL _build dir structure">
 		<echo msg="Creating archive..." />
 		<zip destfile="${dir.buildArtifacts}/${prj.identkey}-full_${prj.ver}+${DSTAMP}${TSTAMP}.zip">
 			<fileset refid="dist-texts" />

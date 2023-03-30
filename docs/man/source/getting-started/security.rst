@@ -26,8 +26,10 @@ Universal Recommendations
 
 Data in transit
 ^^^^^^^^^^^^^^^
-Data that passes through this library is processed in memory, and communicated over the internet. By design this SDK communicates with only hosts owned by Brex, Inc. E.g. ``platform.brexapis.com`` et. al. Commercially reasonable :index:`protection` of your data in-transit should consist of a web application firewall between your application host and the network connecting to Brex. You can then begin to monitor and mitigate various HTTP and SSL risks and perform auditing of your application traffic.
+Data that passes through this library is processed in memory and communicated over the internet. By design, this SDK communicates with only hosts owned by Brex, Inc. e.g. ``platform.brexapis.com`` et. al.
+
+Commercially reasonable :index:`protection` of your data in transit should consist of a web application firewall between your application host and the network connecting to Brex (the Internet for example). With that in place, you can then begin to monitor and mitigate various HTTP and SSL risks and perform the auditing of your application traffic.
 
 Data at rest
 ^^^^^^^^^^^^^
-By design this library does not perform caching or data storage of any sort. Considering the workload this library enables, its very likely your application will. Ensure that your application handles data appropriately and securely when using this library.
+By design, this library does not perform caching or data storage of any sort. Considering the workload this library enables, it's very likely that your application will. It's necessary to ensure that your application handles data appropriately and securely when using this library.

@@ -1,0 +1,11 @@
+{
+	"sonarlint.connectedMode.project": {
+		"connectionId": "nxsys",
+		"projectKey": "NxSys_library.clients-brex"
+	},
+	"restructuredtext.preview.name": "sphinx",
+	"esbonio.sphinx.confDir": "${workspaceFolder}\\docs\\man\\source",
+	"svn.delete.ignoredRulesForDeletedFiles": [
+		"tests\\_output\\failed"
+	]
+}
