@@ -18,23 +18,38 @@ Misc
 
 * Sonar-Analyzer
 
-We use `scoop <https://scoop.sh>`_ for simplicity.
+We use `scoop <https://scoop.sh>`_ for simplicity. (Powershell is optional, but helpful)
+
 
 .. code-block:: pwsh-session
 
 	Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
 	irm get.scoop.sh | iex
 	scoop install mingit
-	scoop bucket add extra
+	scoop bucket add extras
 	scoop bucket add versions
-	scoop install php xdebug composer python
-	composer global require phing/phing:^3.*@alpha comcast/php-legal-licenses codeception/codeception apigen/apigen:^7.0@alpha humbug/box
+	scoop install php php-xdebug composer python
+	# run `php --ini` to find where the you can make an ini file
+	# create a new ext.ini file and insert
+	#   extension = openssl
+	#   extension = sodium
+	#   extension = curl
+	#   extension = mbstring
+	#   extension = intl
+	# close and continue
+	composer global require phing/phing comcast/php-legal-licenses codeception/codeception apigen/apigen:^7.0@alpha humbug/box
 	pip install -U sphinx
+
+Get the project
+
+.. code-block::
+
+	composer create-project nxsys/library.clients-brex --stability dev
 
 
 PHING and build.xml
 -------------------
-`Phing <https://www.phing.info/>`_ Is our build orchestration tool. You will use to run any tool required for developing on this project. Build settings are configured in `build.xml`.
+`Phing <https://www.phing.info/>`_ Is our build orchestration tool. You will use phing to run any tool required for developing on this project. Build settings are configured in `build.xml`.
 
 Build Targets
 -------------
@@ -72,12 +87,12 @@ Build Targets
 
 	Subtargets:
 	-------------------------------------------------------------------------------
-	analyze
+	analyze            Runs a Sonar analysis
 
 
 Reproducible builds
 ^^^^^^^^^^^^^^^^^^^
-If you update a composer package to add a feature or fix a bug, or otherwise run `composer update` please be sure to commit the `composer.lock` file as well as `composer.josn`. This ensures that all vendor packages can be tested and released at the same time.
+If you update a composer package to add a feature or fix a bug, or otherwise run `composer update`, please be sure to commit the `composer.lock` file as well as `composer.josn`. This ensures that all vendor packages can be tested and released at the same time.
 
 
 .. _code-generation:
@@ -107,4 +122,5 @@ Please ensure that you run the test suite and make required alterations to the S
 
 Known Brex Idiosyncrasies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 *No Known Issues At This Time*

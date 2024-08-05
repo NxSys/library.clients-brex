@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://raw.githubusercontent.com/phingofficial/phing/3.0.0-RC4/etc/phing-grammar.rng"
+<?xml-model href="https://raw.githubusercontent.com/phingofficial/phing/3.0.0/etc/phing-grammar.rng"
             type="application/xml"
             schematypens="http://relaxng.org/ns/structure/1.0" ?>
 <!-- ===========================================================================
@@ -40,7 +40,7 @@
 	</if>
 	<tstamp />
 	<tstamp>
-		<format property="YEAR" pattern="%Y"/>
+		<format property="YEAR" pattern="yyyy"/>
 	</tstamp>
 	<!--Needs "sed"-->
 	<!--Needs "sed"-->
@@ -232,12 +232,26 @@
 	<!-- Target: analyze                               -->
 	<!-- ============================================  -->
 	<target name="analyze">
+		<!--
+			https://github.com/phingofficial/phing/issues/1854
 		<sonar executable="sonar-scanner">
-			<property name="sonar.projectKey"     value="nxsys-${prj.identkey}" />
+			<property name="sonar.host.url"	      value="https://sonarcloud.io" />
+			<property name="sonar.organization"	  value="nxsys" />
+			<property name="sonar.projectKey"     value="NxSys_${prj.identkey}" />
 			<property name="sonar.projectName"    value="${prj.name}" />
 			<property name="sonar.projectVersion" value="${prj.ver}" />
 			<property name="sonar.sources"        value="${dir.src},src-gen" />
-		</sonar>
+		</sonar> -->
+		<exec executable="sonar-scanner" passthru="${build.isVerbose}">
+			<arg line="-D'sonar.host.url=https://sonarcloud.io'" />
+			<arg line="-D'sonar.organization=nxsys'" />
+			<arg line="-D'sonar.projectName=${prj.name}'" />
+			<arg line="-D'sonar.projectVersion=${prj.ver}'" />
+			<arg line="-D'sonar.projectKey=NxSys_${prj.identkey}'" />
+			<arg line="-D'sonar.sources=${dir.src},src-gen'" />
+			<arg line="-D'sonar.php.coverage.reportPaths=${dir.tests}/_output/coverage.xml'" />
+			<arg line="-D'sonar.qualitygate.wait=true'" />
+		</exec>
 	</target>
 
 	<!-- ============================================  -->
