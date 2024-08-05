@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'openapi-file' => '.config/jane-gen/brex-travel_1.0.json',
+    'namespace' => 'NxSys\Library\Clients\Brex\API\Travel',
+    'directory' => __DIR__ . '../../../src-gen/Travel',
+    'use-fixer' => true,
+];
