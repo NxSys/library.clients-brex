@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Brex SDK for PHP'
-copyright = '2023, Nexus Systems, Inc.'
+copyright = '2024, Nexus Systems, Inc.'
 author = 'ONX Group <onx@nxs.systems>'
-release = 'alpha'
+release = 'GA'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
