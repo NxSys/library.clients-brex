@@ -140,6 +140,13 @@
 			description="Generate code from Brex OpenAPI spec with JanePHP" >
 		<echo msg="Generating code from Brex OpenAPI spec..." />
 
+		<echo msg="... for Travel API" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-travel_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+
 		<echo msg="... for Team API" />
 		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
 			<arg value="generate"/>
@@ -249,8 +256,12 @@
 			<arg line="-D'sonar.projectVersion=${prj.ver}'" />
 			<arg line="-D'sonar.projectKey=NxSys_${prj.identkey}'" />
 			<arg line="-D'sonar.sources=${dir.src},src-gen'" />
+
 			<arg line="-D'sonar.php.coverage.reportPaths=${dir.tests}/_output/coverage.xml'" />
+
 			<arg line="-D'sonar.qualitygate.wait=true'" />
+			<arg line="-D'sonar.cpd.exclusions=src-gen'" />
+			<arg line="-D'sonar.coverage.exclusions=src-gen'" />
 		</exec>
 	</target>
 

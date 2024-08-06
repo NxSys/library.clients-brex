@@ -36,7 +36,13 @@ class SDKHost
 	}
 
 
-
+	/**
+	 * Sets up all clients in a one-shot
+	 * @param mixed $httpClient
+	 * @param array $additionalPlugins
+	 * @param array $additionalNormalizers
+	 * @return \NxSys\Library\Clients\Brex\SDKHost
+	 */
 	public function setupAllClients($httpClient = null, array $additionalPlugins = [],
 		array $additionalNormalizers = []): self
 	{
@@ -46,6 +52,7 @@ class SDKHost
 		$this->setupTeamClient($httpClient, $additionalPlugins, $additionalNormalizers);
 		$this->setupTransactionsClient($httpClient, $additionalPlugins, $additionalNormalizers);
 		$this->setupWebhooksClient($httpClient, $additionalPlugins, $additionalNormalizers);
+		$this->setupTravelClient($httpClient, $additionalPlugins, $additionalNormalizers);
 
 		return $this;
 	}
@@ -77,7 +84,7 @@ class SDKHost
 
 	public function getTeamClient(): API\Team\Client
 	{
-		return $this->aApiClients['team']??throw new \RuntimeException("Team client has not been setup yet.");
+		return $this->aApiClients['team']??throw new Exception\SDKRuntimeException("Team client has not been setup yet.");
 	}
 
 	/**
@@ -105,7 +112,7 @@ class SDKHost
 	}
 	public function getBudgetsClient(): API\Budgets\Client
 	{
-		return $this->aApiClients['budgets']??throw new \RuntimeException("Budget client has not been setup yet.");
+		return $this->aApiClients['budgets']??throw new Exception\SDKRuntimeException("Budget client has not been setup yet.");
 	}
 
 	/**
@@ -134,7 +141,7 @@ class SDKHost
 
 	public function getExpensesClient(): API\Expenses\Client
 	{
-		return $this->aApiClients['expenses']??throw new \RuntimeException("Expenses client has not been setup yet.");
+		return $this->aApiClients['expenses']??throw new Exception\SDKRuntimeException("Expenses client has not been setup yet.");
 	}
 
 	/**
@@ -163,7 +170,7 @@ class SDKHost
 
 	public function getPaymentsClient(): API\Payments\Client
 	{
-		return $this->aApiClients['payments']??throw new \RuntimeException("Payment client has not been setup yet.");
+		return $this->aApiClients['payments']??throw new Exception\SDKRuntimeException("Payment client has not been setup yet.");
 		;
 	}
 
@@ -194,7 +201,7 @@ class SDKHost
 
 	public function getTransactionsClient(): API\Transactions\Client
 	{
-		return $this->aApiClients['transactions']??throw new \RuntimeException("Transactions Client has not been setup yet.");
+		return $this->aApiClients['transactions']??throw new Exception\SDKRuntimeException("Transactions Client has not been setup yet.");
 	}
 
 	/**
@@ -224,7 +231,37 @@ class SDKHost
 
 	public function getWebhooksClient(): API\Webhooks\Client
 	{
-		return $this->aApiClients['webhooks']??throw new \RuntimeException("Webhooks client has not been setup yet.");
+		return $this->aApiClients['webhooks']??throw new Exception\SDKRuntimeException("Webhooks client has not been setup yet.");
+	}
+
+	/**
+	 *  Sets up the Travel client
+	 *
+	 * @param PsrHttpClient|null $httpClient
+	 * @param HttpPlugin[] $additionalPlugins
+	 * @param array $additionalNormalizers
+	 * @return API\Travel\Client
+	 */
+	public function setupTravelClient($httpClient = null, array $additionalPlugins = [],
+		array $additionalNormalizers = []): API\Travel\Client
+	{
+		if(!$httpClient)
+		{
+			$httpClient = $this->getHttpClient();
+		}
+		$additionalPlugins = array_merge(
+			$additionalPlugins,
+			$this->getHttpPlugins(),
+			[$this->getAuthPlugin()]
+		);
+		$this->aApiClients['travel']
+			 = API\Travel\Client::create($httpClient, $additionalPlugins, $additionalNormalizers);
+		return $this->aApiClients['travel'];
+	}
+
+	public function getTravelClient(): API\Travel\Client
+	{
+		return $this->aApiClients['travel']??throw new Exception\SDKRuntimeException("Travel client has not been setup yet.");
 	}
 
 	/**

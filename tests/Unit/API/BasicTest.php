@@ -24,7 +24,6 @@ class BasicTest extends \Codeception\Test\Unit
 		$oSDK=new BrexSdk\SDKHost;
 		$oSDK->addHttpPlugin($this->oHostPlugin);
 
-		//Let's get company details to start
 		$oSDK->setAuthKey($this->BREX_TOKEN); #consider using a token vault
 		$this->oSDK=$oSDK;
 
@@ -87,6 +86,7 @@ class BasicTest extends \Codeception\Test\Unit
 		$this->assertInstanceOf(BrexSdk\API\Payments\Client::class,	$this->oSDK->getPaymentsClient());
 		$this->assertInstanceOf(BrexSdk\API\Transactions\Client::class,	$this->oSDK->getTransactionsClient());
 		$this->assertInstanceOf(BrexSdk\API\Webhooks\Client::class,	$this->oSDK->getWebhooksClient());
+		$this->assertInstanceOf(BrexSdk\API\Travel\Client::class,	$this->oSDK->getTravelClient());
     }
 
     public function testApiTeamClientSetup()
@@ -112,23 +112,26 @@ class BasicTest extends \Codeception\Test\Unit
 
     public function testApiPaymentsClientSetup()
 	{
-
 		$this->oSDK->setupPaymentsClient();
 		$this->assertInstanceOf(BrexSdk\API\Payments\Client::class,	$this->oSDK->getPaymentsClient());
 	}
 
     public function testApiTransactionsClientSetup()
 	{
-
 		$this->oSDK->setupTransactionsClient();
 		$this->assertInstanceOf(BrexSdk\API\Transactions\Client::class,	$this->oSDK->getTransactionsClient());
 	}
 
     public function testApiWebhooksClientSetup()
 	{
-
 		$this->oSDK->setupWebhooksClient();
 		$this->assertInstanceOf(BrexSdk\API\Webhooks\Client::class,	$this->oSDK->getWebhooksClient());
+	}
+
+	public function testApiTravelClientSetup()
+	{
+		$this->oSDK->setupTravelClient();
+		$this->assertInstanceOf(BrexSdk\API\Travel\Client::class, $this->oSDK->getTravelClient());
 	}
 
 
