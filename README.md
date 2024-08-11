@@ -86,8 +86,8 @@ $sCompanyName=$aCompanyDetails->getLegalName();
 
 ## Documentation
 
-- [User Manual](http://nxsys-library-clients-brex.readthedocs.io/)
-- [Class Reference](https://APIGENHOST?)
+- [User Manual](http://nxsys-library-clients-brex.readthedocs.io)
+- [Class Reference](https://brex-client.apidoc.nxsys.org)
 - [Brex API Reference](https://developer.brex.com/)
 
 

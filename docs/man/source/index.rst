@@ -20,7 +20,7 @@ License
 -------
 This SDK provided to you under the `MIT License <https://github.com/NxSys/library.clients-brex/blob/main/LICENSE.txt>`_. and all usage of this software is determined and defined by the terms of this license. Please refer to the file above for the full license text.
 
-*Copyright (c) 2023 Nexus Systems, Inc. Any rights not expressly granted herein are reserved.*
+*Copyright (c) 2024 Nexus Systems, Inc. Any rights not expressly granted herein are reserved.*
 
 *"Brex" is a registered trademark of Brex, Inc. Use of the Brex API is subject to the* `Brex Access Agreement <https://www.brex.com/legal/developer-portal>`_.
 

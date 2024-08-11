@@ -42,10 +42,8 @@
 	<tstamp>
 		<format property="YEAR" pattern="yyyy"/>
 	</tstamp>
-	<!--Needs "sed"-->
-	<!--Needs "sed"-->
-	<exec executable='svn' outputProperty='svnParentDir'>
-		<arg line='info | sed -n "/URL:/s/.*\///p"' />
+	<exec executable="git" outputProperty="git.hash">
+		<arg line="rev-parse --short HEAD"/>
 	</exec>
 
 	<!-- ============================================  -->
@@ -374,6 +372,15 @@
 	<target name="docs" depends="classrefdocs, manual"
 			description="shortcut for `classrefdocs, manual`">
 		<echo msg="Creating API\Class Reference..." />
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: sec-chk (composer supply chain)       -->
+	<!-- ============================================  -->
+	<target name="sec-chk" description="Check for security issues in dependencies">
+		<exec executable="composer" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="audit"/>
+		</exec>
 	</target>
 
 	<!-- ============================================  -->
