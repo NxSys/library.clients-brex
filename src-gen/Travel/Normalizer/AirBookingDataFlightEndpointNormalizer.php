@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Travel\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,89 +21,179 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class AirBookingDataFlightEndpointNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class AirBookingDataFlightEndpointNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightEndpoint';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightEndpoint';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('airport_code', $data)) {
+                $object->setAirportCode($data['airport_code']);
+                unset($data['airport_code']);
+            }
+            if (\array_key_exists('terminal', $data) && $data['terminal'] !== null) {
+                $object->setTerminal($data['terminal']);
+                unset($data['terminal']);
+            } elseif (\array_key_exists('terminal', $data) && $data['terminal'] === null) {
+                $object->setTerminal(null);
+            }
+            if (\array_key_exists('gate', $data) && $data['gate'] !== null) {
+                $object->setGate($data['gate']);
+                unset($data['gate']);
+            } elseif (\array_key_exists('gate', $data) && $data['gate'] === null) {
+                $object->setGate(null);
+            }
+            if (\array_key_exists('airport_location', $data)) {
+                $object->setAirportLocation($this->denormalizer->denormalize($data['airport_location'], \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpointAirportLocation::class, 'json', $context));
+                unset($data['airport_location']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('airport_code', $data)) {
-            $object->setAirportCode($data['airport_code']);
-            unset($data['airport_code']);
-        }
-        if (\array_key_exists('terminal', $data) && $data['terminal'] !== null) {
-            $object->setTerminal($data['terminal']);
-            unset($data['terminal']);
-        } elseif (\array_key_exists('terminal', $data) && $data['terminal'] === null) {
-            $object->setTerminal(null);
-        }
-        if (\array_key_exists('gate', $data) && $data['gate'] !== null) {
-            $object->setGate($data['gate']);
-            unset($data['gate']);
-        } elseif (\array_key_exists('gate', $data) && $data['gate'] === null) {
-            $object->setGate(null);
-        }
-        if (\array_key_exists('airport_location', $data)) {
-            $object->setAirportLocation($this->denormalizer->denormalize($data['airport_location'], 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightEndpointAirportLocation', 'json', $context));
-            unset($data['airport_location']);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['airport_code'] = $object->getAirportCode();
+            if ($object->isInitialized('terminal') && null !== $object->getTerminal()) {
+                $data['terminal'] = $object->getTerminal();
             }
+            if ($object->isInitialized('gate') && null !== $object->getGate()) {
+                $data['gate'] = $object->getGate();
+            }
+            if ($object->isInitialized('airportLocation') && null !== $object->getAirportLocation()) {
+                $data['airport_location'] = $this->normalizer->normalize($object->getAirportLocation(), 'json', $context);
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class AirBookingDataFlightEndpointNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['airport_code'] = $object->getAirportCode();
-        if ($object->isInitialized('terminal') && null !== $object->getTerminal()) {
-            $data['terminal'] = $object->getTerminal();
-        }
-        if ($object->isInitialized('gate') && null !== $object->getGate()) {
-            $data['gate'] = $object->getGate();
-        }
-        if ($object->isInitialized('airportLocation') && null !== $object->getAirportLocation()) {
-            $data['airport_location'] = $this->normalizer->normalize($object->getAirportLocation(), 'json', $context);
-        }
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('airport_code', $data)) {
+                $object->setAirportCode($data['airport_code']);
+                unset($data['airport_code']);
+            }
+            if (\array_key_exists('terminal', $data) && $data['terminal'] !== null) {
+                $object->setTerminal($data['terminal']);
+                unset($data['terminal']);
+            } elseif (\array_key_exists('terminal', $data) && $data['terminal'] === null) {
+                $object->setTerminal(null);
+            }
+            if (\array_key_exists('gate', $data) && $data['gate'] !== null) {
+                $object->setGate($data['gate']);
+                unset($data['gate']);
+            } elseif (\array_key_exists('gate', $data) && $data['gate'] === null) {
+                $object->setGate(null);
+            }
+            if (\array_key_exists('airport_location', $data)) {
+                $object->setAirportLocation($this->denormalizer->denormalize($data['airport_location'], \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpointAirportLocation::class, 'json', $context));
+                unset($data['airport_location']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['airport_code'] = $object->getAirportCode();
+            if ($object->isInitialized('terminal') && null !== $object->getTerminal()) {
+                $data['terminal'] = $object->getTerminal();
+            }
+            if ($object->isInitialized('gate') && null !== $object->getGate()) {
+                $data['gate'] = $object->getGate();
+            }
+            if ($object->isInitialized('airportLocation') && null !== $object->getAirportLocation()) {
+                $data['airport_location'] = $this->normalizer->normalize($object->getAirportLocation(), 'json', $context);
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class => false];
+        }
     }
 }

@@ -15,13 +15,12 @@ class CreateVendor extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Clie
     use \NxSys\Library\Clients\Brex\API\Payments\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint creates a new vendor.
-
+     * This endpoint creates a new vendor.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(\NxSys\Library\Clients\Brex\API\Payments\Model\CreateVendorRequest $requestBody, array $headerParameters = [])
     {
@@ -65,8 +64,6 @@ class CreateVendor extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Clie
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Payments\Model\VendorResponse|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -74,7 +71,7 @@ class CreateVendor extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Clie
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\VendorResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Payments\Model\VendorResponse', 'json');
         }
     }
 

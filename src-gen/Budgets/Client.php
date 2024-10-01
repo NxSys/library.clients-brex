@@ -10,94 +10,88 @@ declare(strict_types=1);
 
 namespace NxSys\Library\Clients\Brex\API\Budgets;
 
-class Client extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Client\Client
+class Client extends Runtime\Client\Client
 {
     /**
-    Lists Budgets belonging to this account
-
+     * Lists Budgets belonging to this account.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Budgets\Model\PageBudget|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageBudget|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\ListBudgetsBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\ListBudgetsUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\ListBudgetsForbiddenException
+     * @throws Exception\ListBudgetsBadRequestException
+     * @throws Exception\ListBudgetsUnauthorizedException
+     * @throws Exception\ListBudgetsForbiddenException
      */
     public function listBudgets(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Budgets\Endpoint\ListBudgets($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListBudgets($queryParameters), $fetch);
     }
 
     /**
-    Creates a Budget
-
+     * Creates a Budget.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest $requestBody
-     * @param array                                                             $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Budget|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\CreateBudgetForbiddenException
+     * @throws Exception\CreateBudgetBadRequestException
+     * @throws Exception\CreateBudgetUnauthorizedException
+     * @throws Exception\CreateBudgetForbiddenException
      */
     public function createBudget(Model\CreateBudgetRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Budgets\Endpoint\CreateBudget($requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\CreateBudget($requestBody, $headerParameters), $fetch);
     }
 
     /**
-    Retrieves a Budget by ID
-
+     * Retrieves a Budget by ID.
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Budget|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\GetBudgetByIdBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\GetBudgetByIdUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\GetBudgetByIdForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\GetBudgetByIdNotFoundException
+     * @throws Exception\GetBudgetByIdBadRequestException
+     * @throws Exception\GetBudgetByIdUnauthorizedException
+     * @throws Exception\GetBudgetByIdForbiddenException
+     * @throws Exception\GetBudgetByIdNotFoundException
      */
     public function getBudgetById(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Budgets\Endpoint\GetBudgetById($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetBudgetById($id), $fetch);
     }
 
     /**
-    Updates a Budget
-
+     * Updates a Budget.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequest $requestBody
-     * @param array                                                             $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Budget|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetNotFoundException
+     * @throws Exception\UpdateBudgetBadRequestException
+     * @throws Exception\UpdateBudgetUnauthorizedException
+     * @throws Exception\UpdateBudgetForbiddenException
+     * @throws Exception\UpdateBudgetNotFoundException
      */
     public function updateBudget(string $id, Model\UpdateBudgetRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Budgets\Endpoint\UpdateBudget($id, $requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdateBudget($id, $requestBody, $headerParameters), $fetch);
     }
 
     public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [])
@@ -105,7 +99,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Client\Clie
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\Psr18ClientDiscovery::find();
             $plugins = [];
-            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUrlFactory()->createUri('https://platform.brexapis.com');
+            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUriFactory()->createUri('https://platform.brexapis.com');
             $plugins[] = new \Http\Client\Common\Plugin\AddHostPlugin($uri);
             if (count($additionalPlugins) > 0) {
                 $plugins = array_merge($plugins, $additionalPlugins);
@@ -114,7 +108,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Client\Clie
         }
         $requestFactory = \Http\Discovery\Psr17FactoryDiscovery::findRequestFactory();
         $streamFactory = \Http\Discovery\Psr17FactoryDiscovery::findStreamFactory();
-        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new \NxSys\Library\Clients\Brex\API\Budgets\Normalizer\JaneObjectNormalizer()];
+        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new Normalizer\JaneObjectNormalizer()];
         if (count($additionalNormalizers) > 0) {
             $normalizers = array_merge($normalizers, $additionalNormalizers);
         }

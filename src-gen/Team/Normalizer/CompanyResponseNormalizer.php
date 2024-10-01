@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Team\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Team\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Team\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,79 +21,159 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class CompanyResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class CompanyResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CompanyResponse';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CompanyResponse';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('legal_name', $data)) {
+                $object->setLegalName($data['legal_name']);
+                unset($data['legal_name']);
+            }
+            if (\array_key_exists('mailing_address', $data)) {
+                $object->setMailingAddress($this->denormalizer->denormalize($data['mailing_address'], \NxSys\Library\Clients\Brex\API\Team\Model\Address::class, 'json', $context));
+                unset($data['mailing_address']);
+            }
+            if (\array_key_exists('accountType', $data)) {
+                $object->setAccountType($data['accountType']);
+                unset($data['accountType']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('id', $data)) {
-            $object->setId($data['id']);
-            unset($data['id']);
-        }
-        if (\array_key_exists('legal_name', $data)) {
-            $object->setLegalName($data['legal_name']);
-            unset($data['legal_name']);
-        }
-        if (\array_key_exists('mailing_address', $data)) {
-            $object->setMailingAddress($this->denormalizer->denormalize($data['mailing_address'], 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Address', 'json', $context));
-            unset($data['mailing_address']);
-        }
-        if (\array_key_exists('accountType', $data)) {
-            $object->setAccountType($data['accountType']);
-            unset($data['accountType']);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            $data['legal_name'] = $object->getLegalName();
+            $data['mailing_address'] = $this->normalizer->normalize($object->getMailingAddress(), 'json', $context);
+            $data['accountType'] = $object->getAccountType();
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
             }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class CompanyResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['id'] = $object->getId();
-        $data['legal_name'] = $object->getLegalName();
-        $data['mailing_address'] = $this->normalizer->normalize($object->getMailingAddress(), 'json', $context);
-        $data['accountType'] = $object->getAccountType();
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('legal_name', $data)) {
+                $object->setLegalName($data['legal_name']);
+                unset($data['legal_name']);
+            }
+            if (\array_key_exists('mailing_address', $data)) {
+                $object->setMailingAddress($this->denormalizer->denormalize($data['mailing_address'], \NxSys\Library\Clients\Brex\API\Team\Model\Address::class, 'json', $context));
+                unset($data['mailing_address']);
+            }
+            if (\array_key_exists('accountType', $data)) {
+                $object->setAccountType($data['accountType']);
+                unset($data['accountType']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            $data['legal_name'] = $object->getLegalName();
+            $data['mailing_address'] = $this->normalizer->normalize($object->getMailingAddress(), 'json', $context);
+            $data['accountType'] = $object->getAccountType();
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class => false];
+        }
     }
 }

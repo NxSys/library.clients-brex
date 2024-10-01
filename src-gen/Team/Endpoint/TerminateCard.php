@@ -16,13 +16,12 @@ class TerminateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
     protected $id;
 
     /**
-    Terminates an existing card. The card owner will receive a notification about it.
-
+     * Terminates an existing card. The card owner will receive a notification about it.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(string $id, \NxSys\Library\Clients\Brex\API\Team\Model\TerminateCardRequest $requestBody, array $headerParameters = [])
     {
@@ -67,8 +66,6 @@ class TerminateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -76,7 +73,7 @@ class TerminateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Card', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\Card', 'json');
         }
     }
 

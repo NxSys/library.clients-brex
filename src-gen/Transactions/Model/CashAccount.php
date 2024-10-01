@@ -36,17 +36,15 @@ class CashAccount extends \ArrayObject
      */
     protected $status;
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
-
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      *
      * @var Money
      */
     protected $currentBalance;
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
-
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      *
      * @var Money
      */
@@ -112,8 +110,8 @@ class CashAccount extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function getCurrentBalance(): Money
     {
@@ -121,8 +119,8 @@ class CashAccount extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function setCurrentBalance(Money $currentBalance): self
     {
@@ -133,8 +131,8 @@ class CashAccount extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function getAvailableBalance(): Money
     {
@@ -142,8 +140,8 @@ class CashAccount extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function setAvailableBalance(Money $availableBalance): self
     {

@@ -15,16 +15,15 @@ class CreateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     use \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\EndpointTrait;
 
     /**
-    Creates a new card.
-    The `spend_controls` field is required when `limit_type` = `CARD`.
-    The `mailing_address` field is required for physical cards and is the shipping address used to send the card; it is not the same as the billing and mailing address used for online purchases.
-    The first 2 lines of this address must be under 60 characters long. Each user can only have up to 10 active physical cards.
-
+     * Creates a new card.
+     * The `spend_controls` field is required when `limit_type` = `CARD`.
+     * The `mailing_address` field is required for physical cards and is the shipping address used to send the card; it is not the same as the billing and mailing address used for online purchases.
+     * The first 2 lines of this address must be under 60 characters long. Each user can only have up to 10 active physical cards.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(\NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequest $requestBody, array $headerParameters = [])
     {
@@ -68,8 +67,6 @@ class CreateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -77,7 +74,7 @@ class CreateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Card', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\Card', 'json');
         }
     }
 

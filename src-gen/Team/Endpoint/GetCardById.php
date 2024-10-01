@@ -16,7 +16,7 @@ class GetCardById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Ba
     protected $id;
 
     /**
-    Retrieves a card by ID. Only cards with `limit_type = CARD` have `spend_controls`
+     * Retrieves a card by ID. Only cards with `limit_type = CARD` have `spend_controls`.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetCardById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Ba
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -53,7 +51,7 @@ class GetCardById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Ba
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Card', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\Card', 'json');
         }
     }
 

@@ -22,9 +22,8 @@ class BankConnectionCurrentBalance extends \ArrayObject
         return array_key_exists($property, $this->initialized);
     }
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
-
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      *
      * @var Money
      */
@@ -35,8 +34,8 @@ class BankConnectionCurrentBalance extends \ArrayObject
     protected $asOfDate;
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function getAmount(): Money
     {
@@ -44,8 +43,8 @@ class BankConnectionCurrentBalance extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function setAmount(Money $amount): self
     {

@@ -31,22 +31,27 @@ class ExpensePaymentStatusUpdatedEvent extends \ArrayObject
     protected $expenseId;
     /**
      * `PENDING`:The transaction is yet to be captured. It may be approved, yet to be approved, or yet to be declined.
-
+     *
+     * `DECLINED`: The transaction was declined.
      *
      * @var string
      */
     protected $paymentStatus;
     /**
      * `PURCHASE`: A pending transaction for making a purchase.
-
+     *
+     * `REFUND`: A pending transaction for a refund.
+     *
+     * `WITHDRAWAL`: A pending transaction for a withdrawal.
+     *
+     * `DECLINED`: A pending transaction that was declined and will not be completed.
      *
      * @var string
      */
     protected $paymentType;
     /**
-    This is the `id` returned in the [Get Company](/openapi/team_api/#operation/getCompany) endpoint.
-    You can use the `company_id` to determine which access token to use when you get the details from our API endpoints.
-
+     * This is the `id` returned in the [Get Company](/openapi/team_api/#operation/getCompany) endpoint.
+     * You can use the `company_id` to determine which access token to use when you get the details from our API endpoints.
      *
      * @var string
      */
@@ -90,8 +95,8 @@ class ExpensePaymentStatusUpdatedEvent extends \ArrayObject
 
     /**
      * `PENDING`:The transaction is yet to be captured. It may be approved, yet to be approved, or yet to be declined.
-
-    `DECLINED`: The transaction was declined.
+     *
+     * `DECLINED`: The transaction was declined.
      */
     public function getPaymentStatus(): string
     {
@@ -100,8 +105,8 @@ class ExpensePaymentStatusUpdatedEvent extends \ArrayObject
 
     /**
      * `PENDING`:The transaction is yet to be captured. It may be approved, yet to be approved, or yet to be declined.
-
-    `DECLINED`: The transaction was declined.
+     *
+     * `DECLINED`: The transaction was declined.
      */
     public function setPaymentStatus(string $paymentStatus): self
     {
@@ -113,8 +118,12 @@ class ExpensePaymentStatusUpdatedEvent extends \ArrayObject
 
     /**
      * `PURCHASE`: A pending transaction for making a purchase.
-
-    `DECLINED`: A pending transaction that was declined and will not be completed.
+     *
+     * `REFUND`: A pending transaction for a refund.
+     *
+     * `WITHDRAWAL`: A pending transaction for a withdrawal.
+     *
+     * `DECLINED`: A pending transaction that was declined and will not be completed.
      */
     public function getPaymentType(): string
     {
@@ -123,8 +132,12 @@ class ExpensePaymentStatusUpdatedEvent extends \ArrayObject
 
     /**
      * `PURCHASE`: A pending transaction for making a purchase.
-
-    `DECLINED`: A pending transaction that was declined and will not be completed.
+     *
+     * `REFUND`: A pending transaction for a refund.
+     *
+     * `WITHDRAWAL`: A pending transaction for a withdrawal.
+     *
+     * `DECLINED`: A pending transaction that was declined and will not be completed.
      */
     public function setPaymentType(string $paymentType): self
     {
@@ -135,8 +148,8 @@ class ExpensePaymentStatusUpdatedEvent extends \ArrayObject
     }
 
     /**
-    This is the `id` returned in the [Get Company](/openapi/team_api/#operation/getCompany) endpoint.
-    You can use the `company_id` to determine which access token to use when you get the details from our API endpoints.
+     * This is the `id` returned in the [Get Company](/openapi/team_api/#operation/getCompany) endpoint.
+     * You can use the `company_id` to determine which access token to use when you get the details from our API endpoints.
      */
     public function getCompanyId(): string
     {
@@ -144,8 +157,8 @@ class ExpensePaymentStatusUpdatedEvent extends \ArrayObject
     }
 
     /**
-    This is the `id` returned in the [Get Company](/openapi/team_api/#operation/getCompany) endpoint.
-    You can use the `company_id` to determine which access token to use when you get the details from our API endpoints.
+     * This is the `id` returned in the [Get Company](/openapi/team_api/#operation/getCompany) endpoint.
+     * You can use the `company_id` to determine which access token to use when you get the details from our API endpoints.
      */
     public function setCompanyId(string $companyId): self
     {

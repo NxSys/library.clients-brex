@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Travel\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,86 +21,173 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class LodgingBookingDataLodgingDetailsContactInformationNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class LodgingBookingDataLodgingDetailsContactInformationNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetailsContactInformation';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetailsContactInformation';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('phone', $data) && $data['phone'] !== null) {
+                $object->setPhone($data['phone']);
+                unset($data['phone']);
+            } elseif (\array_key_exists('phone', $data) && $data['phone'] === null) {
+                $object->setPhone(null);
+            }
+            if (\array_key_exists('fax', $data) && $data['fax'] !== null) {
+                $object->setFax($data['fax']);
+                unset($data['fax']);
+            } elseif (\array_key_exists('fax', $data) && $data['fax'] === null) {
+                $object->setFax(null);
+            }
+            if (\array_key_exists('email', $data) && $data['email'] !== null) {
+                $object->setEmail($data['email']);
+                unset($data['email']);
+            } elseif (\array_key_exists('email', $data) && $data['email'] === null) {
+                $object->setEmail(null);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('phone', $data) && $data['phone'] !== null) {
-            $object->setPhone($data['phone']);
-            unset($data['phone']);
-        } elseif (\array_key_exists('phone', $data) && $data['phone'] === null) {
-            $object->setPhone(null);
-        }
-        if (\array_key_exists('fax', $data) && $data['fax'] !== null) {
-            $object->setFax($data['fax']);
-            unset($data['fax']);
-        } elseif (\array_key_exists('fax', $data) && $data['fax'] === null) {
-            $object->setFax(null);
-        }
-        if (\array_key_exists('email', $data) && $data['email'] !== null) {
-            $object->setEmail($data['email']);
-            unset($data['email']);
-        } elseif (\array_key_exists('email', $data) && $data['email'] === null) {
-            $object->setEmail(null);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            if ($object->isInitialized('phone') && null !== $object->getPhone()) {
+                $data['phone'] = $object->getPhone();
             }
+            if ($object->isInitialized('fax') && null !== $object->getFax()) {
+                $data['fax'] = $object->getFax();
+            }
+            if ($object->isInitialized('email') && null !== $object->getEmail()) {
+                $data['email'] = $object->getEmail();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class LodgingBookingDataLodgingDetailsContactInformationNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        if ($object->isInitialized('phone') && null !== $object->getPhone()) {
-            $data['phone'] = $object->getPhone();
-        }
-        if ($object->isInitialized('fax') && null !== $object->getFax()) {
-            $data['fax'] = $object->getFax();
-        }
-        if ($object->isInitialized('email') && null !== $object->getEmail()) {
-            $data['email'] = $object->getEmail();
-        }
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('phone', $data) && $data['phone'] !== null) {
+                $object->setPhone($data['phone']);
+                unset($data['phone']);
+            } elseif (\array_key_exists('phone', $data) && $data['phone'] === null) {
+                $object->setPhone(null);
+            }
+            if (\array_key_exists('fax', $data) && $data['fax'] !== null) {
+                $object->setFax($data['fax']);
+                unset($data['fax']);
+            } elseif (\array_key_exists('fax', $data) && $data['fax'] === null) {
+                $object->setFax(null);
+            }
+            if (\array_key_exists('email', $data) && $data['email'] !== null) {
+                $object->setEmail($data['email']);
+                unset($data['email']);
+            } elseif (\array_key_exists('email', $data) && $data['email'] === null) {
+                $object->setEmail(null);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            if ($object->isInitialized('phone') && null !== $object->getPhone()) {
+                $data['phone'] = $object->getPhone();
+            }
+            if ($object->isInitialized('fax') && null !== $object->getFax()) {
+                $data['fax'] = $object->getFax();
+            }
+            if ($object->isInitialized('email') && null !== $object->getEmail()) {
+                $data['email'] = $object->getEmail();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class => false];
+        }
     }
 }

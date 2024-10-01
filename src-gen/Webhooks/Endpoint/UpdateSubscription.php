@@ -17,7 +17,7 @@ class UpdateSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
 
     /**
      * Update a webhook.
-    You can update the endpoint url, event types that the endpoint receives, or temporarily deactivate the webhook.
+     * You can update the endpoint url, event types that the endpoint receives, or temporarily deactivate the webhook.
      */
     public function __construct(string $id, \NxSys\Library\Clients\Brex\API\Webhooks\Model\UpdateWebhookSubscriptionRequest $requestBody)
     {
@@ -50,8 +50,6 @@ class UpdateSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionBadRequestException
@@ -64,7 +62,7 @@ class UpdateSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\WebhookSubscription', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionBadRequestException($response);

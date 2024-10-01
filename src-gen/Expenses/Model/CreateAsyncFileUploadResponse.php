@@ -29,6 +29,7 @@ class CreateAsyncFileUploadResponse extends \ArrayObject
     protected $id;
     /**
      * The pre-signed S3 link that should be used to upload the file.
+     * The maximum size accepted for this document is 50 MB.
      *
      * @var string
      */
@@ -55,7 +56,7 @@ class CreateAsyncFileUploadResponse extends \ArrayObject
 
     /**
      * The pre-signed S3 link that should be used to upload the file.
-    The maximum size accepted for this document is 50 MB.
+     * The maximum size accepted for this document is 50 MB.
      */
     public function getUri(): string
     {
@@ -64,7 +65,7 @@ class CreateAsyncFileUploadResponse extends \ArrayObject
 
     /**
      * The pre-signed S3 link that should be used to upload the file.
-    The maximum size accepted for this document is 50 MB.
+     * The maximum size accepted for this document is 50 MB.
      */
     public function setUri(string $uri): self
     {

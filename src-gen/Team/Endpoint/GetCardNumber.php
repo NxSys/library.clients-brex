@@ -16,7 +16,7 @@ class GetCardNumber extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
     protected $id;
 
     /**
-    Retrieves card number, CVV, and expiration date of a card by ID.
+     * Retrieves card number, CVV, and expiration date of a card by ID.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetCardNumber extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\CardNumberResponse|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -53,7 +51,7 @@ class GetCardNumber extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CardNumberResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\CardNumberResponse', 'json');
         }
     }
 

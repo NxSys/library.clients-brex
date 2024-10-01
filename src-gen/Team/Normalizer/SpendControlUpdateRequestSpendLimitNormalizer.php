@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Team\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Team\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Team\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,75 +21,151 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class SpendControlUpdateRequestSpendLimitNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class SpendControlUpdateRequestSpendLimitNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SpendControlUpdateRequestSpendLimit';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SpendControlUpdateRequestSpendLimit';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('amount', $data)) {
+                $object->setAmount($data['amount']);
+                unset($data['amount']);
+            }
+            if (\array_key_exists('currency', $data) && $data['currency'] !== null) {
+                $object->setCurrency($data['currency']);
+                unset($data['currency']);
+            } elseif (\array_key_exists('currency', $data) && $data['currency'] === null) {
+                $object->setCurrency(null);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('amount', $data)) {
-            $object->setAmount($data['amount']);
-            unset($data['amount']);
-        }
-        if (\array_key_exists('currency', $data) && $data['currency'] !== null) {
-            $object->setCurrency($data['currency']);
-            unset($data['currency']);
-        } elseif (\array_key_exists('currency', $data) && $data['currency'] === null) {
-            $object->setCurrency(null);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            if ($object->isInitialized('amount') && null !== $object->getAmount()) {
+                $data['amount'] = $object->getAmount();
             }
+            if ($object->isInitialized('currency') && null !== $object->getCurrency()) {
+                $data['currency'] = $object->getCurrency();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class SpendControlUpdateRequestSpendLimitNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        if ($object->isInitialized('amount') && null !== $object->getAmount()) {
-            $data['amount'] = $object->getAmount();
-        }
-        if ($object->isInitialized('currency') && null !== $object->getCurrency()) {
-            $data['currency'] = $object->getCurrency();
-        }
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('amount', $data)) {
+                $object->setAmount($data['amount']);
+                unset($data['amount']);
+            }
+            if (\array_key_exists('currency', $data) && $data['currency'] !== null) {
+                $object->setCurrency($data['currency']);
+                unset($data['currency']);
+            } elseif (\array_key_exists('currency', $data) && $data['currency'] === null) {
+                $object->setCurrency(null);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            if ($object->isInitialized('amount') && null !== $object->getAmount()) {
+                $data['amount'] = $object->getAmount();
+            }
+            if ($object->isInitialized('currency') && null !== $object->getCurrency()) {
+                $data['currency'] = $object->getCurrency();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class => false];
+        }
     }
 }

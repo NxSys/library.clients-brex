@@ -24,13 +24,13 @@ class AirBookingData extends \ArrayObject
     /**
      * The journeys that make up this booking.
      *
-     * @var AirBookingDataJourney[]
+     * @var list<AirBookingDataJourney>
      */
     protected $journeys;
     /**
      * The flight tickets in this booking.
      *
-     * @var AirBookingDataFlightTicket[]
+     * @var list<AirBookingDataFlightTicket>
      */
     protected $tickets;
     /**
@@ -49,7 +49,7 @@ class AirBookingData extends \ArrayObject
     /**
      * The journeys that make up this booking.
      *
-     * @return AirBookingDataJourney[]
+     * @return list<AirBookingDataJourney>
      */
     public function getJourneys(): array
     {
@@ -59,7 +59,7 @@ class AirBookingData extends \ArrayObject
     /**
      * The journeys that make up this booking.
      *
-     * @param AirBookingDataJourney[] $journeys
+     * @param list<AirBookingDataJourney> $journeys
      */
     public function setJourneys(array $journeys): self
     {
@@ -72,7 +72,7 @@ class AirBookingData extends \ArrayObject
     /**
      * The flight tickets in this booking.
      *
-     * @return AirBookingDataFlightTicket[]
+     * @return list<AirBookingDataFlightTicket>
      */
     public function getTickets(): array
     {
@@ -82,7 +82,7 @@ class AirBookingData extends \ArrayObject
     /**
      * The flight tickets in this booking.
      *
-     * @param AirBookingDataFlightTicket[] $tickets
+     * @param list<AirBookingDataFlightTicket> $tickets
      */
     public function setTickets(array $tickets): self
     {

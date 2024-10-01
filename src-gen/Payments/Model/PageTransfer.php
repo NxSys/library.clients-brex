@@ -26,7 +26,7 @@ class PageTransfer extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var Transfer[]
+     * @var list<Transfer>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageTransfer extends \ArrayObject
     }
 
     /**
-     * @return Transfer[]
+     * @return list<Transfer>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageTransfer extends \ArrayObject
     }
 
     /**
-     * @param Transfer[] $items
+     * @param list<Transfer> $items
      */
     public function setItems(array $items): self
     {

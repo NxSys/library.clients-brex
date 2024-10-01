@@ -15,14 +15,13 @@ class CreateUser extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     use \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint invites a new user as an employee.
-    To update user's role, check out [this article](https://support.brex.com/how-do-i-change-another-user-s-role/).
-
+     * This endpoint invites a new user as an employee.
+     * To update user's role, check out [this article](https://support.brex.com/how-do-i-change-another-user-s-role/).
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(\NxSys\Library\Clients\Brex\API\Team\Model\CreateUserRequest $requestBody, array $headerParameters = [])
     {
@@ -66,8 +65,6 @@ class CreateUser extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateUserBadRequestException
@@ -79,7 +76,7 @@ class CreateUser extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\UserResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateUserBadRequestException($response);

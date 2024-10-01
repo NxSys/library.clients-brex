@@ -16,7 +16,7 @@ class GetDepartmentById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Cli
     protected $id;
 
     /**
-    This endpoint gets a department by ID.
+     * This endpoint gets a department by ID.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetDepartmentById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Cli
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetDepartmentByIdBadRequestException
@@ -57,7 +55,7 @@ class GetDepartmentById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Cli
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\DepartmentResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\GetDepartmentByIdBadRequestException($response);

@@ -62,7 +62,7 @@ class ExpandableExpense extends \ArrayObject
     /**
      * A list of receipts associated with the expense.
      *
-     * @var Receipt[]|null
+     * @var list<Receipt>|null
      */
     protected $receipts;
 
@@ -191,7 +191,7 @@ class ExpandableExpense extends \ArrayObject
     /**
      * A list of receipts associated with the expense.
      *
-     * @return Receipt[]|null
+     * @return list<Receipt>|null
      */
     public function getReceipts(): ?array
     {
@@ -201,7 +201,7 @@ class ExpandableExpense extends \ArrayObject
     /**
      * A list of receipts associated with the expense.
      *
-     * @param Receipt[]|null $receipts
+     * @param list<Receipt>|null $receipts
      */
     public function setReceipts(?array $receipts): self
     {

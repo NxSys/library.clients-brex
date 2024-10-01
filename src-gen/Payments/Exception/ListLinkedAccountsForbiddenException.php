@@ -17,7 +17,7 @@ class ListLinkedAccountsForbiddenException extends ForbiddenException
      */
     private $response;
 
-    public function __construct(\Psr\Http\Message\ResponseInterface $response = null)
+    public function __construct(?\Psr\Http\Message\ResponseInterface $response = null)
     {
         parent::__construct('Forbidden');
         $this->response = $response;

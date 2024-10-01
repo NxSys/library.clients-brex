@@ -16,7 +16,7 @@ class GetUserById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Ba
     protected $id;
 
     /**
-    This endpoint gets a user by ID.
+     * This endpoint gets a user by ID.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetUserById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Ba
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetUserByIdBadRequestException
@@ -57,7 +55,7 @@ class GetUserById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Ba
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\UserResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\GetUserByIdBadRequestException($response);

@@ -49,8 +49,6 @@ class UpdateExpense extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Cli
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\UpdateExpenseBadRequestException
@@ -63,7 +61,7 @@ class UpdateExpense extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Cli
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\Expense', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Expenses\Model\Expense', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\UpdateExpenseBadRequestException($response);

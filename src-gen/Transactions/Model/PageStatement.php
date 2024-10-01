@@ -26,7 +26,7 @@ class PageStatement extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var Statement[]
+     * @var list<Statement>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageStatement extends \ArrayObject
     }
 
     /**
-     * @return Statement[]
+     * @return list<Statement>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageStatement extends \ArrayObject
     }
 
     /**
-     * @param Statement[] $items
+     * @param list<Statement> $items
      */
     public function setItems(array $items): self
     {

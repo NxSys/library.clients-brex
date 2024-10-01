@@ -42,7 +42,7 @@ class UpdateVendorRequest extends \ArrayObject
     /**
      * To update payment instruments, we require the entire payload for each payment instrument that is being updated.
      *
-     * @var PaymentAccountRequest[]|null
+     * @var list<PaymentAccountRequest>|null
      */
     protected $paymentAccounts;
 
@@ -106,7 +106,7 @@ class UpdateVendorRequest extends \ArrayObject
     /**
      * To update payment instruments, we require the entire payload for each payment instrument that is being updated.
      *
-     * @return PaymentAccountRequest[]|null
+     * @return list<PaymentAccountRequest>|null
      */
     public function getPaymentAccounts(): ?array
     {
@@ -116,7 +116,7 @@ class UpdateVendorRequest extends \ArrayObject
     /**
      * To update payment instruments, we require the entire payload for each payment instrument that is being updated.
      *
-     * @param PaymentAccountRequest[]|null $paymentAccounts
+     * @param list<PaymentAccountRequest>|null $paymentAccounts
      */
     public function setPaymentAccounts(?array $paymentAccounts): self
     {

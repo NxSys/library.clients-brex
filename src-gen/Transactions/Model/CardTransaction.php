@@ -38,9 +38,8 @@ class CardTransaction extends \ArrayObject
      */
     protected $description;
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
-
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      *
      * @var Money
      */
@@ -66,11 +65,10 @@ class CardTransaction extends \ArrayObject
      */
     protected $merchant;
     /**
-    Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
-    Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
-
+     * Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
+     * Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
      *
-     * @var string[]|null
+     * @var array<string, string>|null
      */
     protected $cardMetadata;
     /**
@@ -132,8 +130,8 @@ class CardTransaction extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function getAmount(): Money
     {
@@ -141,8 +139,8 @@ class CardTransaction extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function setAmount(Money $amount): self
     {
@@ -217,11 +215,10 @@ class CardTransaction extends \ArrayObject
     }
 
     /**
-    Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
-    Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
-
+     * Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
+     * Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
      *
-     * @return string[]|null
+     * @return array<string, string>|null
      */
     public function getCardMetadata(): ?iterable
     {
@@ -229,11 +226,10 @@ class CardTransaction extends \ArrayObject
     }
 
     /**
-    Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
-    Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
-
+     * Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
+     * Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
      *
-     * @param string[]|null $cardMetadata
+     * @param array<string, string>|null $cardMetadata
      */
     public function setCardMetadata(?iterable $cardMetadata): self
     {

@@ -12,6 +12,7 @@ namespace NxSys\Library\Clients\Brex\API\Transactions\Normalizer;
 
 use NxSys\Library\Clients\Brex\API\Transactions\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Transactions\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -19,59 +20,241 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-    protected $normalizers = ['NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccount' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CardAccountNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccountCurrentBalance' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CardAccountCurrentBalanceNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccountAvailableBalance' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CardAccountAvailableBalanceNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccountAccountLimit' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CardAccountAccountLimitNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardTransaction' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CardTransactionNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardTransactionMerchant' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CardTransactionMerchantNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CashAccount' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CashAccountNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CashTransaction' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CashTransactionNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CashTransactionAmount' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\CashTransactionAmountNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\MerchantData' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\MerchantDataNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\Money' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\MoneyNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageCardTransaction' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\PageCardTransactionNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageCashAccount' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\PageCashAccountNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageCashTransaction' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\PageCashTransactionNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageStatement' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\PageStatementNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\Statement' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\StatementNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\StatementStartBalance' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\StatementStartBalanceNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\StatementEndBalance' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\StatementEndBalanceNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\StatementPeriod' => 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Normalizer\\StatementPeriodNormalizer', '\\Jane\\Component\\JsonSchemaRuntime\\Reference' => '\\NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Runtime\\Normalizer\\ReferenceNormalizer'];
-    protected $normalizersCache = [];
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return array_key_exists($type, $this->normalizers);
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class => CardAccountNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountCurrentBalance::class => CardAccountCurrentBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAvailableBalance::class => CardAccountAvailableBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAccountLimit::class => CardAccountAccountLimitNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class => CardTransactionNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransactionMerchant::class => CardTransactionMerchantNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CashAccount::class => CashAccountNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransaction::class => CashTransactionNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransactionAmount::class => CashTransactionAmountNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\MerchantData::class => MerchantDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\Money::class => MoneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCardTransaction::class => PageCardTransactionNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashAccount::class => PageCashAccountNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashTransaction::class => PageCashTransactionNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\PageStatement::class => PageStatementNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\Statement::class => StatementNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementStartBalance::class => StatementStartBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementEndBalance::class => StatementEndBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementPeriod::class => StatementPeriodNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Transactions\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountCurrentBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAvailableBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAccountLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransactionMerchant::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CashAccount::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransaction::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransactionAmount::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\MerchantData::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\Money::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCardTransaction::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashAccount::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashTransaction::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\PageStatement::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\Statement::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementStartBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementEndBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementPeriod::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
-
-    public function supportsNormalization($data, $format = null): bool
+} else {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class => CardAccountNormalizer::class,
 
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
-    {
-        $normalizerClass = $this->normalizers[get_class($object)];
-        $normalizer = $this->getNormalizer($normalizerClass);
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountCurrentBalance::class => CardAccountCurrentBalanceNormalizer::class,
 
-        return $normalizer->normalize($object, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAvailableBalance::class => CardAccountAvailableBalanceNormalizer::class,
 
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        $denormalizerClass = $this->normalizers[$class];
-        $denormalizer = $this->getNormalizer($denormalizerClass);
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAccountLimit::class => CardAccountAccountLimitNormalizer::class,
 
-        return $denormalizer->denormalize($data, $class, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class => CardTransactionNormalizer::class,
 
-    private function getNormalizer(string $normalizerClass)
-    {
-        return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
-    }
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransactionMerchant::class => CardTransactionMerchantNormalizer::class,
 
-    private function initNormalizer(string $normalizerClass)
-    {
-        $normalizer = new $normalizerClass();
-        $normalizer->setNormalizer($this->normalizer);
-        $normalizer->setDenormalizer($this->denormalizer);
-        $this->normalizersCache[$normalizerClass] = $normalizer;
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CashAccount::class => CashAccountNormalizer::class,
 
-        return $normalizer;
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransaction::class => CashTransactionNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransactionAmount::class => CashTransactionAmountNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\MerchantData::class => MerchantDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\Money::class => MoneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCardTransaction::class => PageCardTransactionNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashAccount::class => PageCashAccountNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashTransaction::class => PageCashTransactionNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\PageStatement::class => PageStatementNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\Statement::class => StatementNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementStartBalance::class => StatementStartBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementEndBalance::class => StatementEndBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementPeriod::class => StatementPeriodNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Transactions\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountCurrentBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAvailableBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAccountLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransactionMerchant::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CashAccount::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransaction::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\CashTransactionAmount::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\MerchantData::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\Money::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCardTransaction::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashAccount::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashTransaction::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\PageStatement::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\Statement::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementStartBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementEndBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementPeriod::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
 }

@@ -10,52 +10,51 @@ declare(strict_types=1);
 
 namespace NxSys\Library\Clients\Brex\API\Webhooks;
 
-class Client extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Client\Client
+class Client extends Runtime\Client\Client
 {
     /**
      * List the webhooks you have registered.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\PageWebhookSubscription|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageWebhookSubscription|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionInternalServerErrorException
+     * @throws Exception\ListSubscriptionBadRequestException
+     * @throws Exception\ListSubscriptionUnauthorizedException
+     * @throws Exception\ListSubscriptionForbiddenException
+     * @throws Exception\ListSubscriptionInternalServerErrorException
      */
     public function listSubscription(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Webhooks\Endpoint\ListSubscription($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListSubscription($queryParameters), $fetch);
     }
 
     /**
      * Register an endpoint to start receiving selected webhook events.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Webhooks\Model\CreateWebhookSubscriptionRequest $requestBody
-     * @param array                                                                           $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\WebhookSubscription|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionInternalServerErrorException
+     * @throws Exception\CreateSubscriptionBadRequestException
+     * @throws Exception\CreateSubscriptionUnauthorizedException
+     * @throws Exception\CreateSubscriptionForbiddenException
+     * @throws Exception\CreateSubscriptionInternalServerErrorException
      */
     public function createSubscription(Model\CreateWebhookSubscriptionRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Webhooks\Endpoint\CreateSubscription($requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\CreateSubscription($requestBody, $headerParameters), $fetch);
     }
 
     /**
@@ -63,14 +62,14 @@ class Client extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Client\Cli
      *
      * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSecret[]|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSecretsBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSecretsUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSecretsForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSecretsInternalServerErrorException
+     * @throws Exception\ListSecretsBadRequestException
+     * @throws Exception\ListSecretsUnauthorizedException
+     * @throws Exception\ListSecretsForbiddenException
+     * @throws Exception\ListSecretsInternalServerErrorException
      */
     public function listSecrets(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Webhooks\Endpoint\ListSecrets(), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListSecrets(), $fetch);
     }
 
     /**
@@ -80,14 +79,14 @@ class Client extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Client\Cli
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionInternalServerErrorException
+     * @throws Exception\DeleteSubscriptionBadRequestException
+     * @throws Exception\DeleteSubscriptionUnauthorizedException
+     * @throws Exception\DeleteSubscriptionForbiddenException
+     * @throws Exception\DeleteSubscriptionInternalServerErrorException
      */
     public function deleteSubscription(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Webhooks\Endpoint\DeleteSubscription($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\DeleteSubscription($id), $fetch);
     }
 
     /**
@@ -95,34 +94,34 @@ class Client extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Client\Cli
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\WebhookSubscription|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\GetSubscriptionByIdBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\GetSubscriptionByIdUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\GetSubscriptionByIdForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\GetSubscriptionByIdInternalServerErrorException
+     * @throws Exception\GetSubscriptionByIdBadRequestException
+     * @throws Exception\GetSubscriptionByIdUnauthorizedException
+     * @throws Exception\GetSubscriptionByIdForbiddenException
+     * @throws Exception\GetSubscriptionByIdInternalServerErrorException
      */
     public function getSubscriptionById(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Webhooks\Endpoint\GetSubscriptionById($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetSubscriptionById($id), $fetch);
     }
 
     /**
      * Update a webhook.
+     * You can update the endpoint url, event types that the endpoint receives, or temporarily deactivate the webhook.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Webhooks\Model\UpdateWebhookSubscriptionRequest $requestBody
-     * @param string                                                                          $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\WebhookSubscription|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\UpdateSubscriptionInternalServerErrorException
+     * @throws Exception\UpdateSubscriptionBadRequestException
+     * @throws Exception\UpdateSubscriptionUnauthorizedException
+     * @throws Exception\UpdateSubscriptionForbiddenException
+     * @throws Exception\UpdateSubscriptionInternalServerErrorException
      */
     public function updateSubscription(string $id, Model\UpdateWebhookSubscriptionRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Webhooks\Endpoint\UpdateSubscription($id, $requestBody), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdateSubscription($id, $requestBody), $fetch);
     }
 
     public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [])
@@ -130,7 +129,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Client\Cli
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\Psr18ClientDiscovery::find();
             $plugins = [];
-            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUrlFactory()->createUri('https://platform.brexapis.com');
+            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUriFactory()->createUri('https://platform.brexapis.com');
             $plugins[] = new \Http\Client\Common\Plugin\AddHostPlugin($uri);
             if (count($additionalPlugins) > 0) {
                 $plugins = array_merge($plugins, $additionalPlugins);
@@ -139,7 +138,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Client\Cli
         }
         $requestFactory = \Http\Discovery\Psr17FactoryDiscovery::findRequestFactory();
         $streamFactory = \Http\Discovery\Psr17FactoryDiscovery::findStreamFactory();
-        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new \NxSys\Library\Clients\Brex\API\Webhooks\Normalizer\JaneObjectNormalizer()];
+        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new Normalizer\JaneObjectNormalizer()];
         if (count($additionalNormalizers) > 0) {
             $normalizers = array_merge($normalizers, $additionalNormalizers);
         }

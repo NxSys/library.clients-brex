@@ -46,4 +46,9 @@ class TransactionsTest extends \Codeception\Test\Unit
 		$this->assertGreaterThanOrEqual(1, count($oAccounts));
 		$this->assertContainsOnlyInstancesOf(CashAccount::class, $oAccounts);
     }
+
+	public function testGetRecent(Type $var = null)
+	{
+		# code...
+	}
 }

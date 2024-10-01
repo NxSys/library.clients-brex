@@ -15,14 +15,13 @@ class ListBudgets extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Client
     use \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Client\EndpointTrait;
 
     /**
-    Lists Budgets belonging to this account
-
+     * Lists Budgets belonging to this account.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -62,8 +61,6 @@ class ListBudgets extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Client
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Budgets\Model\PageBudget|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\ListBudgetsBadRequestException
@@ -75,7 +72,7 @@ class ListBudgets extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Client
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\PageBudget', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Budgets\Model\PageBudget', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\ListBudgetsBadRequestException($response);

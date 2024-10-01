@@ -19,8 +19,8 @@ class CreateSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(\NxSys\Library\Clients\Brex\API\Webhooks\Model\CreateWebhookSubscriptionRequest $requestBody, array $headerParameters = [])
     {
@@ -64,8 +64,6 @@ class CreateSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionBadRequestException
@@ -78,7 +76,7 @@ class CreateSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\WebhookSubscription', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\CreateSubscriptionBadRequestException($response);

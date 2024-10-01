@@ -42,9 +42,19 @@
 	<tstamp>
 		<format property="YEAR" pattern="yyyy"/>
 	</tstamp>
+	<!-- Get current commit hash -->
 	<exec executable="git" outputProperty="git.hash">
 		<arg line="rev-parse --short HEAD"/>
 	</exec>
+	<!-- Get current branch name -->
+	<exec executable="git" outputProperty="git.branch">
+		<arg line="rev-parse --abbrev-ref HEAD"/>
+	</exec>
+	<!-- Get current tag name (if any) -->
+	<exec executable="git" outputProperty="git.tag">
+		<arg line="describe --tags --exact-match"/>
+	</exec>
+
 
 	<!-- ============================================  -->
 	<!-- Target: Generate Skel Flesh                   -->
@@ -202,6 +212,7 @@
 				<replacetokens begintoken="@@" endtoken="@@">
 					<token key="dir.buildArtifacts" value="${dir.buildArtifacts}" />
 					<token key="dir.buildConfs" value="${dir.buildConfs}" />
+					<token key="git.hash" value="${git.hash}" />
 
 					<token key="dir.src" value="${dir.src}" />
 					<token key="dir.etc" value="${dir.etc}" />

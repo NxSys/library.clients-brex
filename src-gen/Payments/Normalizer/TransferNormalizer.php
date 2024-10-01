@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Payments\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Payments\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Payments\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,169 +21,339 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class TransferNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class TransferNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\Transfer';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\Transfer';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('counterparty', $data)) {
+                $object->setCounterparty($this->denormalizer->denormalize($data['counterparty'], \NxSys\Library\Clients\Brex\API\Payments\Model\TransferCounterparty::class, 'json', $context));
+                unset($data['counterparty']);
+            }
+            if (\array_key_exists('description', $data) && $data['description'] !== null) {
+                $object->setDescription($data['description']);
+                unset($data['description']);
+            } elseif (\array_key_exists('description', $data) && $data['description'] === null) {
+                $object->setDescription(null);
+            }
+            if (\array_key_exists('payment_type', $data)) {
+                $object->setPaymentType($data['payment_type']);
+                unset($data['payment_type']);
+            }
+            if (\array_key_exists('amount', $data)) {
+                $object->setAmount($this->denormalizer->denormalize($data['amount'], \NxSys\Library\Clients\Brex\API\Payments\Model\Money::class, 'json', $context));
+                unset($data['amount']);
+            }
+            if (\array_key_exists('process_date', $data) && $data['process_date'] !== null) {
+                $object->setProcessDate(\DateTime::createFromFormat('Y-m-d', $data['process_date'])->setTime(0, 0, 0));
+                unset($data['process_date']);
+            } elseif (\array_key_exists('process_date', $data) && $data['process_date'] === null) {
+                $object->setProcessDate(null);
+            }
+            if (\array_key_exists('originating_account', $data)) {
+                $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+                foreach ($data['originating_account'] as $key => $value) {
+                    $values[$key] = $value;
+                }
+                $object->setOriginatingAccount($values);
+                unset($data['originating_account']);
+            }
+            if (\array_key_exists('status', $data)) {
+                $object->setStatus($data['status']);
+                unset($data['status']);
+            }
+            if (\array_key_exists('cancellation_reason', $data)) {
+                $object->setCancellationReason($data['cancellation_reason']);
+                unset($data['cancellation_reason']);
+            }
+            if (\array_key_exists('estimated_delivery_date', $data) && $data['estimated_delivery_date'] !== null) {
+                $object->setEstimatedDeliveryDate(\DateTime::createFromFormat('Y-m-d', $data['estimated_delivery_date'])->setTime(0, 0, 0));
+                unset($data['estimated_delivery_date']);
+            } elseif (\array_key_exists('estimated_delivery_date', $data) && $data['estimated_delivery_date'] === null) {
+                $object->setEstimatedDeliveryDate(null);
+            }
+            if (\array_key_exists('creator_user_id', $data) && $data['creator_user_id'] !== null) {
+                $object->setCreatorUserId($data['creator_user_id']);
+                unset($data['creator_user_id']);
+            } elseif (\array_key_exists('creator_user_id', $data) && $data['creator_user_id'] === null) {
+                $object->setCreatorUserId(null);
+            }
+            if (\array_key_exists('created_at', $data) && $data['created_at'] !== null) {
+                $object->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['created_at'])->setTime(0, 0, 0));
+                unset($data['created_at']);
+            } elseif (\array_key_exists('created_at', $data) && $data['created_at'] === null) {
+                $object->setCreatedAt(null);
+            }
+            if (\array_key_exists('display_name', $data) && $data['display_name'] !== null) {
+                $object->setDisplayName($data['display_name']);
+                unset($data['display_name']);
+            } elseif (\array_key_exists('display_name', $data) && $data['display_name'] === null) {
+                $object->setDisplayName(null);
+            }
+            if (\array_key_exists('external_memo', $data) && $data['external_memo'] !== null) {
+                $object->setExternalMemo($data['external_memo']);
+                unset($data['external_memo']);
+            } elseif (\array_key_exists('external_memo', $data) && $data['external_memo'] === null) {
+                $object->setExternalMemo(null);
+            }
+            foreach ($data as $key_1 => $value_1) {
+                if (preg_match('/.*/', (string) $key_1)) {
+                    $object[$key_1] = $value_1;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('id', $data)) {
-            $object->setId($data['id']);
-            unset($data['id']);
-        }
-        if (\array_key_exists('counterparty', $data)) {
-            $object->setCounterparty($this->denormalizer->denormalize($data['counterparty'], 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\TransferCounterparty', 'json', $context));
-            unset($data['counterparty']);
-        }
-        if (\array_key_exists('description', $data) && $data['description'] !== null) {
-            $object->setDescription($data['description']);
-            unset($data['description']);
-        } elseif (\array_key_exists('description', $data) && $data['description'] === null) {
-            $object->setDescription(null);
-        }
-        if (\array_key_exists('payment_type', $data)) {
-            $object->setPaymentType($data['payment_type']);
-            unset($data['payment_type']);
-        }
-        if (\array_key_exists('amount', $data)) {
-            $object->setAmount($this->denormalizer->denormalize($data['amount'], 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\Money', 'json', $context));
-            unset($data['amount']);
-        }
-        if (\array_key_exists('process_date', $data) && $data['process_date'] !== null) {
-            $object->setProcessDate(\DateTime::createFromFormat('Y-m-d', $data['process_date'])->setTime(0, 0, 0));
-            unset($data['process_date']);
-        } elseif (\array_key_exists('process_date', $data) && $data['process_date'] === null) {
-            $object->setProcessDate(null);
-        }
-        if (\array_key_exists('originating_account', $data)) {
-            $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data['originating_account'] as $key => $value) {
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            if ($object->isInitialized('counterparty') && null !== $object->getCounterparty()) {
+                $data['counterparty'] = $this->normalizer->normalize($object->getCounterparty(), 'json', $context);
+            }
+            if ($object->isInitialized('description') && null !== $object->getDescription()) {
+                $data['description'] = $object->getDescription();
+            }
+            $data['payment_type'] = $object->getPaymentType();
+            $data['amount'] = $this->normalizer->normalize($object->getAmount(), 'json', $context);
+            if ($object->isInitialized('processDate') && null !== $object->getProcessDate()) {
+                $data['process_date'] = $object->getProcessDate()->format('Y-m-d');
+            }
+            $values = [];
+            foreach ($object->getOriginatingAccount() as $key => $value) {
                 $values[$key] = $value;
             }
-            $object->setOriginatingAccount($values);
-            unset($data['originating_account']);
-        }
-        if (\array_key_exists('status', $data)) {
-            $object->setStatus($data['status']);
-            unset($data['status']);
-        }
-        if (\array_key_exists('cancellation_reason', $data)) {
-            $object->setCancellationReason($data['cancellation_reason']);
-            unset($data['cancellation_reason']);
-        }
-        if (\array_key_exists('estimated_delivery_date', $data) && $data['estimated_delivery_date'] !== null) {
-            $object->setEstimatedDeliveryDate(\DateTime::createFromFormat('Y-m-d', $data['estimated_delivery_date'])->setTime(0, 0, 0));
-            unset($data['estimated_delivery_date']);
-        } elseif (\array_key_exists('estimated_delivery_date', $data) && $data['estimated_delivery_date'] === null) {
-            $object->setEstimatedDeliveryDate(null);
-        }
-        if (\array_key_exists('creator_user_id', $data) && $data['creator_user_id'] !== null) {
-            $object->setCreatorUserId($data['creator_user_id']);
-            unset($data['creator_user_id']);
-        } elseif (\array_key_exists('creator_user_id', $data) && $data['creator_user_id'] === null) {
-            $object->setCreatorUserId(null);
-        }
-        if (\array_key_exists('created_at', $data) && $data['created_at'] !== null) {
-            $object->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['created_at'])->setTime(0, 0, 0));
-            unset($data['created_at']);
-        } elseif (\array_key_exists('created_at', $data) && $data['created_at'] === null) {
-            $object->setCreatedAt(null);
-        }
-        if (\array_key_exists('display_name', $data) && $data['display_name'] !== null) {
-            $object->setDisplayName($data['display_name']);
-            unset($data['display_name']);
-        } elseif (\array_key_exists('display_name', $data) && $data['display_name'] === null) {
-            $object->setDisplayName(null);
-        }
-        if (\array_key_exists('external_memo', $data) && $data['external_memo'] !== null) {
-            $object->setExternalMemo($data['external_memo']);
-            unset($data['external_memo']);
-        } elseif (\array_key_exists('external_memo', $data) && $data['external_memo'] === null) {
-            $object->setExternalMemo(null);
-        }
-        foreach ($data as $key_1 => $value_1) {
-            if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_1;
+            $data['originating_account'] = $values;
+            $data['status'] = $object->getStatus();
+            if ($object->isInitialized('cancellationReason') && null !== $object->getCancellationReason()) {
+                $data['cancellation_reason'] = $object->getCancellationReason();
             }
+            if ($object->isInitialized('estimatedDeliveryDate') && null !== $object->getEstimatedDeliveryDate()) {
+                $data['estimated_delivery_date'] = $object->getEstimatedDeliveryDate()->format('Y-m-d');
+            }
+            if ($object->isInitialized('creatorUserId') && null !== $object->getCreatorUserId()) {
+                $data['creator_user_id'] = $object->getCreatorUserId();
+            }
+            if ($object->isInitialized('createdAt') && null !== $object->getCreatedAt()) {
+                $data['created_at'] = $object->getCreatedAt()->format('Y-m-d');
+            }
+            if ($object->isInitialized('displayName') && null !== $object->getDisplayName()) {
+                $data['display_name'] = $object->getDisplayName();
+            }
+            if ($object->isInitialized('externalMemo') && null !== $object->getExternalMemo()) {
+                $data['external_memo'] = $object->getExternalMemo();
+            }
+            foreach ($object as $key_1 => $value_1) {
+                if (preg_match('/.*/', (string) $key_1)) {
+                    $data[$key_1] = $value_1;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Payments\Model\Transfer::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class TransferNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['id'] = $object->getId();
-        if ($object->isInitialized('counterparty') && null !== $object->getCounterparty()) {
-            $data['counterparty'] = $this->normalizer->normalize($object->getCounterparty(), 'json', $context);
-        }
-        if ($object->isInitialized('description') && null !== $object->getDescription()) {
-            $data['description'] = $object->getDescription();
-        }
-        $data['payment_type'] = $object->getPaymentType();
-        $data['amount'] = $this->normalizer->normalize($object->getAmount(), 'json', $context);
-        if ($object->isInitialized('processDate') && null !== $object->getProcessDate()) {
-            $data['process_date'] = $object->getProcessDate()->format('Y-m-d');
-        }
-        $values = [];
-        foreach ($object->getOriginatingAccount() as $key => $value) {
-            $values[$key] = $value;
-        }
-        $data['originating_account'] = $values;
-        $data['status'] = $object->getStatus();
-        if ($object->isInitialized('cancellationReason') && null !== $object->getCancellationReason()) {
-            $data['cancellation_reason'] = $object->getCancellationReason();
-        }
-        if ($object->isInitialized('estimatedDeliveryDate') && null !== $object->getEstimatedDeliveryDate()) {
-            $data['estimated_delivery_date'] = $object->getEstimatedDeliveryDate()->format('Y-m-d');
-        }
-        if ($object->isInitialized('creatorUserId') && null !== $object->getCreatorUserId()) {
-            $data['creator_user_id'] = $object->getCreatorUserId();
-        }
-        if ($object->isInitialized('createdAt') && null !== $object->getCreatedAt()) {
-            $data['created_at'] = $object->getCreatedAt()->format('Y-m-d');
-        }
-        if ($object->isInitialized('displayName') && null !== $object->getDisplayName()) {
-            $data['display_name'] = $object->getDisplayName();
-        }
-        if ($object->isInitialized('externalMemo') && null !== $object->getExternalMemo()) {
-            $data['external_memo'] = $object->getExternalMemo();
-        }
-        foreach ($object as $key_1 => $value_1) {
-            if (preg_match('/.*/', (string) $key_1)) {
-                $data[$key_1] = $value_1;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('counterparty', $data)) {
+                $object->setCounterparty($this->denormalizer->denormalize($data['counterparty'], \NxSys\Library\Clients\Brex\API\Payments\Model\TransferCounterparty::class, 'json', $context));
+                unset($data['counterparty']);
+            }
+            if (\array_key_exists('description', $data) && $data['description'] !== null) {
+                $object->setDescription($data['description']);
+                unset($data['description']);
+            } elseif (\array_key_exists('description', $data) && $data['description'] === null) {
+                $object->setDescription(null);
+            }
+            if (\array_key_exists('payment_type', $data)) {
+                $object->setPaymentType($data['payment_type']);
+                unset($data['payment_type']);
+            }
+            if (\array_key_exists('amount', $data)) {
+                $object->setAmount($this->denormalizer->denormalize($data['amount'], \NxSys\Library\Clients\Brex\API\Payments\Model\Money::class, 'json', $context));
+                unset($data['amount']);
+            }
+            if (\array_key_exists('process_date', $data) && $data['process_date'] !== null) {
+                $object->setProcessDate(\DateTime::createFromFormat('Y-m-d', $data['process_date'])->setTime(0, 0, 0));
+                unset($data['process_date']);
+            } elseif (\array_key_exists('process_date', $data) && $data['process_date'] === null) {
+                $object->setProcessDate(null);
+            }
+            if (\array_key_exists('originating_account', $data)) {
+                $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+                foreach ($data['originating_account'] as $key => $value) {
+                    $values[$key] = $value;
+                }
+                $object->setOriginatingAccount($values);
+                unset($data['originating_account']);
+            }
+            if (\array_key_exists('status', $data)) {
+                $object->setStatus($data['status']);
+                unset($data['status']);
+            }
+            if (\array_key_exists('cancellation_reason', $data)) {
+                $object->setCancellationReason($data['cancellation_reason']);
+                unset($data['cancellation_reason']);
+            }
+            if (\array_key_exists('estimated_delivery_date', $data) && $data['estimated_delivery_date'] !== null) {
+                $object->setEstimatedDeliveryDate(\DateTime::createFromFormat('Y-m-d', $data['estimated_delivery_date'])->setTime(0, 0, 0));
+                unset($data['estimated_delivery_date']);
+            } elseif (\array_key_exists('estimated_delivery_date', $data) && $data['estimated_delivery_date'] === null) {
+                $object->setEstimatedDeliveryDate(null);
+            }
+            if (\array_key_exists('creator_user_id', $data) && $data['creator_user_id'] !== null) {
+                $object->setCreatorUserId($data['creator_user_id']);
+                unset($data['creator_user_id']);
+            } elseif (\array_key_exists('creator_user_id', $data) && $data['creator_user_id'] === null) {
+                $object->setCreatorUserId(null);
+            }
+            if (\array_key_exists('created_at', $data) && $data['created_at'] !== null) {
+                $object->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['created_at'])->setTime(0, 0, 0));
+                unset($data['created_at']);
+            } elseif (\array_key_exists('created_at', $data) && $data['created_at'] === null) {
+                $object->setCreatedAt(null);
+            }
+            if (\array_key_exists('display_name', $data) && $data['display_name'] !== null) {
+                $object->setDisplayName($data['display_name']);
+                unset($data['display_name']);
+            } elseif (\array_key_exists('display_name', $data) && $data['display_name'] === null) {
+                $object->setDisplayName(null);
+            }
+            if (\array_key_exists('external_memo', $data) && $data['external_memo'] !== null) {
+                $object->setExternalMemo($data['external_memo']);
+                unset($data['external_memo']);
+            } elseif (\array_key_exists('external_memo', $data) && $data['external_memo'] === null) {
+                $object->setExternalMemo(null);
+            }
+            foreach ($data as $key_1 => $value_1) {
+                if (preg_match('/.*/', (string) $key_1)) {
+                    $object[$key_1] = $value_1;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            if ($object->isInitialized('counterparty') && null !== $object->getCounterparty()) {
+                $data['counterparty'] = $this->normalizer->normalize($object->getCounterparty(), 'json', $context);
+            }
+            if ($object->isInitialized('description') && null !== $object->getDescription()) {
+                $data['description'] = $object->getDescription();
+            }
+            $data['payment_type'] = $object->getPaymentType();
+            $data['amount'] = $this->normalizer->normalize($object->getAmount(), 'json', $context);
+            if ($object->isInitialized('processDate') && null !== $object->getProcessDate()) {
+                $data['process_date'] = $object->getProcessDate()->format('Y-m-d');
+            }
+            $values = [];
+            foreach ($object->getOriginatingAccount() as $key => $value) {
+                $values[$key] = $value;
+            }
+            $data['originating_account'] = $values;
+            $data['status'] = $object->getStatus();
+            if ($object->isInitialized('cancellationReason') && null !== $object->getCancellationReason()) {
+                $data['cancellation_reason'] = $object->getCancellationReason();
+            }
+            if ($object->isInitialized('estimatedDeliveryDate') && null !== $object->getEstimatedDeliveryDate()) {
+                $data['estimated_delivery_date'] = $object->getEstimatedDeliveryDate()->format('Y-m-d');
+            }
+            if ($object->isInitialized('creatorUserId') && null !== $object->getCreatorUserId()) {
+                $data['creator_user_id'] = $object->getCreatorUserId();
+            }
+            if ($object->isInitialized('createdAt') && null !== $object->getCreatedAt()) {
+                $data['created_at'] = $object->getCreatedAt()->format('Y-m-d');
+            }
+            if ($object->isInitialized('displayName') && null !== $object->getDisplayName()) {
+                $data['display_name'] = $object->getDisplayName();
+            }
+            if ($object->isInitialized('externalMemo') && null !== $object->getExternalMemo()) {
+                $data['external_memo'] = $object->getExternalMemo();
+            }
+            foreach ($object as $key_1 => $value_1) {
+                if (preg_match('/.*/', (string) $key_1)) {
+                    $data[$key_1] = $value_1;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Payments\Model\Transfer::class => false];
+        }
     }
 }

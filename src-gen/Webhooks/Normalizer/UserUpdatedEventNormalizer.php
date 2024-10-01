@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Webhooks\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,87 +21,175 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class UserUpdatedEventNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class UserUpdatedEventNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\UserUpdatedEvent';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\UserUpdatedEvent';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('event_type', $data)) {
+                $object->setEventType($data['event_type']);
+                unset($data['event_type']);
+            }
+            if (\array_key_exists('user_id', $data)) {
+                $object->setUserId($data['user_id']);
+                unset($data['user_id']);
+            }
+            if (\array_key_exists('company_id', $data)) {
+                $object->setCompanyId($data['company_id']);
+                unset($data['company_id']);
+            }
+            if (\array_key_exists('updated_attributes', $data)) {
+                $values = [];
+                foreach ($data['updated_attributes'] as $value) {
+                    $values[] = $value;
+                }
+                $object->setUpdatedAttributes($values);
+                unset($data['updated_attributes']);
+            }
+            foreach ($data as $key => $value_1) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value_1;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('event_type', $data)) {
-            $object->setEventType($data['event_type']);
-            unset($data['event_type']);
-        }
-        if (\array_key_exists('user_id', $data)) {
-            $object->setUserId($data['user_id']);
-            unset($data['user_id']);
-        }
-        if (\array_key_exists('company_id', $data)) {
-            $object->setCompanyId($data['company_id']);
-            unset($data['company_id']);
-        }
-        if (\array_key_exists('updated_attributes', $data)) {
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['event_type'] = $object->getEventType();
+            $data['user_id'] = $object->getUserId();
+            $data['company_id'] = $object->getCompanyId();
             $values = [];
-            foreach ($data['updated_attributes'] as $value) {
+            foreach ($object->getUpdatedAttributes() as $value) {
                 $values[] = $value;
             }
-            $object->setUpdatedAttributes($values);
-            unset($data['updated_attributes']);
-        }
-        foreach ($data as $key => $value_1) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value_1;
+            $data['updated_attributes'] = $values;
+            foreach ($object as $key => $value_1) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value_1;
+                }
             }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class UserUpdatedEventNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['event_type'] = $object->getEventType();
-        $data['user_id'] = $object->getUserId();
-        $data['company_id'] = $object->getCompanyId();
-        $values = [];
-        foreach ($object->getUpdatedAttributes() as $value) {
-            $values[] = $value;
-        }
-        $data['updated_attributes'] = $values;
-        foreach ($object as $key => $value_1) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value_1;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('event_type', $data)) {
+                $object->setEventType($data['event_type']);
+                unset($data['event_type']);
+            }
+            if (\array_key_exists('user_id', $data)) {
+                $object->setUserId($data['user_id']);
+                unset($data['user_id']);
+            }
+            if (\array_key_exists('company_id', $data)) {
+                $object->setCompanyId($data['company_id']);
+                unset($data['company_id']);
+            }
+            if (\array_key_exists('updated_attributes', $data)) {
+                $values = [];
+                foreach ($data['updated_attributes'] as $value) {
+                    $values[] = $value;
+                }
+                $object->setUpdatedAttributes($values);
+                unset($data['updated_attributes']);
+            }
+            foreach ($data as $key => $value_1) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value_1;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['event_type'] = $object->getEventType();
+            $data['user_id'] = $object->getUserId();
+            $data['company_id'] = $object->getCompanyId();
+            $values = [];
+            foreach ($object->getUpdatedAttributes() as $value) {
+                $values[] = $value;
+            }
+            $data['updated_attributes'] = $values;
+            foreach ($object as $key => $value_1) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value_1;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class => false];
+        }
     }
 }

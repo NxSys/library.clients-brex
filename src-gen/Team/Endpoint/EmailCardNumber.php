@@ -16,16 +16,15 @@ class EmailCardNumber extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clien
     protected $id;
 
     /**
-    Creates a secure email to send card number, CVV, and expiration date of a card by ID to the specified email.
-
-    This endpoint is currently gated. If you would like to request access, please reach out to
-    developer-access@brex.com
-
+     * Creates a secure email to send card number, CVV, and expiration date of a card by ID to the specified email.
+     *
+     * This endpoint is currently gated. If you would like to request access, please reach out to
+     * developer-access@brex.com
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(string $id, \NxSys\Library\Clients\Brex\API\Team\Model\SecureEmailForCardDetailsRequest $requestBody, array $headerParameters = [])
     {
@@ -65,8 +64,6 @@ class EmailCardNumber extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clien
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)

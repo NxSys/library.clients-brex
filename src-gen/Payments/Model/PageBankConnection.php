@@ -26,7 +26,7 @@ class PageBankConnection extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var BankConnection[]
+     * @var list<BankConnection>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageBankConnection extends \ArrayObject
     }
 
     /**
-     * @return BankConnection[]
+     * @return list<BankConnection>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageBankConnection extends \ArrayObject
     }
 
     /**
-     * @param BankConnection[] $items
+     * @param list<BankConnection> $items
      */
     public function setItems(array $items): self
     {

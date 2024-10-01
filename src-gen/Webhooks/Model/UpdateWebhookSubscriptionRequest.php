@@ -26,7 +26,7 @@ class UpdateWebhookSubscriptionRequest extends \ArrayObject
      */
     protected $url;
     /**
-     * @var string[]
+     * @var list<string>
      */
     protected $eventTypes;
     /**
@@ -48,7 +48,7 @@ class UpdateWebhookSubscriptionRequest extends \ArrayObject
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getEventTypes(): array
     {
@@ -56,7 +56,7 @@ class UpdateWebhookSubscriptionRequest extends \ArrayObject
     }
 
     /**
-     * @param string[] $eventTypes
+     * @param list<string> $eventTypes
      */
     public function setEventTypes(array $eventTypes): self
     {

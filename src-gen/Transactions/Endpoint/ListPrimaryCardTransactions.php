@@ -15,18 +15,18 @@ class ListPrimaryCardTransactions extends \NxSys\Library\Clients\Brex\API\Transa
     use \NxSys\Library\Clients\Brex\API\Transactions\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint lists all settled transactions for the primary card account.
-    Regular users may only fetch their own "PURCHASE","REFUND" and "CHARGEBACK" settled transactions.
-
+     * This endpoint lists all settled transactions for the primary card account.
+     * Regular users may only fetch their own "PURCHASE","REFUND" and "CHARGEBACK" settled transactions.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var array $user_ids
-     *     @var string $posted_at_start
-     *     @var array $expand[]
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var array  $user_ids
+     * @var string $posted_at_start
+     *             Shows only transactions with a `posted_at_date` on or after this date-time. This parameter is the date-time notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+     * @var array  $expand[]
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -69,8 +69,6 @@ class ListPrimaryCardTransactions extends \NxSys\Library\Clients\Brex\API\Transa
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCardTransaction|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListPrimaryCardTransactionsBadRequestException
@@ -82,7 +80,7 @@ class ListPrimaryCardTransactions extends \NxSys\Library\Clients\Brex\API\Transa
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageCardTransaction', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Transactions\Model\PageCardTransaction', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListPrimaryCardTransactionsBadRequestException($response);

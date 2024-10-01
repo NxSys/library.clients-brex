@@ -12,6 +12,7 @@ namespace NxSys\Library\Clients\Brex\API\Webhooks\Normalizer;
 
 use NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -19,59 +20,223 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-    protected $normalizers = ['NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\CreateWebhookSubscriptionRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\CreateWebhookSubscriptionRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\ExpensePaymentStatusUpdatedEvent' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\ExpensePaymentStatusUpdatedEventNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\ExpensePaymentStatusUpdatedEventAmount' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\ExpensePaymentStatusUpdatedEventAmountNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\Money' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\MoneyNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\PageWebhookSubscription' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\PageWebhookSubscriptionNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\ProductApplication' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\ProductApplicationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\ReferralActivatedEvent' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\ReferralActivatedEventNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\ReferralApplicationStatusChangedEvent' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\ReferralApplicationStatusChangedEventNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\ReferralCreatedEvent' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\ReferralCreatedEventNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\TransferEvent' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\TransferEventNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\TransferFailedEvent' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\TransferFailedEventNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\TransferProcessedEvent' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\TransferProcessedEventNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\UpdateWebhookSubscriptionRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\UpdateWebhookSubscriptionRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\UserUpdatedEvent' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\UserUpdatedEventNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\WebhookSecret' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\WebhookSecretNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\WebhookSubscription' => 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Normalizer\\WebhookSubscriptionNormalizer', '\\Jane\\Component\\JsonSchemaRuntime\\Reference' => '\\NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Runtime\\Normalizer\\ReferenceNormalizer'];
-    protected $normalizersCache = [];
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return array_key_exists($type, $this->normalizers);
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\CreateWebhookSubscriptionRequest::class => CreateWebhookSubscriptionRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ExpensePaymentStatusUpdatedEvent::class => ExpensePaymentStatusUpdatedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ExpensePaymentStatusUpdatedEventAmount::class => ExpensePaymentStatusUpdatedEventAmountNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\Money::class => MoneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\PageWebhookSubscription::class => PageWebhookSubscriptionNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ProductApplication::class => ProductApplicationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralActivatedEvent::class => ReferralActivatedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralApplicationStatusChangedEvent::class => ReferralApplicationStatusChangedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralCreatedEvent::class => ReferralCreatedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferEvent::class => TransferEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferFailedEvent::class => TransferFailedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferProcessedEvent::class => TransferProcessedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\UpdateWebhookSubscriptionRequest::class => UpdateWebhookSubscriptionRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class => UserUpdatedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSecret::class => WebhookSecretNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription::class => WebhookSubscriptionNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\CreateWebhookSubscriptionRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ExpensePaymentStatusUpdatedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ExpensePaymentStatusUpdatedEventAmount::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\Money::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\PageWebhookSubscription::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ProductApplication::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralActivatedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralApplicationStatusChangedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralCreatedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferFailedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferProcessedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\UpdateWebhookSubscriptionRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSecret::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
-
-    public function supportsNormalization($data, $format = null): bool
+} else {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\CreateWebhookSubscriptionRequest::class => CreateWebhookSubscriptionRequestNormalizer::class,
 
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
-    {
-        $normalizerClass = $this->normalizers[get_class($object)];
-        $normalizer = $this->getNormalizer($normalizerClass);
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ExpensePaymentStatusUpdatedEvent::class => ExpensePaymentStatusUpdatedEventNormalizer::class,
 
-        return $normalizer->normalize($object, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ExpensePaymentStatusUpdatedEventAmount::class => ExpensePaymentStatusUpdatedEventAmountNormalizer::class,
 
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        $denormalizerClass = $this->normalizers[$class];
-        $denormalizer = $this->getNormalizer($denormalizerClass);
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\Money::class => MoneyNormalizer::class,
 
-        return $denormalizer->denormalize($data, $class, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\PageWebhookSubscription::class => PageWebhookSubscriptionNormalizer::class,
 
-    private function getNormalizer(string $normalizerClass)
-    {
-        return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
-    }
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ProductApplication::class => ProductApplicationNormalizer::class,
 
-    private function initNormalizer(string $normalizerClass)
-    {
-        $normalizer = new $normalizerClass();
-        $normalizer->setNormalizer($this->normalizer);
-        $normalizer->setDenormalizer($this->denormalizer);
-        $this->normalizersCache[$normalizerClass] = $normalizer;
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralActivatedEvent::class => ReferralActivatedEventNormalizer::class,
 
-        return $normalizer;
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralApplicationStatusChangedEvent::class => ReferralApplicationStatusChangedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralCreatedEvent::class => ReferralCreatedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferEvent::class => TransferEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferFailedEvent::class => TransferFailedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferProcessedEvent::class => TransferProcessedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\UpdateWebhookSubscriptionRequest::class => UpdateWebhookSubscriptionRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class => UserUpdatedEventNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSecret::class => WebhookSecretNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription::class => WebhookSubscriptionNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\CreateWebhookSubscriptionRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ExpensePaymentStatusUpdatedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ExpensePaymentStatusUpdatedEventAmount::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\Money::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\PageWebhookSubscription::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ProductApplication::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralActivatedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralApplicationStatusChangedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\ReferralCreatedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferFailedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\TransferProcessedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\UpdateWebhookSubscriptionRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\UserUpdatedEvent::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSecret::class => false,
+                \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSubscription::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
 }

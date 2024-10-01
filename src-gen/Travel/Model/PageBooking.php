@@ -26,7 +26,7 @@ class PageBooking extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var Booking[]
+     * @var list<Booking>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageBooking extends \ArrayObject
     }
 
     /**
-     * @return Booking[]
+     * @return list<Booking>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageBooking extends \ArrayObject
     }
 
     /**
-     * @param Booking[] $items
+     * @param list<Booking> $items
      */
     public function setItems(array $items): self
     {

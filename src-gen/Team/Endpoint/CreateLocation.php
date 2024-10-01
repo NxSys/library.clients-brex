@@ -15,13 +15,12 @@ class CreateLocation extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client
     use \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint creates a new location.
-
+     * This endpoint creates a new location.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(\NxSys\Library\Clients\Brex\API\Team\Model\CreateLocationRequest $requestBody, array $headerParameters = [])
     {
@@ -65,8 +64,6 @@ class CreateLocation extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateLocationBadRequestException
@@ -78,7 +75,7 @@ class CreateLocation extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\LocationResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateLocationBadRequestException($response);

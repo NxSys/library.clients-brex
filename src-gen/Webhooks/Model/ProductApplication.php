@@ -23,7 +23,22 @@ class ProductApplication extends \ArrayObject
     }
     /**
      * Application status of a product.
-
+     *
+     * `NO_ACCOUNT` - There is no active application, and the product account is not provisioned.
+     *
+     * `ACTIVE` - The application is approved, and the product account is provisioned.
+     *
+     * `NOT_SUBMITTED` - The application is started but not yet submitted.
+     *
+     * `INFORMATION_PENDING` - The application is submitted and additional information is requested.
+     *
+     * `MANUAL_REVIEW` - The application is under manual review.
+     *
+     * `PROCESSING` - The application is submitted and is under review.
+     *
+     * `REJECTED` - The application is rejected.
+     *
+     * `CLOSED` - The product account is closed.
      *
      * @var string
      */
@@ -31,8 +46,22 @@ class ProductApplication extends \ArrayObject
 
     /**
      * Application status of a product.
-
-    `CLOSED` - The product account is closed.
+     *
+     * `NO_ACCOUNT` - There is no active application, and the product account is not provisioned.
+     *
+     * `ACTIVE` - The application is approved, and the product account is provisioned.
+     *
+     * `NOT_SUBMITTED` - The application is started but not yet submitted.
+     *
+     * `INFORMATION_PENDING` - The application is submitted and additional information is requested.
+     *
+     * `MANUAL_REVIEW` - The application is under manual review.
+     *
+     * `PROCESSING` - The application is submitted and is under review.
+     *
+     * `REJECTED` - The application is rejected.
+     *
+     * `CLOSED` - The product account is closed.
      */
     public function getCash(): string
     {
@@ -41,8 +70,22 @@ class ProductApplication extends \ArrayObject
 
     /**
      * Application status of a product.
-
-    `CLOSED` - The product account is closed.
+     *
+     * `NO_ACCOUNT` - There is no active application, and the product account is not provisioned.
+     *
+     * `ACTIVE` - The application is approved, and the product account is provisioned.
+     *
+     * `NOT_SUBMITTED` - The application is started but not yet submitted.
+     *
+     * `INFORMATION_PENDING` - The application is submitted and additional information is requested.
+     *
+     * `MANUAL_REVIEW` - The application is under manual review.
+     *
+     * `PROCESSING` - The application is submitted and is under review.
+     *
+     * `REJECTED` - The application is rejected.
+     *
+     * `CLOSED` - The product account is closed.
      */
     public function setCash(string $cash): self
     {

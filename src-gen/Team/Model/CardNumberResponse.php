@@ -34,11 +34,10 @@ class CardNumberResponse extends \ArrayObject
      */
     protected $cvv;
     /**
-    Card expiration year and month. Cards expire on the last day of the expiration month.
-
-    The expiration date is in UTC for cards starting with 555671, 428803 and 485932.
-    And the expiration date is in PST for cards starting with 511572.
-
+     * Card expiration year and month. Cards expire on the last day of the expiration month.
+     *
+     * The expiration date is in UTC for cards starting with 555671, 428803 and 485932.
+     * And the expiration date is in PST for cards starting with 511572.
      *
      * @var CardExpiration
      */
@@ -84,10 +83,10 @@ class CardNumberResponse extends \ArrayObject
     }
 
     /**
-    Card expiration year and month. Cards expire on the last day of the expiration month.
-
-    The expiration date is in UTC for cards starting with 555671, 428803 and 485932.
-    And the expiration date is in PST for cards starting with 511572.
+     * Card expiration year and month. Cards expire on the last day of the expiration month.
+     *
+     * The expiration date is in UTC for cards starting with 555671, 428803 and 485932.
+     * And the expiration date is in PST for cards starting with 511572.
      */
     public function getExpirationDate(): CardExpiration
     {
@@ -95,10 +94,10 @@ class CardNumberResponse extends \ArrayObject
     }
 
     /**
-    Card expiration year and month. Cards expire on the last day of the expiration month.
-
-    The expiration date is in UTC for cards starting with 555671, 428803 and 485932.
-    And the expiration date is in PST for cards starting with 511572.
+     * Card expiration year and month. Cards expire on the last day of the expiration month.
+     *
+     * The expiration date is in UTC for cards starting with 555671, 428803 and 485932.
+     * And the expiration date is in PST for cards starting with 511572.
      */
     public function setExpirationDate(CardExpiration $expirationDate): self
     {

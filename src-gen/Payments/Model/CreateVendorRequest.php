@@ -42,7 +42,7 @@ class CreateVendorRequest extends \ArrayObject
     /**
      * Payment accounts associated with the vendor.
      *
-     * @var PaymentAccountRequest[]|null
+     * @var list<PaymentAccountRequest>|null
      */
     protected $paymentAccounts;
 
@@ -106,7 +106,7 @@ class CreateVendorRequest extends \ArrayObject
     /**
      * Payment accounts associated with the vendor.
      *
-     * @return PaymentAccountRequest[]|null
+     * @return list<PaymentAccountRequest>|null
      */
     public function getPaymentAccounts(): ?array
     {
@@ -116,7 +116,7 @@ class CreateVendorRequest extends \ArrayObject
     /**
      * Payment accounts associated with the vendor.
      *
-     * @param PaymentAccountRequest[]|null $paymentAccounts
+     * @param list<PaymentAccountRequest>|null $paymentAccounts
      */
     public function setPaymentAccounts(?array $paymentAccounts): self
     {

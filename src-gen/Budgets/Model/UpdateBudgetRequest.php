@@ -22,31 +22,27 @@ class UpdateBudgetRequest extends \ArrayObject
         return array_key_exists($property, $this->initialized);
     }
     /**
-    Name for the Budget.
-
+     * Name for the Budget.
      *
      * @var string|null
      */
     protected $name;
     /**
-    Description of what the Budget is used for.
-
+     * Description of what the Budget is used for.
      *
      * @var string|null
      */
     protected $description;
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @var string[]|null
+     * @var list<string>|null
      */
     protected $ownerUserIds;
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @var string[]|null
+     * @var list<string>|null
      */
     protected $memberUserIds;
     /**
@@ -62,22 +58,20 @@ class UpdateBudgetRequest extends \ArrayObject
      */
     protected $spendType;
     /**
-    The UTC date when the Budget should start counting.
-
+     * The UTC date when the Budget should start counting.
      *
      * @var \DateTime|null
      */
     protected $startDate;
     /**
-    The UTC date when the Budget should stop counting.
-
+     * The UTC date when the Budget should stop counting.
      *
      * @var \DateTime|null
      */
     protected $endDate;
 
     /**
-    Name for the Budget.
+     * Name for the Budget.
      */
     public function getName(): ?string
     {
@@ -85,7 +79,7 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Name for the Budget.
+     * Name for the Budget.
      */
     public function setName(?string $name): self
     {
@@ -96,7 +90,7 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Description of what the Budget is used for.
+     * Description of what the Budget is used for.
      */
     public function getDescription(): ?string
     {
@@ -104,7 +98,7 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Description of what the Budget is used for.
+     * Description of what the Budget is used for.
      */
     public function setDescription(?string $description): self
     {
@@ -115,10 +109,9 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @return string[]|null
+     * @return list<string>|null
      */
     public function getOwnerUserIds(): ?array
     {
@@ -126,10 +119,9 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @param string[]|null $ownerUserIds
+     * @param list<string>|null $ownerUserIds
      */
     public function setOwnerUserIds(?array $ownerUserIds): self
     {
@@ -140,10 +132,9 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @return string[]|null
+     * @return list<string>|null
      */
     public function getMemberUserIds(): ?array
     {
@@ -151,10 +142,9 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @param string[]|null $memberUserIds
+     * @param list<string>|null $memberUserIds
      */
     public function setMemberUserIds(?array $memberUserIds): self
     {
@@ -204,7 +194,7 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should start counting.
+     * The UTC date when the Budget should start counting.
      */
     public function getStartDate(): ?\DateTime
     {
@@ -212,7 +202,7 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should start counting.
+     * The UTC date when the Budget should start counting.
      */
     public function setStartDate(?\DateTime $startDate): self
     {
@@ -223,7 +213,7 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should stop counting.
+     * The UTC date when the Budget should stop counting.
      */
     public function getEndDate(): ?\DateTime
     {
@@ -231,7 +221,7 @@ class UpdateBudgetRequest extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should stop counting.
+     * The UTC date when the Budget should stop counting.
      */
     public function setEndDate(?\DateTime $endDate): self
     {

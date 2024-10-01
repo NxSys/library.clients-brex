@@ -12,6 +12,7 @@ namespace NxSys\Library\Clients\Brex\API\Expenses\Normalizer;
 
 use NxSys\Library\Clients\Brex\API\Expenses\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Expenses\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -19,59 +20,199 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-    protected $normalizers = ['NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\CreateAsyncFileUploadResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\CreateAsyncFileUploadResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\Department' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\DepartmentNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\ExpandableExpense' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\ExpandableExpenseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\ExpandableExpenseLocation' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\ExpandableExpenseLocationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\ExpandableExpenseDepartment' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\ExpandableExpenseDepartmentNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\Expense' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\ExpenseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\Location' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\LocationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\PageExpandableExpense' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\PageExpandableExpenseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\Receipt' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\ReceiptNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\ReceiptMatchRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\ReceiptMatchRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\ReceiptUploadRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\ReceiptUploadRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\UpdateExpenseRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Normalizer\\UpdateExpenseRequestNormalizer', '\\Jane\\Component\\JsonSchemaRuntime\\Reference' => '\\NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Runtime\\Normalizer\\ReferenceNormalizer'];
-    protected $normalizersCache = [];
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return array_key_exists($type, $this->normalizers);
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\CreateAsyncFileUploadResponse::class => CreateAsyncFileUploadResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\Department::class => DepartmentNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpense::class => ExpandableExpenseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpenseLocation::class => ExpandableExpenseLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpenseDepartment::class => ExpandableExpenseDepartmentNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class => ExpenseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\Location::class => LocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\PageExpandableExpense::class => PageExpandableExpenseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\Receipt::class => ReceiptNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptMatchRequest::class => ReceiptMatchRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptUploadRequest::class => ReceiptUploadRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\UpdateExpenseRequest::class => UpdateExpenseRequestNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\CreateAsyncFileUploadResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\Department::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpense::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpenseLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpenseDepartment::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\Location::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\PageExpandableExpense::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\Receipt::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptMatchRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptUploadRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\UpdateExpenseRequest::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
-
-    public function supportsNormalization($data, $format = null): bool
+} else {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\CreateAsyncFileUploadResponse::class => CreateAsyncFileUploadResponseNormalizer::class,
 
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
-    {
-        $normalizerClass = $this->normalizers[get_class($object)];
-        $normalizer = $this->getNormalizer($normalizerClass);
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\Department::class => DepartmentNormalizer::class,
 
-        return $normalizer->normalize($object, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpense::class => ExpandableExpenseNormalizer::class,
 
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        $denormalizerClass = $this->normalizers[$class];
-        $denormalizer = $this->getNormalizer($denormalizerClass);
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpenseLocation::class => ExpandableExpenseLocationNormalizer::class,
 
-        return $denormalizer->denormalize($data, $class, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpenseDepartment::class => ExpandableExpenseDepartmentNormalizer::class,
 
-    private function getNormalizer(string $normalizerClass)
-    {
-        return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
-    }
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class => ExpenseNormalizer::class,
 
-    private function initNormalizer(string $normalizerClass)
-    {
-        $normalizer = new $normalizerClass();
-        $normalizer->setNormalizer($this->normalizer);
-        $normalizer->setDenormalizer($this->denormalizer);
-        $this->normalizersCache[$normalizerClass] = $normalizer;
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\Location::class => LocationNormalizer::class,
 
-        return $normalizer;
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\PageExpandableExpense::class => PageExpandableExpenseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\Receipt::class => ReceiptNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptMatchRequest::class => ReceiptMatchRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptUploadRequest::class => ReceiptUploadRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Expenses\Model\UpdateExpenseRequest::class => UpdateExpenseRequestNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\CreateAsyncFileUploadResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\Department::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpense::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpenseLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpenseDepartment::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\Location::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\PageExpandableExpense::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\Receipt::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptMatchRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptUploadRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Expenses\Model\UpdateExpenseRequest::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
 }

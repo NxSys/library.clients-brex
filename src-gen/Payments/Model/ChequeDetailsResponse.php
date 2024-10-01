@@ -27,6 +27,7 @@ class ChequeDetailsResponse extends \ArrayObject
     protected $type;
     /**
      * Payment Instrument ID that can be passed to the /transfers endpoint to trigger a transfer.
+     * The type of the payment instrument dictates the method.
      *
      * @var string
      */
@@ -57,7 +58,7 @@ class ChequeDetailsResponse extends \ArrayObject
 
     /**
      * Payment Instrument ID that can be passed to the /transfers endpoint to trigger a transfer.
-    The type of the payment instrument dictates the method.
+     * The type of the payment instrument dictates the method.
      */
     public function getPaymentInstrumentId(): string
     {
@@ -66,7 +67,7 @@ class ChequeDetailsResponse extends \ArrayObject
 
     /**
      * Payment Instrument ID that can be passed to the /transfers endpoint to trigger a transfer.
-    The type of the payment instrument dictates the method.
+     * The type of the payment instrument dictates the method.
      */
     public function setPaymentInstrumentId(string $paymentInstrumentId): self
     {

@@ -16,7 +16,7 @@ class GetAccount extends \NxSys\Library\Clients\Brex\API\Transactions\Runtime\Cl
     protected $id;
 
     /**
-    This endpoint returns the cash account associated with the provided ID with its status.
+     * This endpoint returns the cash account associated with the provided ID with its status.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetAccount extends \NxSys\Library\Clients\Brex\API\Transactions\Runtime\Cl
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Transactions\Model\CashAccount|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\GetAccountBadRequestException
@@ -57,7 +55,7 @@ class GetAccount extends \NxSys\Library\Clients\Brex\API\Transactions\Runtime\Cl
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CashAccount', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Transactions\Model\CashAccount', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\GetAccountBadRequestException($response);

@@ -22,12 +22,12 @@ class PaymentAccountResponse extends \ArrayObject
         return array_key_exists($property, $this->initialized);
     }
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $details;
 
     /**
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getDetails(): iterable
     {
@@ -35,7 +35,7 @@ class PaymentAccountResponse extends \ArrayObject
     }
 
     /**
-     * @param mixed[] $details
+     * @param array<string, mixed> $details
      */
     public function setDetails(iterable $details): self
     {

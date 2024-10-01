@@ -34,7 +34,7 @@ class UserUpdatedEvent extends \ArrayObject
      */
     protected $companyId;
     /**
-     * @var string[]
+     * @var list<string>
      */
     protected $updatedAttributes;
 
@@ -78,7 +78,7 @@ class UserUpdatedEvent extends \ArrayObject
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getUpdatedAttributes(): array
     {
@@ -86,7 +86,7 @@ class UserUpdatedEvent extends \ArrayObject
     }
 
     /**
-     * @param string[] $updatedAttributes
+     * @param list<string> $updatedAttributes
      */
     public function setUpdatedAttributes(array $updatedAttributes): self
     {

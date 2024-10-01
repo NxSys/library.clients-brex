@@ -15,16 +15,15 @@ class ListUsers extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Base
     use \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint lists all users. To find a user id by email, you can filter using the `email` query parameter.
-
+     * This endpoint lists all users. To find a user id by email, you can filter using the `email` query parameter.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $email
-     *     @var array $expand[]
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $email
+     * @var array  $expand[]
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -66,8 +65,6 @@ class ListUsers extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Base
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\PageUserResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersBadRequestException
@@ -79,7 +76,7 @@ class ListUsers extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Base
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageUserResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\PageUserResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersBadRequestException($response);

@@ -22,7 +22,7 @@ class CreateCardRequest extends \ArrayObject
         return array_key_exists($property, $this->initialized);
     }
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $owner;
     /**
@@ -34,13 +34,12 @@ class CreateCardRequest extends \ArrayObject
      */
     protected $cardType;
     /**
-    `limit_type = CARD` for vendor cards. Vendor cards must have a `card_type` of `VIRTUAL`
-    and do not rely on the user specific limit.
-
-    For corporate cards, `limit_type = USER`.
-
-    Learn more about different card types [here](https://support.brex.com/what-are-the-different-types-of-cards-i-can-get/).
-
+     * `limit_type = CARD` for vendor cards. Vendor cards must have a `card_type` of `VIRTUAL`
+     * and do not rely on the user specific limit.
+     *
+     * For corporate cards, `limit_type = USER`.
+     *
+     * Learn more about different card types [here](https://support.brex.com/what-are-the-different-types-of-cards-i-can-get/).
      *
      * @var string
      */
@@ -54,11 +53,10 @@ class CreateCardRequest extends \ArrayObject
      */
     protected $mailingAddress;
     /**
-    Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
-    Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
-
+     * Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
+     * Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
      *
-     * @var string[]|null
+     * @var array<string, string>|null
      */
     protected $metadata;
     /**
@@ -67,7 +65,7 @@ class CreateCardRequest extends \ArrayObject
     protected $cardAttributePreferences;
 
     /**
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getOwner(): iterable
     {
@@ -75,7 +73,7 @@ class CreateCardRequest extends \ArrayObject
     }
 
     /**
-     * @param mixed[] $owner
+     * @param array<string, mixed> $owner
      */
     public function setOwner(iterable $owner): self
     {
@@ -112,12 +110,12 @@ class CreateCardRequest extends \ArrayObject
     }
 
     /**
-    `limit_type = CARD` for vendor cards. Vendor cards must have a `card_type` of `VIRTUAL`
-    and do not rely on the user specific limit.
-
-    For corporate cards, `limit_type = USER`.
-
-    Learn more about different card types [here](https://support.brex.com/what-are-the-different-types-of-cards-i-can-get/).
+     * `limit_type = CARD` for vendor cards. Vendor cards must have a `card_type` of `VIRTUAL`
+     * and do not rely on the user specific limit.
+     *
+     * For corporate cards, `limit_type = USER`.
+     *
+     * Learn more about different card types [here](https://support.brex.com/what-are-the-different-types-of-cards-i-can-get/).
      */
     public function getLimitType(): string
     {
@@ -125,12 +123,12 @@ class CreateCardRequest extends \ArrayObject
     }
 
     /**
-    `limit_type = CARD` for vendor cards. Vendor cards must have a `card_type` of `VIRTUAL`
-    and do not rely on the user specific limit.
-
-    For corporate cards, `limit_type = USER`.
-
-    Learn more about different card types [here](https://support.brex.com/what-are-the-different-types-of-cards-i-can-get/).
+     * `limit_type = CARD` for vendor cards. Vendor cards must have a `card_type` of `VIRTUAL`
+     * and do not rely on the user specific limit.
+     *
+     * For corporate cards, `limit_type = USER`.
+     *
+     * Learn more about different card types [here](https://support.brex.com/what-are-the-different-types-of-cards-i-can-get/).
      */
     public function setLimitType(string $limitType): self
     {
@@ -167,11 +165,10 @@ class CreateCardRequest extends \ArrayObject
     }
 
     /**
-    Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
-    Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
-
+     * Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
+     * Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
      *
-     * @return string[]|null
+     * @return array<string, string>|null
      */
     public function getMetadata(): ?iterable
     {
@@ -179,11 +176,10 @@ class CreateCardRequest extends \ArrayObject
     }
 
     /**
-    Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
-    Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
-
+     * Set of key value pairs associated with this object. Please do not store any personally identifiable or sensitive information here.
+     * Limitations: maximum of 50 keys, keys cannot exceed 40 characters, values cannot exceed 500 characters.
      *
-     * @param string[]|null $metadata
+     * @param array<string, string>|null $metadata
      */
     public function setMetadata(?iterable $metadata): self
     {

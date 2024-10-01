@@ -12,6 +12,7 @@ namespace NxSys\Library\Clients\Brex\API\Travel\Normalizer;
 
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -19,59 +20,457 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-    protected $normalizers = ['NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\Address' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AddressNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AddressCoordinates' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AddressCoordinatesNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AddressGeoCoordinates' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AddressGeoCoordinatesNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingData' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataRedressNumber' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataRedressNumberNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataKnownTravelerNumber' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataKnownTravelerNumberNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataDocumentNumber' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataDocumentNumberNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlight' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightDepartureTime' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightDepartureTimeNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightArrivalTime' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightArrivalTimeNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightMarketingFlight' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightMarketingFlightNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightOperatingFlight' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightOperatingFlightNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightSeat' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightSeatNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightEndpoint' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightEndpointNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightEndpointAirportLocation' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightEndpointAirportLocationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightNumber' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightNumberNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataFlightTicket' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataFlightTicketNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AirBookingDataJourney' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\AirBookingDataJourneyNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\Booking' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\BookingNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\BookingTime' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\BookingTimeNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingData' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\CarRentalBookingDataNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataCarDetails' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\CarRentalBookingDataCarDetailsNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataRentalEndpoint' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\CarRentalBookingDataRentalEndpointNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataRentalEndpointLocation' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\CarRentalBookingDataRentalEndpointLocationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataRentalEndpointTime' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\CarRentalBookingDataRentalEndpointTimeNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataReservationDetails' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\CarRentalBookingDataReservationDetailsNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataReservationDetailsPickup' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\CarRentalBookingDataReservationDetailsPickupNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataReservationDetailsDropOff' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\CarRentalBookingDataReservationDetailsDropOffNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingData' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataContactInfo' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataContactInfoNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetails' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataLodgingDetailsNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetailsContactInformation' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataLodgingDetailsContactInformationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetailsLocation' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataLodgingDetailsLocationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataReservationDetails' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataReservationDetailsNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataReservationDetailsCheckInTime' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataReservationDetailsCheckInTimeNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataReservationDetailsCheckoutTime' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataReservationDetailsCheckoutTimeNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataReservationDetailsRoom' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataReservationDetailsRoomNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataRoom' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\LodgingBookingDataRoomNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\PageBooking' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\PageBookingNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\PageTrip' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\PageTripNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingData' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailJourney' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailJourneyNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailLeg' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailLegNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailLegDepartureTime' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailLegDepartureTimeNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailLegArrivalTime' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailLegArrivalTimeNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailLegVehicle' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailLegVehicleNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailLegSeat' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailLegSeatNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailSeat' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailSeatNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailStation' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailStationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailStationLocation' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataRailStationLocationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataVehicle' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\RailBookingDataVehicleNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\Traveler' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\TravelerNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\TravelerName' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\TravelerNameNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\Trip' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\TripNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\TripTraveler' => 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Normalizer\\TripTravelerNormalizer', '\\Jane\\Component\\JsonSchemaRuntime\\Reference' => '\\NxSys\\Library\\Clients\\Brex\\API\\Travel\\Runtime\\Normalizer\\ReferenceNormalizer'];
-    protected $normalizersCache = [];
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return array_key_exists($type, $this->normalizers);
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Travel\Model\Address::class => AddressNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AddressCoordinates::class => AddressCoordinatesNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AddressGeoCoordinates::class => AddressGeoCoordinatesNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingData::class => AirBookingDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataRedressNumber::class => AirBookingDataRedressNumberNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataKnownTravelerNumber::class => AirBookingDataKnownTravelerNumberNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataDocumentNumber::class => AirBookingDataDocumentNumberNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlight::class => AirBookingDataFlightNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightDepartureTime::class => AirBookingDataFlightDepartureTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightArrivalTime::class => AirBookingDataFlightArrivalTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightMarketingFlight::class => AirBookingDataFlightMarketingFlightNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightOperatingFlight::class => AirBookingDataFlightOperatingFlightNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightSeat::class => AirBookingDataFlightSeatNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class => AirBookingDataFlightEndpointNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpointAirportLocation::class => AirBookingDataFlightEndpointAirportLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightNumber::class => AirBookingDataFlightNumberNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightTicket::class => AirBookingDataFlightTicketNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataJourney::class => AirBookingDataJourneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\Booking::class => BookingNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\BookingTime::class => BookingTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class => CarRentalBookingDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataCarDetails::class => CarRentalBookingDataCarDetailsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpoint::class => CarRentalBookingDataRentalEndpointNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class => CarRentalBookingDataRentalEndpointLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointTime::class => CarRentalBookingDataRentalEndpointTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetails::class => CarRentalBookingDataReservationDetailsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetailsPickup::class => CarRentalBookingDataReservationDetailsPickupNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetailsDropOff::class => CarRentalBookingDataReservationDetailsDropOffNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingData::class => LodgingBookingDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataContactInfo::class => LodgingBookingDataContactInfoNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class => LodgingBookingDataLodgingDetailsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class => LodgingBookingDataLodgingDetailsContactInformationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsLocation::class => LodgingBookingDataLodgingDetailsLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetails::class => LodgingBookingDataReservationDetailsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsCheckInTime::class => LodgingBookingDataReservationDetailsCheckInTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsCheckoutTime::class => LodgingBookingDataReservationDetailsCheckoutTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsRoom::class => LodgingBookingDataReservationDetailsRoomNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataRoom::class => LodgingBookingDataRoomNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\PageBooking::class => PageBookingNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\PageTrip::class => PageTripNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingData::class => RailBookingDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailJourney::class => RailBookingDataRailJourneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLeg::class => RailBookingDataRailLegNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegDepartureTime::class => RailBookingDataRailLegDepartureTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegArrivalTime::class => RailBookingDataRailLegArrivalTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegVehicle::class => RailBookingDataRailLegVehicleNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegSeat::class => RailBookingDataRailLegSeatNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class => RailBookingDataRailSeatNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailStation::class => RailBookingDataRailStationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailStationLocation::class => RailBookingDataRailStationLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataVehicle::class => RailBookingDataVehicleNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\Traveler::class => TravelerNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\TravelerName::class => TravelerNameNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\Trip::class => TripNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\TripTraveler::class => TripTravelerNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Travel\Model\Address::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AddressCoordinates::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AddressGeoCoordinates::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingData::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataRedressNumber::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataKnownTravelerNumber::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataDocumentNumber::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlight::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightDepartureTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightArrivalTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightMarketingFlight::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightOperatingFlight::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightSeat::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpointAirportLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightNumber::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightTicket::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataJourney::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\Booking::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\BookingTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataCarDetails::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpoint::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetails::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetailsPickup::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetailsDropOff::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingData::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataContactInfo::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetails::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsCheckInTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsCheckoutTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsRoom::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataRoom::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\PageBooking::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\PageTrip::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingData::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailJourney::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLeg::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegDepartureTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegArrivalTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegVehicle::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegSeat::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailStation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailStationLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataVehicle::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\Traveler::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\TravelerName::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\Trip::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\TripTraveler::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
-
-    public function supportsNormalization($data, $format = null): bool
+} else {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Travel\Model\Address::class => AddressNormalizer::class,
 
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
-    {
-        $normalizerClass = $this->normalizers[get_class($object)];
-        $normalizer = $this->getNormalizer($normalizerClass);
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AddressCoordinates::class => AddressCoordinatesNormalizer::class,
 
-        return $normalizer->normalize($object, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AddressGeoCoordinates::class => AddressGeoCoordinatesNormalizer::class,
 
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        $denormalizerClass = $this->normalizers[$class];
-        $denormalizer = $this->getNormalizer($denormalizerClass);
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingData::class => AirBookingDataNormalizer::class,
 
-        return $denormalizer->denormalize($data, $class, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataRedressNumber::class => AirBookingDataRedressNumberNormalizer::class,
 
-    private function getNormalizer(string $normalizerClass)
-    {
-        return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
-    }
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataKnownTravelerNumber::class => AirBookingDataKnownTravelerNumberNormalizer::class,
 
-    private function initNormalizer(string $normalizerClass)
-    {
-        $normalizer = new $normalizerClass();
-        $normalizer->setNormalizer($this->normalizer);
-        $normalizer->setDenormalizer($this->denormalizer);
-        $this->normalizersCache[$normalizerClass] = $normalizer;
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataDocumentNumber::class => AirBookingDataDocumentNumberNormalizer::class,
 
-        return $normalizer;
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlight::class => AirBookingDataFlightNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightDepartureTime::class => AirBookingDataFlightDepartureTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightArrivalTime::class => AirBookingDataFlightArrivalTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightMarketingFlight::class => AirBookingDataFlightMarketingFlightNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightOperatingFlight::class => AirBookingDataFlightOperatingFlightNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightSeat::class => AirBookingDataFlightSeatNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class => AirBookingDataFlightEndpointNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpointAirportLocation::class => AirBookingDataFlightEndpointAirportLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightNumber::class => AirBookingDataFlightNumberNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightTicket::class => AirBookingDataFlightTicketNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataJourney::class => AirBookingDataJourneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\Booking::class => BookingNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\BookingTime::class => BookingTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class => CarRentalBookingDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataCarDetails::class => CarRentalBookingDataCarDetailsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpoint::class => CarRentalBookingDataRentalEndpointNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class => CarRentalBookingDataRentalEndpointLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointTime::class => CarRentalBookingDataRentalEndpointTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetails::class => CarRentalBookingDataReservationDetailsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetailsPickup::class => CarRentalBookingDataReservationDetailsPickupNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetailsDropOff::class => CarRentalBookingDataReservationDetailsDropOffNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingData::class => LodgingBookingDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataContactInfo::class => LodgingBookingDataContactInfoNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class => LodgingBookingDataLodgingDetailsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class => LodgingBookingDataLodgingDetailsContactInformationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsLocation::class => LodgingBookingDataLodgingDetailsLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetails::class => LodgingBookingDataReservationDetailsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsCheckInTime::class => LodgingBookingDataReservationDetailsCheckInTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsCheckoutTime::class => LodgingBookingDataReservationDetailsCheckoutTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsRoom::class => LodgingBookingDataReservationDetailsRoomNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataRoom::class => LodgingBookingDataRoomNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\PageBooking::class => PageBookingNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\PageTrip::class => PageTripNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingData::class => RailBookingDataNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailJourney::class => RailBookingDataRailJourneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLeg::class => RailBookingDataRailLegNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegDepartureTime::class => RailBookingDataRailLegDepartureTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegArrivalTime::class => RailBookingDataRailLegArrivalTimeNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegVehicle::class => RailBookingDataRailLegVehicleNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegSeat::class => RailBookingDataRailLegSeatNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class => RailBookingDataRailSeatNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailStation::class => RailBookingDataRailStationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailStationLocation::class => RailBookingDataRailStationLocationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataVehicle::class => RailBookingDataVehicleNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\Traveler::class => TravelerNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\TravelerName::class => TravelerNameNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\Trip::class => TripNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Travel\Model\TripTraveler::class => TripTravelerNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Travel\Model\Address::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AddressCoordinates::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AddressGeoCoordinates::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingData::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataRedressNumber::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataKnownTravelerNumber::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataDocumentNumber::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlight::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightDepartureTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightArrivalTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightMarketingFlight::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightOperatingFlight::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightSeat::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpoint::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightEndpointAirportLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightNumber::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataFlightTicket::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\AirBookingDataJourney::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\Booking::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\BookingTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataCarDetails::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpoint::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetails::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetailsPickup::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetailsDropOff::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingData::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataContactInfo::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetails::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsCheckInTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsCheckoutTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataReservationDetailsRoom::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataRoom::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\PageBooking::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\PageTrip::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingData::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailJourney::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLeg::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegDepartureTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegArrivalTime::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegVehicle::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailLegSeat::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailStation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailStationLocation::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataVehicle::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\Traveler::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\TravelerName::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\Trip::class => false,
+                \NxSys\Library\Clients\Brex\API\Travel\Model\TripTraveler::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
 }

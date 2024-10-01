@@ -15,14 +15,13 @@ class ListPrimaryCardStatements extends \NxSys\Library\Clients\Brex\API\Transact
     use \NxSys\Library\Clients\Brex\API\Transactions\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint lists all finalized statements for the primary card account.
-
+     * This endpoint lists all finalized statements for the primary card account.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -62,8 +61,6 @@ class ListPrimaryCardStatements extends \NxSys\Library\Clients\Brex\API\Transact
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Transactions\Model\PageStatement|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListPrimaryCardStatementsBadRequestException
@@ -75,7 +72,7 @@ class ListPrimaryCardStatements extends \NxSys\Library\Clients\Brex\API\Transact
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageStatement', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Transactions\Model\PageStatement', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListPrimaryCardStatementsBadRequestException($response);

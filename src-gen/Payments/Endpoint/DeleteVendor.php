@@ -16,7 +16,7 @@ class DeleteVendor extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Clie
     protected $id;
 
     /**
-    This endpoint deletes a vendor by ID.
+     * This endpoint deletes a vendor by ID.
      */
     public function __construct(string $id)
     {
@@ -39,8 +39,6 @@ class DeleteVendor extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Clie
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)

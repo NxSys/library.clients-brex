@@ -10,50 +10,48 @@ declare(strict_types=1);
 
 namespace NxSys\Library\Clients\Brex\API\Expenses;
 
-class Client extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Client\Client
+class Client extends Runtime\Client\Client
 {
     /**
      * List expenses under the same account. Admin and bookkeeper have access to any expense, and regular users can only access their own.
      *
      * @param array $queryParameters {
      *
-     *     @var array $expand[]
-     *     @var array $user_id[]
-     *     @var array $parent_expense_id[]
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var array  $expand[]
+     * @var array  $user_id[]
+     * @var array  $parent_expense_id[]
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Expenses\Model\PageExpandableExpense|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageExpandableExpense|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ListExpensesBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ListExpensesUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ListExpensesForbiddenException
+     * @throws Exception\ListExpensesBadRequestException
+     * @throws Exception\ListExpensesUnauthorizedException
+     * @throws Exception\ListExpensesForbiddenException
      */
     public function listExpenses(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Expenses\Endpoint\ListExpenses($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListExpenses($queryParameters), $fetch);
     }
 
     /**
-    The `uri` will be a pre-signed S3 URL allowing you to upload the receipt securely. This URL can only be used for a `PUT` operation and expires 30 minutes after its creation. Once your upload is complete, we will try to match the receipt with existing expenses.
-
-    Refer to these [docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) on how to upload to this pre-signed S3 URL. We highly recommend using one of AWS SDKs if they're available for your language to upload these files.
-
+     * The `uri` will be a pre-signed S3 URL allowing you to upload the receipt securely. This URL can only be used for a `PUT` operation and expires 30 minutes after its creation. Once your upload is complete, we will try to match the receipt with existing expenses.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptMatchRequest $requestBody
-     * @param string                                                             $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * Refer to these [docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) on how to upload to this pre-signed S3 URL. We highly recommend using one of AWS SDKs if they're available for your language to upload these files.
      *
-     * @return \NxSys\Library\Clients\Brex\API\Expenses\Model\CreateAsyncFileUploadResponse|\Psr\Http\Message\ResponseInterface|null
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchUnauthorizedException
+     * @return Model\CreateAsyncFileUploadResponse|\Psr\Http\Message\ResponseInterface|null
+     *
+     * @throws Exception\ReceiptMatchBadRequestException
+     * @throws Exception\ReceiptMatchUnauthorizedException
      */
     public function receiptMatch(Model\ReceiptMatchRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Expenses\Endpoint\ReceiptMatch($requestBody), $fetch);
+        return $this->executeEndpoint(new Endpoint\ReceiptMatch($requestBody), $fetch);
     }
 
     /**
@@ -61,60 +59,57 @@ class Client extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Client\Cli
      *
      * @param array $queryParameters {
      *
-     *     @var array $expand[]
-     * }
+     * @var array $expand[]
+     *            }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpense|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\ExpandableExpense|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\GetExpenseBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\GetExpenseUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\GetExpenseForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\GetExpenseNotFoundException
+     * @throws Exception\GetExpenseBadRequestException
+     * @throws Exception\GetExpenseUnauthorizedException
+     * @throws Exception\GetExpenseForbiddenException
+     * @throws Exception\GetExpenseNotFoundException
      */
     public function getExpense(string $expenseId, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Expenses\Endpoint\GetExpense($expenseId, $queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetExpense($expenseId, $queryParameters), $fetch);
     }
 
     /**
      * Update an expense. Admin and bookkeeper have access to any expense, and regular users can only access their own.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Expenses\Model\UpdateExpenseRequest $requestBody
-     * @param string                                                              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Expense|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\UpdateExpenseBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\UpdateExpenseUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\UpdateExpenseForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\UpdateExpenseNotFoundException
+     * @throws Exception\UpdateExpenseBadRequestException
+     * @throws Exception\UpdateExpenseUnauthorizedException
+     * @throws Exception\UpdateExpenseForbiddenException
+     * @throws Exception\UpdateExpenseNotFoundException
      */
     public function updateExpense(string $expenseId, Model\UpdateExpenseRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Expenses\Endpoint\UpdateExpense($expenseId, $requestBody), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdateExpense($expenseId, $requestBody), $fetch);
     }
 
     /**
-    The `uri` will be a pre-signed S3 URL allowing you to upload the receipt securely. This URL can only be used for a `PUT` operation and expires 30 minutes after its creation. Once your upload is complete, we will try to match the receipt with existing expenses.
-
-    Refer to these [docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) on how to upload to this pre-signed S3 URL. We highly recommend using one of AWS SDKs if they're available for your language to upload these files.
-
+     * The `uri` will be a pre-signed S3 URL allowing you to upload the receipt securely. This URL can only be used for a `PUT` operation and expires 30 minutes after its creation. Once your upload is complete, we will try to match the receipt with existing expenses.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptUploadRequest $requestBody
-     * @param string                                                              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * Refer to these [docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) on how to upload to this pre-signed S3 URL. We highly recommend using one of AWS SDKs if they're available for your language to upload these files.
      *
-     * @return \NxSys\Library\Clients\Brex\API\Expenses\Model\CreateAsyncFileUploadResponse|\Psr\Http\Message\ResponseInterface|null
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptUploadNotFoundException
+     * @return Model\CreateAsyncFileUploadResponse|\Psr\Http\Message\ResponseInterface|null
+     *
+     * @throws Exception\ReceiptUploadBadRequestException
+     * @throws Exception\ReceiptUploadUnauthorizedException
+     * @throws Exception\ReceiptUploadForbiddenException
+     * @throws Exception\ReceiptUploadNotFoundException
      */
     public function receiptUpload(string $expenseId, Model\ReceiptUploadRequest $requestBody, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Expenses\Endpoint\ReceiptUpload($expenseId, $requestBody), $fetch);
+        return $this->executeEndpoint(new Endpoint\ReceiptUpload($expenseId, $requestBody), $fetch);
     }
 
     public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [])
@@ -122,7 +117,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Client\Cli
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\Psr18ClientDiscovery::find();
             $plugins = [];
-            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUrlFactory()->createUri('https://platform.brexapis.com');
+            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUriFactory()->createUri('https://platform.brexapis.com');
             $plugins[] = new \Http\Client\Common\Plugin\AddHostPlugin($uri);
             if (count($additionalPlugins) > 0) {
                 $plugins = array_merge($plugins, $additionalPlugins);
@@ -131,7 +126,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Client\Cli
         }
         $requestFactory = \Http\Discovery\Psr17FactoryDiscovery::findRequestFactory();
         $streamFactory = \Http\Discovery\Psr17FactoryDiscovery::findStreamFactory();
-        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new \NxSys\Library\Clients\Brex\API\Expenses\Normalizer\JaneObjectNormalizer()];
+        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new Normalizer\JaneObjectNormalizer()];
         if (count($additionalNormalizers) > 0) {
             $normalizers = array_merge($normalizers, $additionalNormalizers);
         }

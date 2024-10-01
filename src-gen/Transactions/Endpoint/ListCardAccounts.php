@@ -35,8 +35,6 @@ class ListCardAccounts extends \NxSys\Library\Clients\Brex\API\Transactions\Runt
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount[]|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCardAccountsBadRequestException
@@ -48,7 +46,7 @@ class ListCardAccounts extends \NxSys\Library\Clients\Brex\API\Transactions\Runt
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccount[]', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount[]', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCardAccountsBadRequestException($response);

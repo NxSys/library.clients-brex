@@ -15,16 +15,15 @@ class ListVendors extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Clien
     use \NxSys\Library\Clients\Brex\API\Payments\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint lists all existing vendors for an account.
-    Takes an optional parameter to match by vendor name.
-
+     * This endpoint lists all existing vendors for an account.
+     * Takes an optional parameter to match by vendor name.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $name
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $name
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -65,8 +64,6 @@ class ListVendors extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Clien
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Payments\Model\PageVendorResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Payments\Exception\ListVendorsBadRequestException
@@ -78,7 +75,7 @@ class ListVendors extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Clien
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\PageVendorResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Payments\Model\PageVendorResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListVendorsBadRequestException($response);

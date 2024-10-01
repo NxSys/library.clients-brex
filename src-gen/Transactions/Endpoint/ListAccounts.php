@@ -35,8 +35,6 @@ class ListAccounts extends \NxSys\Library\Clients\Brex\API\Transactions\Runtime\
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashAccount|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListAccountsBadRequestException
@@ -48,7 +46,7 @@ class ListAccounts extends \NxSys\Library\Clients\Brex\API\Transactions\Runtime\
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageCashAccount', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashAccount', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListAccountsBadRequestException($response);

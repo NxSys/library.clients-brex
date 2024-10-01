@@ -15,15 +15,14 @@ class ListLocations extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
     use \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint lists all locations.
-
+     * This endpoint lists all locations.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $name
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $name
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -64,8 +63,6 @@ class ListLocations extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\PageLocationResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsBadRequestException
@@ -77,7 +74,7 @@ class ListLocations extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageLocationResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\PageLocationResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsBadRequestException($response);

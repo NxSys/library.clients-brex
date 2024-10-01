@@ -26,7 +26,7 @@ class PageWebhookSubscription extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var WebhookSubscription[]
+     * @var list<WebhookSubscription>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageWebhookSubscription extends \ArrayObject
     }
 
     /**
-     * @return WebhookSubscription[]
+     * @return list<WebhookSubscription>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageWebhookSubscription extends \ArrayObject
     }
 
     /**
-     * @param WebhookSubscription[] $items
+     * @param list<WebhookSubscription> $items
      */
     public function setItems(array $items): self
     {

@@ -26,8 +26,7 @@ class CounterPartyBankDetails extends \ArrayObject
      */
     protected $type;
     /**
-    The financial account id: Can be found from the [List linked accounts](/openapi/payments_api/#operation/listLinkedAccounts) endpoint
-
+     * The financial account id: Can be found from the [List linked accounts](/openapi/payments_api/#operation/listLinkedAccounts) endpoint.
      *
      * @var string
      */
@@ -47,7 +46,7 @@ class CounterPartyBankDetails extends \ArrayObject
     }
 
     /**
-    The financial account id: Can be found from the [List linked accounts](/openapi/payments_api/#operation/listLinkedAccounts) endpoint
+     * The financial account id: Can be found from the [List linked accounts](/openapi/payments_api/#operation/listLinkedAccounts) endpoint.
      */
     public function getId(): string
     {
@@ -55,7 +54,7 @@ class CounterPartyBankDetails extends \ArrayObject
     }
 
     /**
-    The financial account id: Can be found from the [List linked accounts](/openapi/payments_api/#operation/listLinkedAccounts) endpoint
+     * The financial account id: Can be found from the [List linked accounts](/openapi/payments_api/#operation/listLinkedAccounts) endpoint.
      */
     public function setId(string $id): self
     {

@@ -16,16 +16,15 @@ class ListCashTransactions extends \NxSys\Library\Clients\Brex\API\Transactions\
     protected $id;
 
     /**
-    This endpoint lists all transactions for the cash account with the selected ID.
-
+     * This endpoint lists all transactions for the cash account with the selected ID.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $posted_at_start
-    Shows only transactions with a `posted_at_date` on or after this date-time. This parameter is the date-time notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
-
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $posted_at_start
+     *             Shows only transactions with a `posted_at_date` on or after this date-time. This parameter is the date-time notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+     *
      * }
      */
     public function __construct(string $id, array $queryParameters = [])
@@ -68,8 +67,6 @@ class ListCashTransactions extends \NxSys\Library\Clients\Brex\API\Transactions\
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashTransaction|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsBadRequestException
@@ -81,7 +78,7 @@ class ListCashTransactions extends \NxSys\Library\Clients\Brex\API\Transactions\
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageCashTransaction', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Transactions\Model\PageCashTransaction', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashTransactionsBadRequestException($response);

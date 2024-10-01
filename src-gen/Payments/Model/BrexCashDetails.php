@@ -26,8 +26,7 @@ class BrexCashDetails extends \ArrayObject
      */
     protected $type;
     /**
-    ID of the Brex Cash Account: Can be found from the [List cash accounts](/openapi/transactions_api/#operation/listAccounts) endpoint
-
+     * ID of the Brex Cash Account: Can be found from the [List cash accounts](/openapi/transactions_api/#operation/listAccounts) endpoint.
      *
      * @var string
      */
@@ -47,7 +46,7 @@ class BrexCashDetails extends \ArrayObject
     }
 
     /**
-    ID of the Brex Cash Account: Can be found from the [List cash accounts](/openapi/transactions_api/#operation/listAccounts) endpoint
+     * ID of the Brex Cash Account: Can be found from the [List cash accounts](/openapi/transactions_api/#operation/listAccounts) endpoint.
      */
     public function getId(): string
     {
@@ -55,7 +54,7 @@ class BrexCashDetails extends \ArrayObject
     }
 
     /**
-    ID of the Brex Cash Account: Can be found from the [List cash accounts](/openapi/transactions_api/#operation/listAccounts) endpoint
+     * ID of the Brex Cash Account: Can be found from the [List cash accounts](/openapi/transactions_api/#operation/listAccounts) endpoint.
      */
     public function setId(string $id): self
     {

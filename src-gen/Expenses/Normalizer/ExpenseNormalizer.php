@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Expenses\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Expenses\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Expenses\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,103 +21,207 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ExpenseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class ExpenseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\Expense';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\Expense';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('memo', $data) && $data['memo'] !== null) {
+                $object->setMemo($data['memo']);
+                unset($data['memo']);
+            } elseif (\array_key_exists('memo', $data) && $data['memo'] === null) {
+                $object->setMemo(null);
+            }
+            if (\array_key_exists('location_id', $data) && $data['location_id'] !== null) {
+                $object->setLocationId($data['location_id']);
+                unset($data['location_id']);
+            } elseif (\array_key_exists('location_id', $data) && $data['location_id'] === null) {
+                $object->setLocationId(null);
+            }
+            if (\array_key_exists('department_id', $data) && $data['department_id'] !== null) {
+                $object->setDepartmentId($data['department_id']);
+                unset($data['department_id']);
+            } elseif (\array_key_exists('department_id', $data) && $data['department_id'] === null) {
+                $object->setDepartmentId(null);
+            }
+            if (\array_key_exists('updated_at', $data)) {
+                $object->setUpdatedAt(\DateTime::createFromFormat('Y-m-d\TH:i:sP', $data['updated_at']));
+                unset($data['updated_at']);
+            }
+            if (\array_key_exists('category', $data)) {
+                $object->setCategory($data['category']);
+                unset($data['category']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('id', $data)) {
-            $object->setId($data['id']);
-            unset($data['id']);
-        }
-        if (\array_key_exists('memo', $data) && $data['memo'] !== null) {
-            $object->setMemo($data['memo']);
-            unset($data['memo']);
-        } elseif (\array_key_exists('memo', $data) && $data['memo'] === null) {
-            $object->setMemo(null);
-        }
-        if (\array_key_exists('location_id', $data) && $data['location_id'] !== null) {
-            $object->setLocationId($data['location_id']);
-            unset($data['location_id']);
-        } elseif (\array_key_exists('location_id', $data) && $data['location_id'] === null) {
-            $object->setLocationId(null);
-        }
-        if (\array_key_exists('department_id', $data) && $data['department_id'] !== null) {
-            $object->setDepartmentId($data['department_id']);
-            unset($data['department_id']);
-        } elseif (\array_key_exists('department_id', $data) && $data['department_id'] === null) {
-            $object->setDepartmentId(null);
-        }
-        if (\array_key_exists('updated_at', $data)) {
-            $object->setUpdatedAt(\DateTime::createFromFormat('Y-m-d\\TH:i:sP', $data['updated_at']));
-            unset($data['updated_at']);
-        }
-        if (\array_key_exists('category', $data)) {
-            $object->setCategory($data['category']);
-            unset($data['category']);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            if ($object->isInitialized('memo') && null !== $object->getMemo()) {
+                $data['memo'] = $object->getMemo();
             }
+            if ($object->isInitialized('locationId') && null !== $object->getLocationId()) {
+                $data['location_id'] = $object->getLocationId();
+            }
+            if ($object->isInitialized('departmentId') && null !== $object->getDepartmentId()) {
+                $data['department_id'] = $object->getDepartmentId();
+            }
+            $data['updated_at'] = $object->getUpdatedAt()?->format('Y-m-d\TH:i:sP');
+            if ($object->isInitialized('category') && null !== $object->getCategory()) {
+                $data['category'] = $object->getCategory();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class ExpenseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['id'] = $object->getId();
-        if ($object->isInitialized('memo') && null !== $object->getMemo()) {
-            $data['memo'] = $object->getMemo();
-        }
-        if ($object->isInitialized('locationId') && null !== $object->getLocationId()) {
-            $data['location_id'] = $object->getLocationId();
-        }
-        if ($object->isInitialized('departmentId') && null !== $object->getDepartmentId()) {
-            $data['department_id'] = $object->getDepartmentId();
-        }
-        $data['updated_at'] = $object->getUpdatedAt()->format('Y-m-d\\TH:i:sP');
-        if ($object->isInitialized('category') && null !== $object->getCategory()) {
-            $data['category'] = $object->getCategory();
-        }
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Expenses\Model\Expense();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('memo', $data) && $data['memo'] !== null) {
+                $object->setMemo($data['memo']);
+                unset($data['memo']);
+            } elseif (\array_key_exists('memo', $data) && $data['memo'] === null) {
+                $object->setMemo(null);
+            }
+            if (\array_key_exists('location_id', $data) && $data['location_id'] !== null) {
+                $object->setLocationId($data['location_id']);
+                unset($data['location_id']);
+            } elseif (\array_key_exists('location_id', $data) && $data['location_id'] === null) {
+                $object->setLocationId(null);
+            }
+            if (\array_key_exists('department_id', $data) && $data['department_id'] !== null) {
+                $object->setDepartmentId($data['department_id']);
+                unset($data['department_id']);
+            } elseif (\array_key_exists('department_id', $data) && $data['department_id'] === null) {
+                $object->setDepartmentId(null);
+            }
+            if (\array_key_exists('updated_at', $data)) {
+                $object->setUpdatedAt(\DateTime::createFromFormat('Y-m-d\TH:i:sP', $data['updated_at']));
+                unset($data['updated_at']);
+            }
+            if (\array_key_exists('category', $data)) {
+                $object->setCategory($data['category']);
+                unset($data['category']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            if ($object->isInitialized('memo') && null !== $object->getMemo()) {
+                $data['memo'] = $object->getMemo();
+            }
+            if ($object->isInitialized('locationId') && null !== $object->getLocationId()) {
+                $data['location_id'] = $object->getLocationId();
+            }
+            if ($object->isInitialized('departmentId') && null !== $object->getDepartmentId()) {
+                $data['department_id'] = $object->getDepartmentId();
+            }
+            $data['updated_at'] = $object->getUpdatedAt()?->format('Y-m-d\TH:i:sP');
+            if ($object->isInitialized('category') && null !== $object->getCategory()) {
+                $data['category'] = $object->getCategory();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Expenses\Model\Expense::class => false];
+        }
     }
 }

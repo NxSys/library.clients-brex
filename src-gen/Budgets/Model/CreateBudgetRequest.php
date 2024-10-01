@@ -22,86 +22,75 @@ class CreateBudgetRequest extends \ArrayObject
         return array_key_exists($property, $this->initialized);
     }
     /**
-    Name for the Budget.
-
+     * Name for the Budget.
      *
      * @var string
      */
     protected $name;
     /**
-    Description of what the Budget is used for.
-
+     * Description of what the Budget is used for.
      *
      * @var string
      */
     protected $description;
     /**
-    ID of parent Budget.
-
+     * ID of parent Budget.
      *
      * @var string|null
      */
     protected $parentBudgetId;
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @var string[]|null
+     * @var list<string>|null
      */
     protected $ownerUserIds;
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @var string[]|null
+     * @var list<string>|null
      */
     protected $memberUserIds;
     /**
-    Period type of the Budget e.g. MONTHLY.
-
+     * Period type of the Budget e.g. MONTHLY.
      *
      * @var string
      */
     protected $periodType;
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
-
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      *
      * @var Money
      */
     protected $limit;
     /**
-    Whether the Budget limit blocks spend.
-
+     * Whether the Budget limit blocks spend.
      *
      * @var string
      */
     protected $limitType;
     /**
-    Whether this Budget only can be spent from by cards provisioned by this Budget.
-
+     * Whether this Budget only can be spent from by cards provisioned by this Budget.
      *
      * @var string
      */
     protected $spendType;
     /**
-    The UTC date when the Budget should start counting.
-
+     * The UTC date when the Budget should start counting.
      *
      * @var \DateTime|null
      */
     protected $startDate;
     /**
-    The UTC date when the Budget should stop counting.
-
+     * The UTC date when the Budget should stop counting.
      *
      * @var \DateTime|null
      */
     protected $endDate;
 
     /**
-    Name for the Budget.
+     * Name for the Budget.
      */
     public function getName(): string
     {
@@ -109,7 +98,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Name for the Budget.
+     * Name for the Budget.
      */
     public function setName(string $name): self
     {
@@ -120,7 +109,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Description of what the Budget is used for.
+     * Description of what the Budget is used for.
      */
     public function getDescription(): string
     {
@@ -128,7 +117,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Description of what the Budget is used for.
+     * Description of what the Budget is used for.
      */
     public function setDescription(string $description): self
     {
@@ -139,7 +128,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    ID of parent Budget.
+     * ID of parent Budget.
      */
     public function getParentBudgetId(): ?string
     {
@@ -147,7 +136,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    ID of parent Budget.
+     * ID of parent Budget.
      */
     public function setParentBudgetId(?string $parentBudgetId): self
     {
@@ -158,10 +147,9 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @return string[]|null
+     * @return list<string>|null
      */
     public function getOwnerUserIds(): ?array
     {
@@ -169,10 +157,9 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @param string[]|null $ownerUserIds
+     * @param list<string>|null $ownerUserIds
      */
     public function setOwnerUserIds(?array $ownerUserIds): self
     {
@@ -183,10 +170,9 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @return string[]|null
+     * @return list<string>|null
      */
     public function getMemberUserIds(): ?array
     {
@@ -194,10 +180,9 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @param string[]|null $memberUserIds
+     * @param list<string>|null $memberUserIds
      */
     public function setMemberUserIds(?array $memberUserIds): self
     {
@@ -208,7 +193,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Period type of the Budget e.g. MONTHLY.
+     * Period type of the Budget e.g. MONTHLY.
      */
     public function getPeriodType(): string
     {
@@ -216,7 +201,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Period type of the Budget e.g. MONTHLY.
+     * Period type of the Budget e.g. MONTHLY.
      */
     public function setPeriodType(string $periodType): self
     {
@@ -227,8 +212,8 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function getLimit(): Money
     {
@@ -236,8 +221,8 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function setLimit(Money $limit): self
     {
@@ -248,7 +233,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Whether the Budget limit blocks spend.
+     * Whether the Budget limit blocks spend.
      */
     public function getLimitType(): string
     {
@@ -256,7 +241,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Whether the Budget limit blocks spend.
+     * Whether the Budget limit blocks spend.
      */
     public function setLimitType(string $limitType): self
     {
@@ -267,7 +252,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Whether this Budget only can be spent from by cards provisioned by this Budget.
+     * Whether this Budget only can be spent from by cards provisioned by this Budget.
      */
     public function getSpendType(): string
     {
@@ -275,7 +260,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    Whether this Budget only can be spent from by cards provisioned by this Budget.
+     * Whether this Budget only can be spent from by cards provisioned by this Budget.
      */
     public function setSpendType(string $spendType): self
     {
@@ -286,7 +271,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should start counting.
+     * The UTC date when the Budget should start counting.
      */
     public function getStartDate(): ?\DateTime
     {
@@ -294,7 +279,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should start counting.
+     * The UTC date when the Budget should start counting.
      */
     public function setStartDate(?\DateTime $startDate): self
     {
@@ -305,7 +290,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should stop counting.
+     * The UTC date when the Budget should stop counting.
      */
     public function getEndDate(): ?\DateTime
     {
@@ -313,7 +298,7 @@ class CreateBudgetRequest extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should stop counting.
+     * The UTC date when the Budget should stop counting.
      */
     public function setEndDate(?\DateTime $endDate): self
     {

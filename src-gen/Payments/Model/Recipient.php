@@ -23,6 +23,8 @@ class Recipient extends \ArrayObject
     }
     /**
      * Specifies the type of the recipient.
+     * `ACCOUNT_ID` is the ID of a Brex Cash account.
+     * `PAYMENT_INSTRUMENT_ID` is the ID of Payment Instrument of the receiving Brex account.
      *
      * @var string
      */
@@ -34,7 +36,8 @@ class Recipient extends \ArrayObject
 
     /**
      * Specifies the type of the recipient.
-    `PAYMENT_INSTRUMENT_ID` is the ID of Payment Instrument of the receiving Brex account.
+     * `ACCOUNT_ID` is the ID of a Brex Cash account.
+     * `PAYMENT_INSTRUMENT_ID` is the ID of Payment Instrument of the receiving Brex account.
      */
     public function getType(): string
     {
@@ -43,7 +46,8 @@ class Recipient extends \ArrayObject
 
     /**
      * Specifies the type of the recipient.
-    `PAYMENT_INSTRUMENT_ID` is the ID of Payment Instrument of the receiving Brex account.
+     * `ACCOUNT_ID` is the ID of a Brex Cash account.
+     * `PAYMENT_INSTRUMENT_ID` is the ID of Payment Instrument of the receiving Brex account.
      */
     public function setType(string $type): self
     {

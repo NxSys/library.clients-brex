@@ -30,8 +30,7 @@ class BankConnection extends \ArrayObject
      */
     protected $bankDetails;
     /**
-    Brex cash account ID
-
+     * Brex cash account ID.
      *
      * @var string|null
      */
@@ -76,7 +75,7 @@ class BankConnection extends \ArrayObject
     }
 
     /**
-    Brex cash account ID
+     * Brex cash account ID.
      */
     public function getBrexAccountId(): ?string
     {
@@ -84,7 +83,7 @@ class BankConnection extends \ArrayObject
     }
 
     /**
-    Brex cash account ID
+     * Brex cash account ID.
      */
     public function setBrexAccountId(?string $brexAccountId): self
     {

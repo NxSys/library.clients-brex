@@ -16,7 +16,7 @@ class GetVendorById extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Cli
     protected $id;
 
     /**
-    This endpoint gets a vendor by ID.
+     * This endpoint gets a vendor by ID.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetVendorById extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Cli
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Payments\Model\VendorResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Payments\Exception\GetVendorByIdBadRequestException
@@ -58,7 +56,7 @@ class GetVendorById extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Cli
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\VendorResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Payments\Model\VendorResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\GetVendorByIdBadRequestException($response);

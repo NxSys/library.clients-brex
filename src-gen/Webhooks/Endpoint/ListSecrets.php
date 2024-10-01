@@ -35,8 +35,6 @@ class ListSecrets extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Clien
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSecret[]|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSecretsBadRequestException
@@ -49,7 +47,7 @@ class ListSecrets extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\Clien
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\WebhookSecret[]', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Webhooks\Model\WebhookSecret[]', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSecretsBadRequestException($response);

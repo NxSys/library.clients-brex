@@ -26,9 +26,8 @@ class BrexCashAccountDetails extends \ArrayObject
      */
     protected $type;
     /**
-    ID of the Brex Cash account: Can be found from the `/accounts` endpoint
-    where instrument type is `CASH`.
-
+     * ID of the Brex Cash account: Can be found from the `/accounts` endpoint
+     * where instrument type is `CASH`.
      *
      * @var string
      */
@@ -48,8 +47,8 @@ class BrexCashAccountDetails extends \ArrayObject
     }
 
     /**
-    ID of the Brex Cash account: Can be found from the `/accounts` endpoint
-    where instrument type is `CASH`.
+     * ID of the Brex Cash account: Can be found from the `/accounts` endpoint
+     * where instrument type is `CASH`.
      */
     public function getId(): string
     {
@@ -57,8 +56,8 @@ class BrexCashAccountDetails extends \ArrayObject
     }
 
     /**
-    ID of the Brex Cash account: Can be found from the `/accounts` endpoint
-    where instrument type is `CASH`.
+     * ID of the Brex Cash account: Can be found from the `/accounts` endpoint
+     * where instrument type is `CASH`.
      */
     public function setId(string $id): self
     {

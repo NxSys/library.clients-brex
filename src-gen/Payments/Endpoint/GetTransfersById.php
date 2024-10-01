@@ -16,7 +16,7 @@ class GetTransfersById extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\
     protected $id;
 
     /**
-    This endpoint gets a transfer by ID.
+     * This endpoint gets a transfer by ID.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetTransfersById extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Payments\Exception\GetTransfersByIdBadRequestException
@@ -58,7 +56,7 @@ class GetTransfersById extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\Transfer', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Payments\Model\Transfer', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\GetTransfersByIdBadRequestException($response);

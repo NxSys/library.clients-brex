@@ -16,13 +16,12 @@ class UpdateUser extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     protected $id;
 
     /**
-    This endpoint updates a user. Any parameters not provided will be left unchanged.
-
+     * This endpoint updates a user. Any parameters not provided will be left unchanged.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(string $id, \NxSys\Library\Clients\Brex\API\Team\Model\UpdateUserRequest $requestBody, array $headerParameters = [])
     {
@@ -67,8 +66,6 @@ class UpdateUser extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\UpdateUserBadRequestException
@@ -80,7 +77,7 @@ class UpdateUser extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\UserResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\UpdateUserBadRequestException($response);

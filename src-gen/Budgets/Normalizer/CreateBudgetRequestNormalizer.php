@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Budgets\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Budgets\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Budgets\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,154 +21,309 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class CreateBudgetRequestNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class CreateBudgetRequestNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\CreateBudgetRequest';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\CreateBudgetRequest';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('name', $data)) {
+                $object->setName($data['name']);
+                unset($data['name']);
+            }
+            if (\array_key_exists('description', $data)) {
+                $object->setDescription($data['description']);
+                unset($data['description']);
+            }
+            if (\array_key_exists('parent_budget_id', $data) && $data['parent_budget_id'] !== null) {
+                $object->setParentBudgetId($data['parent_budget_id']);
+                unset($data['parent_budget_id']);
+            } elseif (\array_key_exists('parent_budget_id', $data) && $data['parent_budget_id'] === null) {
+                $object->setParentBudgetId(null);
+            }
+            if (\array_key_exists('owner_user_ids', $data) && $data['owner_user_ids'] !== null) {
+                $values = [];
+                foreach ($data['owner_user_ids'] as $value) {
+                    $values[] = $value;
+                }
+                $object->setOwnerUserIds($values);
+                unset($data['owner_user_ids']);
+            } elseif (\array_key_exists('owner_user_ids', $data) && $data['owner_user_ids'] === null) {
+                $object->setOwnerUserIds(null);
+            }
+            if (\array_key_exists('member_user_ids', $data) && $data['member_user_ids'] !== null) {
+                $values_1 = [];
+                foreach ($data['member_user_ids'] as $value_1) {
+                    $values_1[] = $value_1;
+                }
+                $object->setMemberUserIds($values_1);
+                unset($data['member_user_ids']);
+            } elseif (\array_key_exists('member_user_ids', $data) && $data['member_user_ids'] === null) {
+                $object->setMemberUserIds(null);
+            }
+            if (\array_key_exists('period_type', $data)) {
+                $object->setPeriodType($data['period_type']);
+                unset($data['period_type']);
+            }
+            if (\array_key_exists('limit', $data)) {
+                $object->setLimit($this->denormalizer->denormalize($data['limit'], \NxSys\Library\Clients\Brex\API\Budgets\Model\Money::class, 'json', $context));
+                unset($data['limit']);
+            }
+            if (\array_key_exists('limit_type', $data)) {
+                $object->setLimitType($data['limit_type']);
+                unset($data['limit_type']);
+            }
+            if (\array_key_exists('spend_type', $data)) {
+                $object->setSpendType($data['spend_type']);
+                unset($data['spend_type']);
+            }
+            if (\array_key_exists('start_date', $data) && $data['start_date'] !== null) {
+                $object->setStartDate(\DateTime::createFromFormat('Y-m-d', $data['start_date'])->setTime(0, 0, 0));
+                unset($data['start_date']);
+            } elseif (\array_key_exists('start_date', $data) && $data['start_date'] === null) {
+                $object->setStartDate(null);
+            }
+            if (\array_key_exists('end_date', $data) && $data['end_date'] !== null) {
+                $object->setEndDate(\DateTime::createFromFormat('Y-m-d', $data['end_date'])->setTime(0, 0, 0));
+                unset($data['end_date']);
+            } elseif (\array_key_exists('end_date', $data) && $data['end_date'] === null) {
+                $object->setEndDate(null);
+            }
+            foreach ($data as $key => $value_2) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value_2;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('name', $data)) {
-            $object->setName($data['name']);
-            unset($data['name']);
-        }
-        if (\array_key_exists('description', $data)) {
-            $object->setDescription($data['description']);
-            unset($data['description']);
-        }
-        if (\array_key_exists('parent_budget_id', $data) && $data['parent_budget_id'] !== null) {
-            $object->setParentBudgetId($data['parent_budget_id']);
-            unset($data['parent_budget_id']);
-        } elseif (\array_key_exists('parent_budget_id', $data) && $data['parent_budget_id'] === null) {
-            $object->setParentBudgetId(null);
-        }
-        if (\array_key_exists('owner_user_ids', $data) && $data['owner_user_ids'] !== null) {
-            $values = [];
-            foreach ($data['owner_user_ids'] as $value) {
-                $values[] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            if ($object->isInitialized('name') && null !== $object->getName()) {
+                $data['name'] = $object->getName();
             }
-            $object->setOwnerUserIds($values);
-            unset($data['owner_user_ids']);
-        } elseif (\array_key_exists('owner_user_ids', $data) && $data['owner_user_ids'] === null) {
-            $object->setOwnerUserIds(null);
-        }
-        if (\array_key_exists('member_user_ids', $data) && $data['member_user_ids'] !== null) {
-            $values_1 = [];
-            foreach ($data['member_user_ids'] as $value_1) {
-                $values_1[] = $value_1;
+            if ($object->isInitialized('description') && null !== $object->getDescription()) {
+                $data['description'] = $object->getDescription();
             }
-            $object->setMemberUserIds($values_1);
-            unset($data['member_user_ids']);
-        } elseif (\array_key_exists('member_user_ids', $data) && $data['member_user_ids'] === null) {
-            $object->setMemberUserIds(null);
-        }
-        if (\array_key_exists('period_type', $data)) {
-            $object->setPeriodType($data['period_type']);
-            unset($data['period_type']);
-        }
-        if (\array_key_exists('limit', $data)) {
-            $object->setLimit($this->denormalizer->denormalize($data['limit'], 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\Money', 'json', $context));
-            unset($data['limit']);
-        }
-        if (\array_key_exists('limit_type', $data)) {
-            $object->setLimitType($data['limit_type']);
-            unset($data['limit_type']);
-        }
-        if (\array_key_exists('spend_type', $data)) {
-            $object->setSpendType($data['spend_type']);
-            unset($data['spend_type']);
-        }
-        if (\array_key_exists('start_date', $data) && $data['start_date'] !== null) {
-            $object->setStartDate(\DateTime::createFromFormat('Y-m-d', $data['start_date'])->setTime(0, 0, 0));
-            unset($data['start_date']);
-        } elseif (\array_key_exists('start_date', $data) && $data['start_date'] === null) {
-            $object->setStartDate(null);
-        }
-        if (\array_key_exists('end_date', $data) && $data['end_date'] !== null) {
-            $object->setEndDate(\DateTime::createFromFormat('Y-m-d', $data['end_date'])->setTime(0, 0, 0));
-            unset($data['end_date']);
-        } elseif (\array_key_exists('end_date', $data) && $data['end_date'] === null) {
-            $object->setEndDate(null);
-        }
-        foreach ($data as $key => $value_2) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value_2;
+            if ($object->isInitialized('parentBudgetId') && null !== $object->getParentBudgetId()) {
+                $data['parent_budget_id'] = $object->getParentBudgetId();
             }
+            if ($object->isInitialized('ownerUserIds') && null !== $object->getOwnerUserIds()) {
+                $values = [];
+                foreach ($object->getOwnerUserIds() as $value) {
+                    $values[] = $value;
+                }
+                $data['owner_user_ids'] = $values;
+            }
+            if ($object->isInitialized('memberUserIds') && null !== $object->getMemberUserIds()) {
+                $values_1 = [];
+                foreach ($object->getMemberUserIds() as $value_1) {
+                    $values_1[] = $value_1;
+                }
+                $data['member_user_ids'] = $values_1;
+            }
+            $data['period_type'] = $object->getPeriodType();
+            $data['limit'] = $this->normalizer->normalize($object->getLimit(), 'json', $context);
+            $data['limit_type'] = $object->getLimitType();
+            $data['spend_type'] = $object->getSpendType();
+            if ($object->isInitialized('startDate') && null !== $object->getStartDate()) {
+                $data['start_date'] = $object->getStartDate()->format('Y-m-d');
+            }
+            if ($object->isInitialized('endDate') && null !== $object->getEndDate()) {
+                $data['end_date'] = $object->getEndDate()->format('Y-m-d');
+            }
+            foreach ($object as $key => $value_2) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value_2;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class CreateBudgetRequestNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        if ($object->isInitialized('name') && null !== $object->getName()) {
-            $data['name'] = $object->getName();
-        }
-        if ($object->isInitialized('description') && null !== $object->getDescription()) {
-            $data['description'] = $object->getDescription();
-        }
-        if ($object->isInitialized('parentBudgetId') && null !== $object->getParentBudgetId()) {
-            $data['parent_budget_id'] = $object->getParentBudgetId();
-        }
-        if ($object->isInitialized('ownerUserIds') && null !== $object->getOwnerUserIds()) {
-            $values = [];
-            foreach ($object->getOwnerUserIds() as $value) {
-                $values[] = $value;
-            }
-            $data['owner_user_ids'] = $values;
-        }
-        if ($object->isInitialized('memberUserIds') && null !== $object->getMemberUserIds()) {
-            $values_1 = [];
-            foreach ($object->getMemberUserIds() as $value_1) {
-                $values_1[] = $value_1;
-            }
-            $data['member_user_ids'] = $values_1;
-        }
-        $data['period_type'] = $object->getPeriodType();
-        $data['limit'] = $this->normalizer->normalize($object->getLimit(), 'json', $context);
-        $data['limit_type'] = $object->getLimitType();
-        $data['spend_type'] = $object->getSpendType();
-        if ($object->isInitialized('startDate') && null !== $object->getStartDate()) {
-            $data['start_date'] = $object->getStartDate()->format('Y-m-d');
-        }
-        if ($object->isInitialized('endDate') && null !== $object->getEndDate()) {
-            $data['end_date'] = $object->getEndDate()->format('Y-m-d');
-        }
-        foreach ($object as $key => $value_2) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value_2;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('name', $data)) {
+                $object->setName($data['name']);
+                unset($data['name']);
+            }
+            if (\array_key_exists('description', $data)) {
+                $object->setDescription($data['description']);
+                unset($data['description']);
+            }
+            if (\array_key_exists('parent_budget_id', $data) && $data['parent_budget_id'] !== null) {
+                $object->setParentBudgetId($data['parent_budget_id']);
+                unset($data['parent_budget_id']);
+            } elseif (\array_key_exists('parent_budget_id', $data) && $data['parent_budget_id'] === null) {
+                $object->setParentBudgetId(null);
+            }
+            if (\array_key_exists('owner_user_ids', $data) && $data['owner_user_ids'] !== null) {
+                $values = [];
+                foreach ($data['owner_user_ids'] as $value) {
+                    $values[] = $value;
+                }
+                $object->setOwnerUserIds($values);
+                unset($data['owner_user_ids']);
+            } elseif (\array_key_exists('owner_user_ids', $data) && $data['owner_user_ids'] === null) {
+                $object->setOwnerUserIds(null);
+            }
+            if (\array_key_exists('member_user_ids', $data) && $data['member_user_ids'] !== null) {
+                $values_1 = [];
+                foreach ($data['member_user_ids'] as $value_1) {
+                    $values_1[] = $value_1;
+                }
+                $object->setMemberUserIds($values_1);
+                unset($data['member_user_ids']);
+            } elseif (\array_key_exists('member_user_ids', $data) && $data['member_user_ids'] === null) {
+                $object->setMemberUserIds(null);
+            }
+            if (\array_key_exists('period_type', $data)) {
+                $object->setPeriodType($data['period_type']);
+                unset($data['period_type']);
+            }
+            if (\array_key_exists('limit', $data)) {
+                $object->setLimit($this->denormalizer->denormalize($data['limit'], \NxSys\Library\Clients\Brex\API\Budgets\Model\Money::class, 'json', $context));
+                unset($data['limit']);
+            }
+            if (\array_key_exists('limit_type', $data)) {
+                $object->setLimitType($data['limit_type']);
+                unset($data['limit_type']);
+            }
+            if (\array_key_exists('spend_type', $data)) {
+                $object->setSpendType($data['spend_type']);
+                unset($data['spend_type']);
+            }
+            if (\array_key_exists('start_date', $data) && $data['start_date'] !== null) {
+                $object->setStartDate(\DateTime::createFromFormat('Y-m-d', $data['start_date'])->setTime(0, 0, 0));
+                unset($data['start_date']);
+            } elseif (\array_key_exists('start_date', $data) && $data['start_date'] === null) {
+                $object->setStartDate(null);
+            }
+            if (\array_key_exists('end_date', $data) && $data['end_date'] !== null) {
+                $object->setEndDate(\DateTime::createFromFormat('Y-m-d', $data['end_date'])->setTime(0, 0, 0));
+                unset($data['end_date']);
+            } elseif (\array_key_exists('end_date', $data) && $data['end_date'] === null) {
+                $object->setEndDate(null);
+            }
+            foreach ($data as $key => $value_2) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value_2;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            if ($object->isInitialized('name') && null !== $object->getName()) {
+                $data['name'] = $object->getName();
+            }
+            if ($object->isInitialized('description') && null !== $object->getDescription()) {
+                $data['description'] = $object->getDescription();
+            }
+            if ($object->isInitialized('parentBudgetId') && null !== $object->getParentBudgetId()) {
+                $data['parent_budget_id'] = $object->getParentBudgetId();
+            }
+            if ($object->isInitialized('ownerUserIds') && null !== $object->getOwnerUserIds()) {
+                $values = [];
+                foreach ($object->getOwnerUserIds() as $value) {
+                    $values[] = $value;
+                }
+                $data['owner_user_ids'] = $values;
+            }
+            if ($object->isInitialized('memberUserIds') && null !== $object->getMemberUserIds()) {
+                $values_1 = [];
+                foreach ($object->getMemberUserIds() as $value_1) {
+                    $values_1[] = $value_1;
+                }
+                $data['member_user_ids'] = $values_1;
+            }
+            $data['period_type'] = $object->getPeriodType();
+            $data['limit'] = $this->normalizer->normalize($object->getLimit(), 'json', $context);
+            $data['limit_type'] = $object->getLimitType();
+            $data['spend_type'] = $object->getSpendType();
+            if ($object->isInitialized('startDate') && null !== $object->getStartDate()) {
+                $data['start_date'] = $object->getStartDate()->format('Y-m-d');
+            }
+            if ($object->isInitialized('endDate') && null !== $object->getEndDate()) {
+                $data['end_date'] = $object->getEndDate()->format('Y-m-d');
+            }
+            foreach ($object as $key => $value_2) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value_2;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class => false];
+        }
     }
 }

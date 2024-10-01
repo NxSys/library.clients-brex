@@ -26,7 +26,7 @@ class PageCard extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var Card[]
+     * @var list<Card>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageCard extends \ArrayObject
     }
 
     /**
-     * @return Card[]
+     * @return list<Card>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageCard extends \ArrayObject
     }
 
     /**
-     * @param Card[] $items
+     * @param list<Card> $items
      */
     public function setItems(array $items): self
     {

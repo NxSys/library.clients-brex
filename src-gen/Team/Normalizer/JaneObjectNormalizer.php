@@ -12,6 +12,7 @@ namespace NxSys\Library\Clients\Brex\API\Team\Normalizer;
 
 use NxSys\Library\Clients\Brex\API\Team\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Team\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -19,59 +20,361 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-    protected $normalizers = ['NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Address' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\AddressNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Card' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CardNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CardSpendControls' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CardSpendControlsNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CardMailingAddress' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CardMailingAddressNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CardAttributePreferences' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CardAttributePreferencesNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CardExpiration' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CardExpirationNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CardNumberResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CardNumberResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CompanyResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CompanyResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CreateCardRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CreateCardRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CreateCardRequestSpendControls' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CreateCardRequestSpendControlsNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CreateCardRequestMailingAddress' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CreateCardRequestMailingAddressNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CreateCardRequestCardAttributePreferences' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CreateCardRequestCardAttributePreferencesNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CreateDepartmentRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CreateDepartmentRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CreateLocationRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CreateLocationRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CreateUserRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\CreateUserRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\DepartmentResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\DepartmentResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\LocationResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\LocationResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\LockCardRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\LockCardRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Money' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\MoneyNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageCard' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\PageCardNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageDepartmentResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\PageDepartmentResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageLocationResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\PageLocationResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageUserResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\PageUserResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SecureEmailForCardDetailsRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\SecureEmailForCardDetailsRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SetUserLimitRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\SetUserLimitRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SetUserLimitRequestMonthlyLimit' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\SetUserLimitRequestMonthlyLimitNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SpendControl' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\SpendControlNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SpendControlRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\SpendControlRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SpendControlUpdateRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\SpendControlUpdateRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\SpendControlUpdateRequestSpendLimit' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\SpendControlUpdateRequestSpendLimitNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\TerminateCardRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\TerminateCardRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UpdateCardRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\UpdateCardRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UpdateCardRequestSpendControls' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\UpdateCardRequestSpendControlsNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UpdateUserRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\UpdateUserRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserLimitResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\UserLimitResponseNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserLimitResponseMonthlyLimit' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\UserLimitResponseMonthlyLimitNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserLimitResponseMonthlyAvailable' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\UserLimitResponseMonthlyAvailableNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserOwner' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\UserOwnerNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserResponse' => 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Normalizer\\UserResponseNormalizer', '\\Jane\\Component\\JsonSchemaRuntime\\Reference' => '\\NxSys\\Library\\Clients\\Brex\\API\\Team\\Runtime\\Normalizer\\ReferenceNormalizer'];
-    protected $normalizersCache = [];
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return array_key_exists($type, $this->normalizers);
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Team\Model\Address::class => AddressNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\Card::class => CardNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardSpendControls::class => CardSpendControlsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardMailingAddress::class => CardMailingAddressNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardAttributePreferences::class => CardAttributePreferencesNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardExpiration::class => CardExpirationNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardNumberResponse::class => CardNumberResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class => CompanyResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequest::class => CreateCardRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestSpendControls::class => CreateCardRequestSpendControlsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestMailingAddress::class => CreateCardRequestMailingAddressNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestCardAttributePreferences::class => CreateCardRequestCardAttributePreferencesNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateDepartmentRequest::class => CreateDepartmentRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateLocationRequest::class => CreateLocationRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateUserRequest::class => CreateUserRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse::class => DepartmentResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse::class => LocationResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\LockCardRequest::class => LockCardRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\Money::class => MoneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\PageCard::class => PageCardNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\PageDepartmentResponse::class => PageDepartmentResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\PageLocationResponse::class => PageLocationResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\PageUserResponse::class => PageUserResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SecureEmailForCardDetailsRequest::class => SecureEmailForCardDetailsRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequest::class => SetUserLimitRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequestMonthlyLimit::class => SetUserLimitRequestMonthlyLimitNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SpendControl::class => SpendControlNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlRequest::class => SpendControlRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequest::class => SpendControlUpdateRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class => SpendControlUpdateRequestSpendLimitNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\TerminateCardRequest::class => TerminateCardRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequest::class => UpdateCardRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequestSpendControls::class => UpdateCardRequestSpendControlsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UpdateUserRequest::class => UpdateUserRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse::class => UserLimitResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponseMonthlyLimit::class => UserLimitResponseMonthlyLimitNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponseMonthlyAvailable::class => UserLimitResponseMonthlyAvailableNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserOwner::class => UserOwnerNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse::class => UserResponseNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Team\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Team\Model\Address::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\Card::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardSpendControls::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardMailingAddress::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardAttributePreferences::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardExpiration::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardNumberResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestSpendControls::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestMailingAddress::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestCardAttributePreferences::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateDepartmentRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateLocationRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateUserRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\LockCardRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\Money::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\PageCard::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\PageDepartmentResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\PageLocationResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\PageUserResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SecureEmailForCardDetailsRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequestMonthlyLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SpendControl::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\TerminateCardRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequestSpendControls::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UpdateUserRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponseMonthlyLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponseMonthlyAvailable::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserOwner::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
-
-    public function supportsNormalization($data, $format = null): bool
+} else {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Team\Model\Address::class => AddressNormalizer::class,
 
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
-    {
-        $normalizerClass = $this->normalizers[get_class($object)];
-        $normalizer = $this->getNormalizer($normalizerClass);
+            \NxSys\Library\Clients\Brex\API\Team\Model\Card::class => CardNormalizer::class,
 
-        return $normalizer->normalize($object, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardSpendControls::class => CardSpendControlsNormalizer::class,
 
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        $denormalizerClass = $this->normalizers[$class];
-        $denormalizer = $this->getNormalizer($denormalizerClass);
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardMailingAddress::class => CardMailingAddressNormalizer::class,
 
-        return $denormalizer->denormalize($data, $class, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardAttributePreferences::class => CardAttributePreferencesNormalizer::class,
 
-    private function getNormalizer(string $normalizerClass)
-    {
-        return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
-    }
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardExpiration::class => CardExpirationNormalizer::class,
 
-    private function initNormalizer(string $normalizerClass)
-    {
-        $normalizer = new $normalizerClass();
-        $normalizer->setNormalizer($this->normalizer);
-        $normalizer->setDenormalizer($this->denormalizer);
-        $this->normalizersCache[$normalizerClass] = $normalizer;
+            \NxSys\Library\Clients\Brex\API\Team\Model\CardNumberResponse::class => CardNumberResponseNormalizer::class,
 
-        return $normalizer;
+            \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class => CompanyResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequest::class => CreateCardRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestSpendControls::class => CreateCardRequestSpendControlsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestMailingAddress::class => CreateCardRequestMailingAddressNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestCardAttributePreferences::class => CreateCardRequestCardAttributePreferencesNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateDepartmentRequest::class => CreateDepartmentRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateLocationRequest::class => CreateLocationRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\CreateUserRequest::class => CreateUserRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse::class => DepartmentResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse::class => LocationResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\LockCardRequest::class => LockCardRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\Money::class => MoneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\PageCard::class => PageCardNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\PageDepartmentResponse::class => PageDepartmentResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\PageLocationResponse::class => PageLocationResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\PageUserResponse::class => PageUserResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SecureEmailForCardDetailsRequest::class => SecureEmailForCardDetailsRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequest::class => SetUserLimitRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequestMonthlyLimit::class => SetUserLimitRequestMonthlyLimitNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SpendControl::class => SpendControlNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlRequest::class => SpendControlRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequest::class => SpendControlUpdateRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class => SpendControlUpdateRequestSpendLimitNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\TerminateCardRequest::class => TerminateCardRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequest::class => UpdateCardRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequestSpendControls::class => UpdateCardRequestSpendControlsNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UpdateUserRequest::class => UpdateUserRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse::class => UserLimitResponseNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponseMonthlyLimit::class => UserLimitResponseMonthlyLimitNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponseMonthlyAvailable::class => UserLimitResponseMonthlyAvailableNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserOwner::class => UserOwnerNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse::class => UserResponseNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Team\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Team\Model\Address::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\Card::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardSpendControls::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardMailingAddress::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardAttributePreferences::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardExpiration::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CardNumberResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestSpendControls::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestMailingAddress::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequestCardAttributePreferences::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateDepartmentRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateLocationRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\CreateUserRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\LockCardRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\Money::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\PageCard::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\PageDepartmentResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\PageLocationResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\PageUserResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SecureEmailForCardDetailsRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequestMonthlyLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SpendControl::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\SpendControlUpdateRequestSpendLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\TerminateCardRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequestSpendControls::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UpdateUserRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponseMonthlyLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponseMonthlyAvailable::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserOwner::class => false,
+                \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
 }

@@ -22,78 +22,67 @@ class Budget extends \ArrayObject
         return array_key_exists($property, $this->initialized);
     }
     /**
-    Unique ID for the Budget.
-
+     * Unique ID for the Budget.
      *
      * @var string
      */
     protected $budgetId;
     /**
-    The Brex account this Budget belongs to.
-
+     * The Brex account this Budget belongs to.
      *
      * @var string
      */
     protected $accountId;
     /**
-    The ID of the user who originally created this budget.
-
+     * The ID of the user who originally created this budget.
      *
      * @var string|null
      */
     protected $creatorUserId;
     /**
-    Name for the Budget.
-
+     * Name for the Budget.
      *
      * @var string
      */
     protected $name;
     /**
-    Description of what the Budget is used for.
-
+     * Description of what the Budget is used for.
      *
      * @var string|null
      */
     protected $description;
     /**
-    ID of parent Budget.
-
+     * ID of parent Budget.
      *
      * @var string|null
      */
     protected $parentBudgetId;
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @var string[]
+     * @var list<string>
      */
     protected $ownerUserIds;
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @var string[]
+     * @var list<string>
      */
     protected $memberUserIds;
     /**
-    Period type of the Budget e.g. MONTHLY.
-
+     * Period type of the Budget e.g. MONTHLY.
      *
      * @var string
      */
     protected $periodType;
     /**
-    The UTC date when the Budget should start counting.
-
+     * The UTC date when the Budget should start counting.
      *
      * @var \DateTime|null
      */
     protected $startDate;
     /**
-    The UTC date when the Budget should stop counting.
-
+     * The UTC date when the Budget should stop counting.
      *
      * @var \DateTime|null
      */
@@ -103,8 +92,7 @@ class Budget extends \ArrayObject
      */
     protected $limit;
     /**
-    Status of the Budget e.g. APPROVED.
-
+     * Status of the Budget e.g. APPROVED.
      *
      * @var string
      */
@@ -114,8 +102,7 @@ class Budget extends \ArrayObject
      */
     protected $limitType;
     /**
-    Whether this Budget only can be spent from by cards provisioned by this Budget.
-
+     * Whether this Budget only can be spent from by cards provisioned by this Budget.
      *
      * @var string
      */
@@ -126,7 +113,7 @@ class Budget extends \ArrayObject
     protected $currentPeriodBalance;
 
     /**
-    Unique ID for the Budget.
+     * Unique ID for the Budget.
      */
     public function getBudgetId(): string
     {
@@ -134,7 +121,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Unique ID for the Budget.
+     * Unique ID for the Budget.
      */
     public function setBudgetId(string $budgetId): self
     {
@@ -145,7 +132,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    The Brex account this Budget belongs to.
+     * The Brex account this Budget belongs to.
      */
     public function getAccountId(): string
     {
@@ -153,7 +140,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    The Brex account this Budget belongs to.
+     * The Brex account this Budget belongs to.
      */
     public function setAccountId(string $accountId): self
     {
@@ -164,7 +151,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    The ID of the user who originally created this budget.
+     * The ID of the user who originally created this budget.
      */
     public function getCreatorUserId(): ?string
     {
@@ -172,7 +159,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    The ID of the user who originally created this budget.
+     * The ID of the user who originally created this budget.
      */
     public function setCreatorUserId(?string $creatorUserId): self
     {
@@ -183,7 +170,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Name for the Budget.
+     * Name for the Budget.
      */
     public function getName(): string
     {
@@ -191,7 +178,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Name for the Budget.
+     * Name for the Budget.
      */
     public function setName(string $name): self
     {
@@ -202,7 +189,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Description of what the Budget is used for.
+     * Description of what the Budget is used for.
      */
     public function getDescription(): ?string
     {
@@ -210,7 +197,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Description of what the Budget is used for.
+     * Description of what the Budget is used for.
      */
     public function setDescription(?string $description): self
     {
@@ -221,7 +208,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    ID of parent Budget.
+     * ID of parent Budget.
      */
     public function getParentBudgetId(): ?string
     {
@@ -229,7 +216,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    ID of parent Budget.
+     * ID of parent Budget.
      */
     public function setParentBudgetId(?string $parentBudgetId): self
     {
@@ -240,10 +227,9 @@ class Budget extends \ArrayObject
     }
 
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @return string[]
+     * @return list<string>
      */
     public function getOwnerUserIds(): array
     {
@@ -251,10 +237,9 @@ class Budget extends \ArrayObject
     }
 
     /**
-    User IDs of the owners of the Budget.
-
+     * User IDs of the owners of the Budget.
      *
-     * @param string[] $ownerUserIds
+     * @param list<string> $ownerUserIds
      */
     public function setOwnerUserIds(array $ownerUserIds): self
     {
@@ -265,10 +250,9 @@ class Budget extends \ArrayObject
     }
 
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @return string[]
+     * @return list<string>
      */
     public function getMemberUserIds(): array
     {
@@ -276,10 +260,9 @@ class Budget extends \ArrayObject
     }
 
     /**
-    User IDs of the members of the Budget.
-
+     * User IDs of the members of the Budget.
      *
-     * @param string[] $memberUserIds
+     * @param list<string> $memberUserIds
      */
     public function setMemberUserIds(array $memberUserIds): self
     {
@@ -290,7 +273,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Period type of the Budget e.g. MONTHLY.
+     * Period type of the Budget e.g. MONTHLY.
      */
     public function getPeriodType(): string
     {
@@ -298,7 +281,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Period type of the Budget e.g. MONTHLY.
+     * Period type of the Budget e.g. MONTHLY.
      */
     public function setPeriodType(string $periodType): self
     {
@@ -309,7 +292,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should start counting.
+     * The UTC date when the Budget should start counting.
      */
     public function getStartDate(): ?\DateTime
     {
@@ -317,7 +300,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should start counting.
+     * The UTC date when the Budget should start counting.
      */
     public function setStartDate(?\DateTime $startDate): self
     {
@@ -328,7 +311,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should stop counting.
+     * The UTC date when the Budget should stop counting.
      */
     public function getEndDate(): ?\DateTime
     {
@@ -336,7 +319,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    The UTC date when the Budget should stop counting.
+     * The UTC date when the Budget should stop counting.
      */
     public function setEndDate(?\DateTime $endDate): self
     {
@@ -360,7 +343,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Status of the Budget e.g. APPROVED.
+     * Status of the Budget e.g. APPROVED.
      */
     public function getBudgetStatus(): string
     {
@@ -368,7 +351,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Status of the Budget e.g. APPROVED.
+     * Status of the Budget e.g. APPROVED.
      */
     public function setBudgetStatus(string $budgetStatus): self
     {
@@ -392,7 +375,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Whether this Budget only can be spent from by cards provisioned by this Budget.
+     * Whether this Budget only can be spent from by cards provisioned by this Budget.
      */
     public function getSpendType(): string
     {
@@ -400,7 +383,7 @@ class Budget extends \ArrayObject
     }
 
     /**
-    Whether this Budget only can be spent from by cards provisioned by this Budget.
+     * Whether this Budget only can be spent from by cards provisioned by this Budget.
      */
     public function setSpendType(string $spendType): self
     {

@@ -16,13 +16,12 @@ class UpdateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     protected $id;
 
     /**
-    Update an existing vendor card
-
+     * Update an existing vendor card.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(string $id, \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequest $requestBody, array $headerParameters = [])
     {
@@ -67,8 +66,6 @@ class UpdateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -76,7 +73,7 @@ class UpdateCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Card', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\Card', 'json');
         }
     }
 

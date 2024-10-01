@@ -30,7 +30,7 @@ class Receipt extends \ArrayObject
     /**
      * [Presigned S3 link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)(s) to download file(s) of the receipt. Link(s) expire in 15 minutes.
      *
-     * @var string[]|null
+     * @var list<string>|null
      */
     protected $downloadUris;
 
@@ -56,7 +56,7 @@ class Receipt extends \ArrayObject
     /**
      * [Presigned S3 link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)(s) to download file(s) of the receipt. Link(s) expire in 15 minutes.
      *
-     * @return string[]|null
+     * @return list<string>|null
      */
     public function getDownloadUris(): ?array
     {
@@ -66,7 +66,7 @@ class Receipt extends \ArrayObject
     /**
      * [Presigned S3 link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html)(s) to download file(s) of the receipt. Link(s) expire in 15 minutes.
      *
-     * @param string[]|null $downloadUris
+     * @param list<string>|null $downloadUris
      */
     public function setDownloadUris(?array $downloadUris): self
     {

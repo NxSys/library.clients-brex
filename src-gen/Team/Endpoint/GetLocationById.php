@@ -16,7 +16,7 @@ class GetLocationById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clien
     protected $id;
 
     /**
-    This endpoint gets a location by ID.
+     * This endpoint gets a location by ID.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetLocationById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clien
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetLocationByIdBadRequestException
@@ -57,7 +55,7 @@ class GetLocationById extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clien
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\LocationResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\GetLocationByIdBadRequestException($response);

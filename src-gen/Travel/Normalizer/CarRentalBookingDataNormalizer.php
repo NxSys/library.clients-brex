@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Travel\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,76 +21,153 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class CarRentalBookingDataNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class CarRentalBookingDataNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingData';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingData';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('car_details', $data)) {
+                $object->setCarDetails($this->denormalizer->denormalize($data['car_details'], \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataCarDetails::class, 'json', $context));
+                unset($data['car_details']);
+            }
+            if (\array_key_exists('reservation_details', $data)) {
+                $object->setReservationDetails($this->denormalizer->denormalize($data['reservation_details'], \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetails::class, 'json', $context));
+                unset($data['reservation_details']);
+            }
+            if (\array_key_exists('type', $data)) {
+                $object->setType($data['type']);
+                unset($data['type']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('car_details', $data)) {
-            $object->setCarDetails($this->denormalizer->denormalize($data['car_details'], 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataCarDetails', 'json', $context));
-            unset($data['car_details']);
-        }
-        if (\array_key_exists('reservation_details', $data)) {
-            $object->setReservationDetails($this->denormalizer->denormalize($data['reservation_details'], 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataReservationDetails', 'json', $context));
-            unset($data['reservation_details']);
-        }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['car_details'] = $this->normalizer->normalize($object->getCarDetails(), 'json', $context);
+            $data['reservation_details'] = $this->normalizer->normalize($object->getReservationDetails(), 'json', $context);
+            if ($object->isInitialized('type') && null !== $object->getType()) {
+                $data['type'] = $object->getType();
             }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class CarRentalBookingDataNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['car_details'] = $this->normalizer->normalize($object->getCarDetails(), 'json', $context);
-        $data['reservation_details'] = $this->normalizer->normalize($object->getReservationDetails(), 'json', $context);
-        if ($object->isInitialized('type') && null !== $object->getType()) {
-            $data['type'] = $object->getType();
-        }
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('car_details', $data)) {
+                $object->setCarDetails($this->denormalizer->denormalize($data['car_details'], \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataCarDetails::class, 'json', $context));
+                unset($data['car_details']);
+            }
+            if (\array_key_exists('reservation_details', $data)) {
+                $object->setReservationDetails($this->denormalizer->denormalize($data['reservation_details'], \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataReservationDetails::class, 'json', $context));
+                unset($data['reservation_details']);
+            }
+            if (\array_key_exists('type', $data)) {
+                $object->setType($data['type']);
+                unset($data['type']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['car_details'] = $this->normalizer->normalize($object->getCarDetails(), 'json', $context);
+            $data['reservation_details'] = $this->normalizer->normalize($object->getReservationDetails(), 'json', $context);
+            if ($object->isInitialized('type') && null !== $object->getType()) {
+                $data['type'] = $object->getType();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingData::class => false];
+        }
     }
 }

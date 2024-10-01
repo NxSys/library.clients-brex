@@ -26,7 +26,7 @@ class PageLocationResponse extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var LocationResponse[]
+     * @var list<LocationResponse>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageLocationResponse extends \ArrayObject
     }
 
     /**
-     * @return LocationResponse[]
+     * @return list<LocationResponse>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageLocationResponse extends \ArrayObject
     }
 
     /**
-     * @param LocationResponse[] $items
+     * @param list<LocationResponse> $items
      */
     public function setItems(array $items): self
     {

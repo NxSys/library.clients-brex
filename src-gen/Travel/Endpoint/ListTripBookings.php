@@ -20,9 +20,9 @@ class ListTripBookings extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Cl
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      */
     public function __construct(string $tripId, array $queryParameters = [])
     {
@@ -63,8 +63,6 @@ class ListTripBookings extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Cl
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Travel\Model\PageBooking|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripBookingsBadRequestException
@@ -78,7 +76,7 @@ class ListTripBookings extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Cl
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\PageBooking', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Travel\Model\PageBooking', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripBookingsBadRequestException($response);

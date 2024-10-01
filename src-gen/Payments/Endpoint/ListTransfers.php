@@ -15,20 +15,19 @@ class ListTransfers extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Cli
     use \NxSys\Library\Clients\Brex\API\Payments\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint lists existing transfers for an account.
-
-    Currently, the API can only return transfers for the following payment rails:
-    - ACH
-    - DOMESTIC_WIRE
-    - CHEQUE
-    - INTERNATIONAL_WIRE
-
+     * This endpoint lists existing transfers for an account.
+     *
+     * Currently, the API can only return transfers for the following payment rails:
+     * - ACH
+     * - DOMESTIC_WIRE
+     * - CHEQUE
+     * - INTERNATIONAL_WIRE
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -68,8 +67,6 @@ class ListTransfers extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Cli
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Payments\Model\PageTransfer|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Payments\Exception\ListTransfersBadRequestException
@@ -82,7 +79,7 @@ class ListTransfers extends \NxSys\Library\Clients\Brex\API\Payments\Runtime\Cli
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\PageTransfer', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Payments\Model\PageTransfer', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListTransfersBadRequestException($response);

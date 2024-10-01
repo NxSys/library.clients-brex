@@ -26,7 +26,7 @@ class PageExpandableExpense extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var ExpandableExpense[]
+     * @var list<ExpandableExpense>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageExpandableExpense extends \ArrayObject
     }
 
     /**
-     * @return ExpandableExpense[]
+     * @return list<ExpandableExpense>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageExpandableExpense extends \ArrayObject
     }
 
     /**
-     * @param ExpandableExpense[] $items
+     * @param list<ExpandableExpense> $items
      */
     public function setItems(array $items): self
     {

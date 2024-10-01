@@ -28,7 +28,7 @@ parameters:
 	themeDir: null
 
 	# string, --title in CLI
-	title: '@@prj.name@@ (@@prj.ver@@+@@svnParentDir@@) Class Reference'
+	title: '@@prj.name@@ (@@git.branch@@) Class Reference'
 
 	# string, --base-url in CLI
 	baseUrl: ''

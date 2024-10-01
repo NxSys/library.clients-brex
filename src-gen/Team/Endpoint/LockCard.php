@@ -16,13 +16,12 @@ class LockCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\BaseE
     protected $id;
 
     /**
-    Locks an existing, unlocked card. And the card owner will receive a notification about it.
-
+     * Locks an existing, unlocked card. And the card owner will receive a notification about it.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(string $id, \NxSys\Library\Clients\Brex\API\Team\Model\LockCardRequest $requestBody, array $headerParameters = [])
     {
@@ -67,8 +66,6 @@ class LockCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\BaseE
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -76,7 +73,7 @@ class LockCard extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\BaseE
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\Card', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\Card', 'json');
         }
     }
 

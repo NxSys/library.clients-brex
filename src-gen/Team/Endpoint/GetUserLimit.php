@@ -16,7 +16,7 @@ class GetUserLimit extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\B
     protected $id;
 
     /**
-    This endpoint gets the monthly limit for the user including the monthly available limit.
+     * This endpoint gets the monthly limit for the user including the monthly available limit.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetUserLimit extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\B
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -53,7 +51,7 @@ class GetUserLimit extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\B
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\UserLimitResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse', 'json');
         }
     }
 

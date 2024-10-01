@@ -19,9 +19,9 @@ class ListSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -61,8 +61,6 @@ class ListSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Webhooks\Model\PageWebhookSubscription|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionBadRequestException
@@ -75,7 +73,7 @@ class ListSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtime\
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Webhooks\\Model\\PageWebhookSubscription', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Webhooks\Model\PageWebhookSubscription', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Webhooks\Exception\ListSubscriptionBadRequestException($response);

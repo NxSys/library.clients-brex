@@ -15,15 +15,20 @@ class CreateIncomingTransfer extends \NxSys\Library\Clients\Brex\API\Payments\Ru
     use \NxSys\Library\Clients\Brex\API\Payments\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint creates a new incoming transfer. You may use use any eligible bank account connection to fund (ACH Debit)
-    any active Brex cash account.
-
-     **Reminder**: You may not use the Brex API for any activity that requires a license or registration from any.
+     * This endpoint creates a new incoming transfer. You may use use any eligible bank account connection to fund (ACH Debit)
+     * any active Brex cash account.
+     *
+     **Reminder**: You may not use the Brex API for any activity that requires a license or registration from any
+     * governmental authority without Brex's prior review and approval. This includes but is not limited to any money services
+     * business or money transmission activity.
+     *
+     * Please review the <a href="https://www.brex.com/legal/developer-portal/">Brex Access Agreement</a> and contact us if
+     * you have any questions.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(\NxSys\Library\Clients\Brex\API\Payments\Model\CreateIncomingTransferRequest $requestBody, array $headerParameters = [])
     {
@@ -67,8 +72,6 @@ class CreateIncomingTransfer extends \NxSys\Library\Clients\Brex\API\Payments\Ru
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Payments\Model\Transfer|null
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
@@ -76,7 +79,7 @@ class CreateIncomingTransfer extends \NxSys\Library\Clients\Brex\API\Payments\Ru
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\Transfer', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Payments\Model\Transfer', 'json');
         }
     }
 

@@ -16,7 +16,7 @@ class GetBudgetById extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Clie
     protected $id;
 
     /**
-    Retrieves a Budget by ID
+     * Retrieves a Budget by ID.
      */
     public function __construct(string $id)
     {
@@ -44,8 +44,6 @@ class GetBudgetById extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Clie
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\GetBudgetByIdBadRequestException
@@ -58,7 +56,7 @@ class GetBudgetById extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Clie
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\Budget', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Budgets\Model\Budget', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\GetBudgetByIdBadRequestException($response);

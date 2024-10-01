@@ -16,13 +16,12 @@ class UpdateBudget extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Clien
     protected $id;
 
     /**
-    Updates a Budget
-
+     * Updates a Budget.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(string $id, \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequest $requestBody, array $headerParameters = [])
     {
@@ -67,8 +66,6 @@ class UpdateBudget extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Clien
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetBadRequestException
@@ -81,7 +78,7 @@ class UpdateBudget extends \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Clien
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\Budget', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Budgets\Model\Budget', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Budgets\Exception\UpdateBudgetBadRequestException($response);

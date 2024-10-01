@@ -15,15 +15,14 @@ class ListDepartments extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clien
     use \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint lists all departments.
-
+     * This endpoint lists all departments.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $name
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $name
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -64,8 +63,6 @@ class ListDepartments extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clien
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\PageDepartmentResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListDepartmentsBadRequestException
@@ -77,7 +74,7 @@ class ListDepartments extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clien
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\PageDepartmentResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\PageDepartmentResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\ListDepartmentsBadRequestException($response);

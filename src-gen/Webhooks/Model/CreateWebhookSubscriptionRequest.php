@@ -27,8 +27,10 @@ class CreateWebhookSubscriptionRequest extends \ArrayObject
     protected $url;
     /**
      * The Brex API sends webhooks for the events listed below.
+     * For more details, see the [webhook guide](/docs/webhooks/#webhook-event-catalog) and
+     * [webhook events API reference](/openapi/webhooks_api/#tag/Webhook-Events).
      *
-     * @var string[]
+     * @var list<string>
      */
     protected $eventTypes;
 
@@ -47,8 +49,10 @@ class CreateWebhookSubscriptionRequest extends \ArrayObject
 
     /**
      * The Brex API sends webhooks for the events listed below.
+     * For more details, see the [webhook guide](/docs/webhooks/#webhook-event-catalog) and
+     * [webhook events API reference](/openapi/webhooks_api/#tag/Webhook-Events).
      *
-     * @return string[]
+     * @return list<string>
      */
     public function getEventTypes(): array
     {
@@ -57,8 +61,10 @@ class CreateWebhookSubscriptionRequest extends \ArrayObject
 
     /**
      * The Brex API sends webhooks for the events listed below.
+     * For more details, see the [webhook guide](/docs/webhooks/#webhook-event-catalog) and
+     * [webhook events API reference](/openapi/webhooks_api/#tag/Webhook-Events).
      *
-     * @param string[] $eventTypes
+     * @param list<string> $eventTypes
      */
     public function setEventTypes(array $eventTypes): self
     {

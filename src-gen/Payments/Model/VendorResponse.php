@@ -40,7 +40,7 @@ class VendorResponse extends \ArrayObject
      */
     protected $phone;
     /**
-     * @var PaymentAccountResponse[]|null
+     * @var list<PaymentAccountResponse>|null
      */
     protected $paymentAccounts;
 
@@ -103,7 +103,7 @@ class VendorResponse extends \ArrayObject
     }
 
     /**
-     * @return PaymentAccountResponse[]|null
+     * @return list<PaymentAccountResponse>|null
      */
     public function getPaymentAccounts(): ?array
     {
@@ -111,7 +111,7 @@ class VendorResponse extends \ArrayObject
     }
 
     /**
-     * @param PaymentAccountResponse[]|null $paymentAccounts
+     * @param list<PaymentAccountResponse>|null $paymentAccounts
      */
     public function setPaymentAccounts(?array $paymentAccounts): self
     {

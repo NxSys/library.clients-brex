@@ -26,8 +26,7 @@ class BrexCashAccountDetailsResponse extends \ArrayObject
      */
     protected $type;
     /**
-    ID of the Brex Cash account.
-
+     * ID of the Brex Cash account.
      *
      * @var string
      */
@@ -47,7 +46,7 @@ class BrexCashAccountDetailsResponse extends \ArrayObject
     }
 
     /**
-    ID of the Brex Cash account.
+     * ID of the Brex Cash account.
      */
     public function getId(): string
     {
@@ -55,7 +54,7 @@ class BrexCashAccountDetailsResponse extends \ArrayObject
     }
 
     /**
-    ID of the Brex Cash account.
+     * ID of the Brex Cash account.
      */
     public function setId(string $id): self
     {

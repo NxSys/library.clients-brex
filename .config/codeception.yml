@@ -17,8 +17,8 @@ coverage:
     enabled: true
     include:
       - ../src/*
-      - ../src-gen/*
     exclude:
+      - ../src-gen/*
       - ../vendor/*
 
 settings:

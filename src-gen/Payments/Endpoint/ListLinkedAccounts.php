@@ -15,14 +15,13 @@ class ListLinkedAccounts extends \NxSys\Library\Clients\Brex\API\Payments\Runtim
     use \NxSys\Library\Clients\Brex\API\Payments\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint lists all bank connections that are eligible to make ACH transfers to Brex cash account
-
+     * This endpoint lists all bank connections that are eligible to make ACH transfers to Brex cash account.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      */
     public function __construct(array $queryParameters = [])
     {
@@ -62,8 +61,6 @@ class ListLinkedAccounts extends \NxSys\Library\Clients\Brex\API\Payments\Runtim
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Payments\Model\PageBankConnection|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsBadRequestException
@@ -75,7 +72,7 @@ class ListLinkedAccounts extends \NxSys\Library\Clients\Brex\API\Payments\Runtim
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\PageBankConnection', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Payments\Model\PageBankConnection', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Payments\Exception\ListLinkedAccountsBadRequestException($response);

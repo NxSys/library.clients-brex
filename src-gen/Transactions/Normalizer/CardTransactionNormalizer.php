@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Transactions\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Transactions\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Transactions\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,133 +21,267 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class CardTransactionNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class CardTransactionNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardTransaction';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardTransaction';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('card_id', $data) && $data['card_id'] !== null) {
+                $object->setCardId($data['card_id']);
+                unset($data['card_id']);
+            } elseif (\array_key_exists('card_id', $data) && $data['card_id'] === null) {
+                $object->setCardId(null);
+            }
+            if (\array_key_exists('description', $data)) {
+                $object->setDescription($data['description']);
+                unset($data['description']);
+            }
+            if (\array_key_exists('amount', $data)) {
+                $object->setAmount($this->denormalizer->denormalize($data['amount'], \NxSys\Library\Clients\Brex\API\Transactions\Model\Money::class, 'json', $context));
+                unset($data['amount']);
+            }
+            if (\array_key_exists('initiated_at_date', $data)) {
+                $object->setInitiatedAtDate(\DateTime::createFromFormat('Y-m-d', $data['initiated_at_date'])->setTime(0, 0, 0));
+                unset($data['initiated_at_date']);
+            }
+            if (\array_key_exists('posted_at_date', $data)) {
+                $object->setPostedAtDate(\DateTime::createFromFormat('Y-m-d', $data['posted_at_date'])->setTime(0, 0, 0));
+                unset($data['posted_at_date']);
+            }
+            if (\array_key_exists('type', $data)) {
+                $object->setType($data['type']);
+                unset($data['type']);
+            }
+            if (\array_key_exists('merchant', $data)) {
+                $object->setMerchant($this->denormalizer->denormalize($data['merchant'], \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransactionMerchant::class, 'json', $context));
+                unset($data['merchant']);
+            }
+            if (\array_key_exists('card_metadata', $data) && $data['card_metadata'] !== null) {
+                $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+                foreach ($data['card_metadata'] as $key => $value) {
+                    $values[$key] = $value;
+                }
+                $object->setCardMetadata($values);
+                unset($data['card_metadata']);
+            } elseif (\array_key_exists('card_metadata', $data) && $data['card_metadata'] === null) {
+                $object->setCardMetadata(null);
+            }
+            if (\array_key_exists('expense_id', $data) && $data['expense_id'] !== null) {
+                $object->setExpenseId($data['expense_id']);
+                unset($data['expense_id']);
+            } elseif (\array_key_exists('expense_id', $data) && $data['expense_id'] === null) {
+                $object->setExpenseId(null);
+            }
+            foreach ($data as $key_1 => $value_1) {
+                if (preg_match('/.*/', (string) $key_1)) {
+                    $object[$key_1] = $value_1;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('id', $data)) {
-            $object->setId($data['id']);
-            unset($data['id']);
-        }
-        if (\array_key_exists('card_id', $data) && $data['card_id'] !== null) {
-            $object->setCardId($data['card_id']);
-            unset($data['card_id']);
-        } elseif (\array_key_exists('card_id', $data) && $data['card_id'] === null) {
-            $object->setCardId(null);
-        }
-        if (\array_key_exists('description', $data)) {
-            $object->setDescription($data['description']);
-            unset($data['description']);
-        }
-        if (\array_key_exists('amount', $data)) {
-            $object->setAmount($this->denormalizer->denormalize($data['amount'], 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\Money', 'json', $context));
-            unset($data['amount']);
-        }
-        if (\array_key_exists('initiated_at_date', $data)) {
-            $object->setInitiatedAtDate(\DateTime::createFromFormat('Y-m-d', $data['initiated_at_date'])->setTime(0, 0, 0));
-            unset($data['initiated_at_date']);
-        }
-        if (\array_key_exists('posted_at_date', $data)) {
-            $object->setPostedAtDate(\DateTime::createFromFormat('Y-m-d', $data['posted_at_date'])->setTime(0, 0, 0));
-            unset($data['posted_at_date']);
-        }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
-        if (\array_key_exists('merchant', $data)) {
-            $object->setMerchant($this->denormalizer->denormalize($data['merchant'], 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardTransactionMerchant', 'json', $context));
-            unset($data['merchant']);
-        }
-        if (\array_key_exists('card_metadata', $data) && $data['card_metadata'] !== null) {
-            $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
-            foreach ($data['card_metadata'] as $key => $value) {
-                $values[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            if ($object->isInitialized('cardId') && null !== $object->getCardId()) {
+                $data['card_id'] = $object->getCardId();
             }
-            $object->setCardMetadata($values);
-            unset($data['card_metadata']);
-        } elseif (\array_key_exists('card_metadata', $data) && $data['card_metadata'] === null) {
-            $object->setCardMetadata(null);
-        }
-        if (\array_key_exists('expense_id', $data) && $data['expense_id'] !== null) {
-            $object->setExpenseId($data['expense_id']);
-            unset($data['expense_id']);
-        } elseif (\array_key_exists('expense_id', $data) && $data['expense_id'] === null) {
-            $object->setExpenseId(null);
-        }
-        foreach ($data as $key_1 => $value_1) {
-            if (preg_match('/.*/', (string) $key_1)) {
-                $object[$key_1] = $value_1;
+            $data['description'] = $object->getDescription();
+            $data['amount'] = $this->normalizer->normalize($object->getAmount(), 'json', $context);
+            $data['initiated_at_date'] = $object->getInitiatedAtDate()?->format('Y-m-d');
+            $data['posted_at_date'] = $object->getPostedAtDate()?->format('Y-m-d');
+            if ($object->isInitialized('type') && null !== $object->getType()) {
+                $data['type'] = $object->getType();
             }
+            if ($object->isInitialized('merchant') && null !== $object->getMerchant()) {
+                $data['merchant'] = $this->normalizer->normalize($object->getMerchant(), 'json', $context);
+            }
+            if ($object->isInitialized('cardMetadata') && null !== $object->getCardMetadata()) {
+                $values = [];
+                foreach ($object->getCardMetadata() as $key => $value) {
+                    $values[$key] = $value;
+                }
+                $data['card_metadata'] = $values;
+            }
+            if ($object->isInitialized('expenseId') && null !== $object->getExpenseId()) {
+                $data['expense_id'] = $object->getExpenseId();
+            }
+            foreach ($object as $key_1 => $value_1) {
+                if (preg_match('/.*/', (string) $key_1)) {
+                    $data[$key_1] = $value_1;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class CardTransactionNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['id'] = $object->getId();
-        if ($object->isInitialized('cardId') && null !== $object->getCardId()) {
-            $data['card_id'] = $object->getCardId();
-        }
-        $data['description'] = $object->getDescription();
-        $data['amount'] = $this->normalizer->normalize($object->getAmount(), 'json', $context);
-        $data['initiated_at_date'] = $object->getInitiatedAtDate()->format('Y-m-d');
-        $data['posted_at_date'] = $object->getPostedAtDate()->format('Y-m-d');
-        if ($object->isInitialized('type') && null !== $object->getType()) {
-            $data['type'] = $object->getType();
-        }
-        if ($object->isInitialized('merchant') && null !== $object->getMerchant()) {
-            $data['merchant'] = $this->normalizer->normalize($object->getMerchant(), 'json', $context);
-        }
-        if ($object->isInitialized('cardMetadata') && null !== $object->getCardMetadata()) {
-            $values = [];
-            foreach ($object->getCardMetadata() as $key => $value) {
-                $values[$key] = $value;
-            }
-            $data['card_metadata'] = $values;
-        }
-        if ($object->isInitialized('expenseId') && null !== $object->getExpenseId()) {
-            $data['expense_id'] = $object->getExpenseId();
-        }
-        foreach ($object as $key_1 => $value_1) {
-            if (preg_match('/.*/', (string) $key_1)) {
-                $data[$key_1] = $value_1;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('card_id', $data) && $data['card_id'] !== null) {
+                $object->setCardId($data['card_id']);
+                unset($data['card_id']);
+            } elseif (\array_key_exists('card_id', $data) && $data['card_id'] === null) {
+                $object->setCardId(null);
+            }
+            if (\array_key_exists('description', $data)) {
+                $object->setDescription($data['description']);
+                unset($data['description']);
+            }
+            if (\array_key_exists('amount', $data)) {
+                $object->setAmount($this->denormalizer->denormalize($data['amount'], \NxSys\Library\Clients\Brex\API\Transactions\Model\Money::class, 'json', $context));
+                unset($data['amount']);
+            }
+            if (\array_key_exists('initiated_at_date', $data)) {
+                $object->setInitiatedAtDate(\DateTime::createFromFormat('Y-m-d', $data['initiated_at_date'])->setTime(0, 0, 0));
+                unset($data['initiated_at_date']);
+            }
+            if (\array_key_exists('posted_at_date', $data)) {
+                $object->setPostedAtDate(\DateTime::createFromFormat('Y-m-d', $data['posted_at_date'])->setTime(0, 0, 0));
+                unset($data['posted_at_date']);
+            }
+            if (\array_key_exists('type', $data)) {
+                $object->setType($data['type']);
+                unset($data['type']);
+            }
+            if (\array_key_exists('merchant', $data)) {
+                $object->setMerchant($this->denormalizer->denormalize($data['merchant'], \NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransactionMerchant::class, 'json', $context));
+                unset($data['merchant']);
+            }
+            if (\array_key_exists('card_metadata', $data) && $data['card_metadata'] !== null) {
+                $values = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+                foreach ($data['card_metadata'] as $key => $value) {
+                    $values[$key] = $value;
+                }
+                $object->setCardMetadata($values);
+                unset($data['card_metadata']);
+            } elseif (\array_key_exists('card_metadata', $data) && $data['card_metadata'] === null) {
+                $object->setCardMetadata(null);
+            }
+            if (\array_key_exists('expense_id', $data) && $data['expense_id'] !== null) {
+                $object->setExpenseId($data['expense_id']);
+                unset($data['expense_id']);
+            } elseif (\array_key_exists('expense_id', $data) && $data['expense_id'] === null) {
+                $object->setExpenseId(null);
+            }
+            foreach ($data as $key_1 => $value_1) {
+                if (preg_match('/.*/', (string) $key_1)) {
+                    $object[$key_1] = $value_1;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            if ($object->isInitialized('cardId') && null !== $object->getCardId()) {
+                $data['card_id'] = $object->getCardId();
+            }
+            $data['description'] = $object->getDescription();
+            $data['amount'] = $this->normalizer->normalize($object->getAmount(), 'json', $context);
+            $data['initiated_at_date'] = $object->getInitiatedAtDate()?->format('Y-m-d');
+            $data['posted_at_date'] = $object->getPostedAtDate()?->format('Y-m-d');
+            if ($object->isInitialized('type') && null !== $object->getType()) {
+                $data['type'] = $object->getType();
+            }
+            if ($object->isInitialized('merchant') && null !== $object->getMerchant()) {
+                $data['merchant'] = $this->normalizer->normalize($object->getMerchant(), 'json', $context);
+            }
+            if ($object->isInitialized('cardMetadata') && null !== $object->getCardMetadata()) {
+                $values = [];
+                foreach ($object->getCardMetadata() as $key => $value) {
+                    $values[$key] = $value;
+                }
+                $data['card_metadata'] = $values;
+            }
+            if ($object->isInitialized('expenseId') && null !== $object->getExpenseId()) {
+                $data['expense_id'] = $object->getExpenseId();
+            }
+            foreach ($object as $key_1 => $value_1) {
+                if (preg_match('/.*/', (string) $key_1)) {
+                    $data[$key_1] = $value_1;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Transactions\Model\CardTransaction::class => false];
+        }
     }
 }

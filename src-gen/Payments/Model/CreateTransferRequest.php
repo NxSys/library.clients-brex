@@ -24,13 +24,12 @@ class CreateTransferRequest extends \ArrayObject
     /**
      * Counterparty Details for the transfer.
      *
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $counterparty;
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
-
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      *
      * @var Money
      */
@@ -43,6 +42,8 @@ class CreateTransferRequest extends \ArrayObject
     protected $description;
     /**
      * External memo for the transfer. `Payment Instructions` for Wires and the `Entry Description` for ACH payments.
+     * Must be at most 90 characters for `ACH` and `WIRE` transactions
+     * and at most 40 characters for `CHEQUES`.
      *
      * @var string
      */
@@ -50,7 +51,7 @@ class CreateTransferRequest extends \ArrayObject
     /**
      * Originating account details for the transfer.
      *
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $originatingAccount;
     /**
@@ -61,7 +62,7 @@ class CreateTransferRequest extends \ArrayObject
     /**
      * Counterparty Details for the transfer.
      *
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getCounterparty(): iterable
     {
@@ -71,7 +72,7 @@ class CreateTransferRequest extends \ArrayObject
     /**
      * Counterparty Details for the transfer.
      *
-     * @param mixed[] $counterparty
+     * @param array<string, mixed> $counterparty
      */
     public function setCounterparty(iterable $counterparty): self
     {
@@ -82,8 +83,8 @@ class CreateTransferRequest extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function getAmount(): Money
     {
@@ -91,8 +92,8 @@ class CreateTransferRequest extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function setAmount(Money $amount): self
     {
@@ -123,7 +124,8 @@ class CreateTransferRequest extends \ArrayObject
 
     /**
      * External memo for the transfer. `Payment Instructions` for Wires and the `Entry Description` for ACH payments.
-    and at most 40 characters for `CHEQUES`
+     * Must be at most 90 characters for `ACH` and `WIRE` transactions
+     * and at most 40 characters for `CHEQUES`.
      */
     public function getExternalMemo(): string
     {
@@ -132,7 +134,8 @@ class CreateTransferRequest extends \ArrayObject
 
     /**
      * External memo for the transfer. `Payment Instructions` for Wires and the `Entry Description` for ACH payments.
-    and at most 40 characters for `CHEQUES`
+     * Must be at most 90 characters for `ACH` and `WIRE` transactions
+     * and at most 40 characters for `CHEQUES`.
      */
     public function setExternalMemo(string $externalMemo): self
     {
@@ -145,7 +148,7 @@ class CreateTransferRequest extends \ArrayObject
     /**
      * Originating account details for the transfer.
      *
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getOriginatingAccount(): iterable
     {
@@ -155,7 +158,7 @@ class CreateTransferRequest extends \ArrayObject
     /**
      * Originating account details for the transfer.
      *
-     * @param mixed[] $originatingAccount
+     * @param array<string, mixed> $originatingAccount
      */
     public function setOriginatingAccount(iterable $originatingAccount): self
     {

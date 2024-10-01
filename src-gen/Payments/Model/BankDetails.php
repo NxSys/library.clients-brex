@@ -22,8 +22,7 @@ class BankDetails extends \ArrayObject
         return array_key_exists($property, $this->initialized);
     }
     /**
-    The name of the bank
-
+     * The name of the bank.
      *
      * @var string
      */
@@ -34,7 +33,7 @@ class BankDetails extends \ArrayObject
     protected $type;
 
     /**
-    The name of the bank
+     * The name of the bank.
      */
     public function getName(): string
     {
@@ -42,7 +41,7 @@ class BankDetails extends \ArrayObject
     }
 
     /**
-    The name of the bank
+     * The name of the bank.
      */
     public function setName(string $name): self
     {

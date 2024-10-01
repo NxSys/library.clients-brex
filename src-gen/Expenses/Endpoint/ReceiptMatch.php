@@ -15,9 +15,9 @@ class ReceiptMatch extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Clie
     use \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Client\EndpointTrait;
 
     /**
-    The `uri` will be a pre-signed S3 URL allowing you to upload the receipt securely. This URL can only be used for a `PUT` operation and expires 30 minutes after its creation. Once your upload is complete, we will try to match the receipt with existing expenses.
-
-    Refer to these [docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) on how to upload to this pre-signed S3 URL. We highly recommend using one of AWS SDKs if they're available for your language to upload these files.
+     * The `uri` will be a pre-signed S3 URL allowing you to upload the receipt securely. This URL can only be used for a `PUT` operation and expires 30 minutes after its creation. Once your upload is complete, we will try to match the receipt with existing expenses.
+     *
+     * Refer to these [docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html) on how to upload to this pre-signed S3 URL. We highly recommend using one of AWS SDKs if they're available for your language to upload these files.
      */
     public function __construct(\NxSys\Library\Clients\Brex\API\Expenses\Model\ReceiptMatchRequest $requestBody)
     {
@@ -49,8 +49,6 @@ class ReceiptMatch extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Clie
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Expenses\Model\CreateAsyncFileUploadResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchBadRequestException
@@ -61,7 +59,7 @@ class ReceiptMatch extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Clie
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\CreateAsyncFileUploadResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Expenses\Model\CreateAsyncFileUploadResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\ReceiptMatchBadRequestException($response);

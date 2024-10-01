@@ -26,7 +26,7 @@ class PageTrip extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var Trip[]
+     * @var list<Trip>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageTrip extends \ArrayObject
     }
 
     /**
-     * @return Trip[]
+     * @return list<Trip>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageTrip extends \ArrayObject
     }
 
     /**
-     * @param Trip[] $items
+     * @param list<Trip> $items
      */
     public function setItems(array $items): self
     {

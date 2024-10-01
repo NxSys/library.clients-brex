@@ -16,14 +16,13 @@ class ListCashStatements extends \NxSys\Library\Clients\Brex\API\Transactions\Ru
     protected $id;
 
     /**
-    This endpoint lists all finalized statements for the cash account by ID.
-
+     * This endpoint lists all finalized statements for the cash account by ID.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      */
     public function __construct(string $id, array $queryParameters = [])
     {
@@ -64,8 +63,6 @@ class ListCashStatements extends \NxSys\Library\Clients\Brex\API\Transactions\Ru
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Transactions\Model\PageStatement|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashStatementsBadRequestException
@@ -77,7 +74,7 @@ class ListCashStatements extends \NxSys\Library\Clients\Brex\API\Transactions\Ru
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\PageStatement', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Transactions\Model\PageStatement', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Transactions\Exception\ListCashStatementsBadRequestException($response);

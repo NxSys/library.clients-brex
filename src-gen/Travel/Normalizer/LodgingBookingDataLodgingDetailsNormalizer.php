@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Travel\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,108 +21,217 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class LodgingBookingDataLodgingDetailsNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class LodgingBookingDataLodgingDetailsNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetails';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetails';
-    }
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class;
+        }
 
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
-        }
-        $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails();
-        if (\array_key_exists('star_rating', $data) && \is_int($data['star_rating'])) {
-            $data['star_rating'] = (float) $data['star_rating'];
-        }
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails();
+            if (\array_key_exists('star_rating', $data) && \is_int($data['star_rating'])) {
+                $data['star_rating'] = (float) $data['star_rating'];
+            }
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('display_name', $data)) {
+                $object->setDisplayName($data['display_name']);
+                unset($data['display_name']);
+            }
+            if (\array_key_exists('contact_information', $data)) {
+                $object->setContactInformation($this->denormalizer->denormalize($data['contact_information'], \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class, 'json', $context));
+                unset($data['contact_information']);
+            }
+            if (\array_key_exists('star_rating', $data) && $data['star_rating'] !== null) {
+                $object->setStarRating($data['star_rating']);
+                unset($data['star_rating']);
+            } elseif (\array_key_exists('star_rating', $data) && $data['star_rating'] === null) {
+                $object->setStarRating(null);
+            }
+            if (\array_key_exists('brand_name', $data) && $data['brand_name'] !== null) {
+                $object->setBrandName($data['brand_name']);
+                unset($data['brand_name']);
+            } elseif (\array_key_exists('brand_name', $data) && $data['brand_name'] === null) {
+                $object->setBrandName(null);
+            }
+            if (\array_key_exists('chain_name', $data) && $data['chain_name'] !== null) {
+                $object->setChainName($data['chain_name']);
+                unset($data['chain_name']);
+            } elseif (\array_key_exists('chain_name', $data) && $data['chain_name'] === null) {
+                $object->setChainName(null);
+            }
+            if (\array_key_exists('location', $data)) {
+                $object->setLocation($this->denormalizer->denormalize($data['location'], \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsLocation::class, 'json', $context));
+                unset($data['location']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('display_name', $data)) {
-            $object->setDisplayName($data['display_name']);
-            unset($data['display_name']);
-        }
-        if (\array_key_exists('contact_information', $data)) {
-            $object->setContactInformation($this->denormalizer->denormalize($data['contact_information'], 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetailsContactInformation', 'json', $context));
-            unset($data['contact_information']);
-        }
-        if (\array_key_exists('star_rating', $data) && $data['star_rating'] !== null) {
-            $object->setStarRating($data['star_rating']);
-            unset($data['star_rating']);
-        } elseif (\array_key_exists('star_rating', $data) && $data['star_rating'] === null) {
-            $object->setStarRating(null);
-        }
-        if (\array_key_exists('brand_name', $data) && $data['brand_name'] !== null) {
-            $object->setBrandName($data['brand_name']);
-            unset($data['brand_name']);
-        } elseif (\array_key_exists('brand_name', $data) && $data['brand_name'] === null) {
-            $object->setBrandName(null);
-        }
-        if (\array_key_exists('chain_name', $data) && $data['chain_name'] !== null) {
-            $object->setChainName($data['chain_name']);
-            unset($data['chain_name']);
-        } elseif (\array_key_exists('chain_name', $data) && $data['chain_name'] === null) {
-            $object->setChainName(null);
-        }
-        if (\array_key_exists('location', $data)) {
-            $object->setLocation($this->denormalizer->denormalize($data['location'], 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\LodgingBookingDataLodgingDetailsLocation', 'json', $context));
-            unset($data['location']);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['display_name'] = $object->getDisplayName();
+            if ($object->isInitialized('contactInformation') && null !== $object->getContactInformation()) {
+                $data['contact_information'] = $this->normalizer->normalize($object->getContactInformation(), 'json', $context);
             }
+            if ($object->isInitialized('starRating') && null !== $object->getStarRating()) {
+                $data['star_rating'] = $object->getStarRating();
+            }
+            if ($object->isInitialized('brandName') && null !== $object->getBrandName()) {
+                $data['brand_name'] = $object->getBrandName();
+            }
+            if ($object->isInitialized('chainName') && null !== $object->getChainName()) {
+                $data['chain_name'] = $object->getChainName();
+            }
+            if ($object->isInitialized('location') && null !== $object->getLocation()) {
+                $data['location'] = $this->normalizer->normalize($object->getLocation(), 'json', $context);
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class LodgingBookingDataLodgingDetailsNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['display_name'] = $object->getDisplayName();
-        if ($object->isInitialized('contactInformation') && null !== $object->getContactInformation()) {
-            $data['contact_information'] = $this->normalizer->normalize($object->getContactInformation(), 'json', $context);
-        }
-        if ($object->isInitialized('starRating') && null !== $object->getStarRating()) {
-            $data['star_rating'] = $object->getStarRating();
-        }
-        if ($object->isInitialized('brandName') && null !== $object->getBrandName()) {
-            $data['brand_name'] = $object->getBrandName();
-        }
-        if ($object->isInitialized('chainName') && null !== $object->getChainName()) {
-            $data['chain_name'] = $object->getChainName();
-        }
-        if ($object->isInitialized('location') && null !== $object->getLocation()) {
-            $data['location'] = $this->normalizer->normalize($object->getLocation(), 'json', $context);
-        }
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails();
+            if (\array_key_exists('star_rating', $data) && \is_int($data['star_rating'])) {
+                $data['star_rating'] = (float) $data['star_rating'];
+            }
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('display_name', $data)) {
+                $object->setDisplayName($data['display_name']);
+                unset($data['display_name']);
+            }
+            if (\array_key_exists('contact_information', $data)) {
+                $object->setContactInformation($this->denormalizer->denormalize($data['contact_information'], \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsContactInformation::class, 'json', $context));
+                unset($data['contact_information']);
+            }
+            if (\array_key_exists('star_rating', $data) && $data['star_rating'] !== null) {
+                $object->setStarRating($data['star_rating']);
+                unset($data['star_rating']);
+            } elseif (\array_key_exists('star_rating', $data) && $data['star_rating'] === null) {
+                $object->setStarRating(null);
+            }
+            if (\array_key_exists('brand_name', $data) && $data['brand_name'] !== null) {
+                $object->setBrandName($data['brand_name']);
+                unset($data['brand_name']);
+            } elseif (\array_key_exists('brand_name', $data) && $data['brand_name'] === null) {
+                $object->setBrandName(null);
+            }
+            if (\array_key_exists('chain_name', $data) && $data['chain_name'] !== null) {
+                $object->setChainName($data['chain_name']);
+                unset($data['chain_name']);
+            } elseif (\array_key_exists('chain_name', $data) && $data['chain_name'] === null) {
+                $object->setChainName(null);
+            }
+            if (\array_key_exists('location', $data)) {
+                $object->setLocation($this->denormalizer->denormalize($data['location'], \NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetailsLocation::class, 'json', $context));
+                unset($data['location']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['display_name'] = $object->getDisplayName();
+            if ($object->isInitialized('contactInformation') && null !== $object->getContactInformation()) {
+                $data['contact_information'] = $this->normalizer->normalize($object->getContactInformation(), 'json', $context);
+            }
+            if ($object->isInitialized('starRating') && null !== $object->getStarRating()) {
+                $data['star_rating'] = $object->getStarRating();
+            }
+            if ($object->isInitialized('brandName') && null !== $object->getBrandName()) {
+                $data['brand_name'] = $object->getBrandName();
+            }
+            if ($object->isInitialized('chainName') && null !== $object->getChainName()) {
+                $data['chain_name'] = $object->getChainName();
+            }
+            if ($object->isInitialized('location') && null !== $object->getLocation()) {
+                $data['location'] = $this->normalizer->normalize($object->getLocation(), 'json', $context);
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\LodgingBookingDataLodgingDetails::class => false];
+        }
     }
 }

@@ -42,9 +42,8 @@ class Transfer extends \ArrayObject
      */
     protected $paymentType;
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
-
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      *
      * @var Money
      */
@@ -58,11 +57,16 @@ class Transfer extends \ArrayObject
     /**
      * Originating account details for the transfer.
      *
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $originatingAccount;
     /**
      * `PROCESSING`: We have started to process the sending or receiving of this transaction.
+     * `SCHEDULED`: The transaction is scheduled to enter the `PROCESSING` status.
+     * `PENDING_APPROVAL`: The transaction requires approval before it can enter the `SCHEDULED` or `PROCESSING` status.
+     * `FAILED`: A grouping of multiple terminal states that prevented the transaction from completing.
+     * This includes a a user-cancellation, approval being denied, insufficient funds, failed verifications, etc.
+     * `PROCESSED`: The money movement has been fully completed, which could mean money sent has arrived.
      *
      * @var string
      */
@@ -97,6 +101,8 @@ class Transfer extends \ArrayObject
     protected $displayName;
     /**
      * External memo for the transfer. `Payment Instructions` for Wires and the `Entry Description` for ACH payments.
+     * Must be at most 90 characters for `ACH` and `WIRE` transactions
+     * and at most 40 characters for `CHEQUES`.
      *
      * @var string|null
      */
@@ -167,8 +173,8 @@ class Transfer extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function getAmount(): Money
     {
@@ -176,8 +182,8 @@ class Transfer extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function setAmount(Money $amount): self
     {
@@ -209,7 +215,7 @@ class Transfer extends \ArrayObject
     /**
      * Originating account details for the transfer.
      *
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getOriginatingAccount(): iterable
     {
@@ -219,7 +225,7 @@ class Transfer extends \ArrayObject
     /**
      * Originating account details for the transfer.
      *
-     * @param mixed[] $originatingAccount
+     * @param array<string, mixed> $originatingAccount
      */
     public function setOriginatingAccount(iterable $originatingAccount): self
     {
@@ -231,7 +237,11 @@ class Transfer extends \ArrayObject
 
     /**
      * `PROCESSING`: We have started to process the sending or receiving of this transaction.
-    `PROCESSED`: The money movement has been fully completed, which could mean money sent has arrived.
+     * `SCHEDULED`: The transaction is scheduled to enter the `PROCESSING` status.
+     * `PENDING_APPROVAL`: The transaction requires approval before it can enter the `SCHEDULED` or `PROCESSING` status.
+     * `FAILED`: A grouping of multiple terminal states that prevented the transaction from completing.
+     * This includes a a user-cancellation, approval being denied, insufficient funds, failed verifications, etc.
+     * `PROCESSED`: The money movement has been fully completed, which could mean money sent has arrived.
      */
     public function getStatus(): string
     {
@@ -240,7 +250,11 @@ class Transfer extends \ArrayObject
 
     /**
      * `PROCESSING`: We have started to process the sending or receiving of this transaction.
-    `PROCESSED`: The money movement has been fully completed, which could mean money sent has arrived.
+     * `SCHEDULED`: The transaction is scheduled to enter the `PROCESSING` status.
+     * `PENDING_APPROVAL`: The transaction requires approval before it can enter the `SCHEDULED` or `PROCESSING` status.
+     * `FAILED`: A grouping of multiple terminal states that prevented the transaction from completing.
+     * This includes a a user-cancellation, approval being denied, insufficient funds, failed verifications, etc.
+     * `PROCESSED`: The money movement has been fully completed, which could mean money sent has arrived.
      */
     public function setStatus(string $status): self
     {
@@ -341,7 +355,8 @@ class Transfer extends \ArrayObject
 
     /**
      * External memo for the transfer. `Payment Instructions` for Wires and the `Entry Description` for ACH payments.
-    and at most 40 characters for `CHEQUES`
+     * Must be at most 90 characters for `ACH` and `WIRE` transactions
+     * and at most 40 characters for `CHEQUES`.
      */
     public function getExternalMemo(): ?string
     {
@@ -350,7 +365,8 @@ class Transfer extends \ArrayObject
 
     /**
      * External memo for the transfer. `Payment Instructions` for Wires and the `Entry Description` for ACH payments.
-    and at most 40 characters for `CHEQUES`
+     * Must be at most 90 characters for `ACH` and `WIRE` transactions
+     * and at most 40 characters for `CHEQUES`.
      */
     public function setExternalMemo(?string $externalMemo): self
     {

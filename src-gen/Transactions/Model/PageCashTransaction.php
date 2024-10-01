@@ -26,7 +26,7 @@ class PageCashTransaction extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var CashTransaction[]
+     * @var list<CashTransaction>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageCashTransaction extends \ArrayObject
     }
 
     /**
-     * @return CashTransaction[]
+     * @return list<CashTransaction>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageCashTransaction extends \ArrayObject
     }
 
     /**
-     * @param CashTransaction[] $items
+     * @param list<CashTransaction> $items
      */
     public function setItems(array $items): self
     {

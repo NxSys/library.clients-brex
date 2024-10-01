@@ -24,14 +24,14 @@ class RailBookingDataRailJourney extends \ArrayObject
     /**
      * The legs that make up this journey.
      *
-     * @var RailBookingDataRailLeg[]
+     * @var list<RailBookingDataRailLeg>
      */
     protected $legs;
 
     /**
      * The legs that make up this journey.
      *
-     * @return RailBookingDataRailLeg[]
+     * @return list<RailBookingDataRailLeg>
      */
     public function getLegs(): array
     {
@@ -41,7 +41,7 @@ class RailBookingDataRailJourney extends \ArrayObject
     /**
      * The legs that make up this journey.
      *
-     * @param RailBookingDataRailLeg[] $legs
+     * @param list<RailBookingDataRailLeg> $legs
      */
     public function setLegs(array $legs): self
     {

@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Payments\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Payments\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Payments\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,93 +21,187 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class InternationalWireDetailsResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class InternationalWireDetailsResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\InternationalWireDetailsResponse';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\InternationalWireDetailsResponse';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('type', $data)) {
+                $object->setType($data['type']);
+                unset($data['type']);
+            }
+            if (\array_key_exists('payment_instrument_id', $data)) {
+                $object->setPaymentInstrumentId($data['payment_instrument_id']);
+                unset($data['payment_instrument_id']);
+            }
+            if (\array_key_exists('swift_code', $data)) {
+                $object->setSwiftCode($data['swift_code']);
+                unset($data['swift_code']);
+            }
+            if (\array_key_exists('iban', $data)) {
+                $object->setIban($data['iban']);
+                unset($data['iban']);
+            }
+            if (\array_key_exists('beneficiary_bank_name', $data) && $data['beneficiary_bank_name'] !== null) {
+                $object->setBeneficiaryBankName($data['beneficiary_bank_name']);
+                unset($data['beneficiary_bank_name']);
+            } elseif (\array_key_exists('beneficiary_bank_name', $data) && $data['beneficiary_bank_name'] === null) {
+                $object->setBeneficiaryBankName(null);
+            }
+            if (\array_key_exists('address', $data)) {
+                $object->setAddress($this->denormalizer->denormalize($data['address'], \NxSys\Library\Clients\Brex\API\Payments\Model\Address::class, 'json', $context));
+                unset($data['address']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('type', $data)) {
-            $object->setType($data['type']);
-            unset($data['type']);
-        }
-        if (\array_key_exists('payment_instrument_id', $data)) {
-            $object->setPaymentInstrumentId($data['payment_instrument_id']);
-            unset($data['payment_instrument_id']);
-        }
-        if (\array_key_exists('swift_code', $data)) {
-            $object->setSwiftCode($data['swift_code']);
-            unset($data['swift_code']);
-        }
-        if (\array_key_exists('iban', $data)) {
-            $object->setIban($data['iban']);
-            unset($data['iban']);
-        }
-        if (\array_key_exists('beneficiary_bank_name', $data) && $data['beneficiary_bank_name'] !== null) {
-            $object->setBeneficiaryBankName($data['beneficiary_bank_name']);
-            unset($data['beneficiary_bank_name']);
-        } elseif (\array_key_exists('beneficiary_bank_name', $data) && $data['beneficiary_bank_name'] === null) {
-            $object->setBeneficiaryBankName(null);
-        }
-        if (\array_key_exists('address', $data)) {
-            $object->setAddress($this->denormalizer->denormalize($data['address'], 'NxSys\\Library\\Clients\\Brex\\API\\Payments\\Model\\Address', 'json', $context));
-            unset($data['address']);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['type'] = $object->getType();
+            $data['payment_instrument_id'] = $object->getPaymentInstrumentId();
+            $data['swift_code'] = $object->getSwiftCode();
+            $data['iban'] = $object->getIban();
+            if ($object->isInitialized('beneficiaryBankName') && null !== $object->getBeneficiaryBankName()) {
+                $data['beneficiary_bank_name'] = $object->getBeneficiaryBankName();
             }
+            $data['address'] = $this->normalizer->normalize($object->getAddress(), 'json', $context);
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class InternationalWireDetailsResponseNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['type'] = $object->getType();
-        $data['payment_instrument_id'] = $object->getPaymentInstrumentId();
-        $data['swift_code'] = $object->getSwiftCode();
-        $data['iban'] = $object->getIban();
-        if ($object->isInitialized('beneficiaryBankName') && null !== $object->getBeneficiaryBankName()) {
-            $data['beneficiary_bank_name'] = $object->getBeneficiaryBankName();
-        }
-        $data['address'] = $this->normalizer->normalize($object->getAddress(), 'json', $context);
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('type', $data)) {
+                $object->setType($data['type']);
+                unset($data['type']);
+            }
+            if (\array_key_exists('payment_instrument_id', $data)) {
+                $object->setPaymentInstrumentId($data['payment_instrument_id']);
+                unset($data['payment_instrument_id']);
+            }
+            if (\array_key_exists('swift_code', $data)) {
+                $object->setSwiftCode($data['swift_code']);
+                unset($data['swift_code']);
+            }
+            if (\array_key_exists('iban', $data)) {
+                $object->setIban($data['iban']);
+                unset($data['iban']);
+            }
+            if (\array_key_exists('beneficiary_bank_name', $data) && $data['beneficiary_bank_name'] !== null) {
+                $object->setBeneficiaryBankName($data['beneficiary_bank_name']);
+                unset($data['beneficiary_bank_name']);
+            } elseif (\array_key_exists('beneficiary_bank_name', $data) && $data['beneficiary_bank_name'] === null) {
+                $object->setBeneficiaryBankName(null);
+            }
+            if (\array_key_exists('address', $data)) {
+                $object->setAddress($this->denormalizer->denormalize($data['address'], \NxSys\Library\Clients\Brex\API\Payments\Model\Address::class, 'json', $context));
+                unset($data['address']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['type'] = $object->getType();
+            $data['payment_instrument_id'] = $object->getPaymentInstrumentId();
+            $data['swift_code'] = $object->getSwiftCode();
+            $data['iban'] = $object->getIban();
+            if ($object->isInitialized('beneficiaryBankName') && null !== $object->getBeneficiaryBankName()) {
+                $data['beneficiary_bank_name'] = $object->getBeneficiaryBankName();
+            }
+            $data['address'] = $this->normalizer->normalize($object->getAddress(), 'json', $context);
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Payments\Model\InternationalWireDetailsResponse::class => false];
+        }
     }
 }

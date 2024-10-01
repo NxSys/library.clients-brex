@@ -24,26 +24,24 @@ class CreateIncomingTransferRequest extends \ArrayObject
     /**
      * Counterparty Details for the transfer.
      *
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $counterparty;
     /**
      * Receiving account details for the transfer.
      *
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $receivingAccount;
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
-
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      *
      * @var Money
      */
     protected $amount;
     /**
-    Description of the transfer for internal use. Not exposed externally.
-
+     * Description of the transfer for internal use. Not exposed externally.
      *
      * @var string
      */
@@ -52,7 +50,7 @@ class CreateIncomingTransferRequest extends \ArrayObject
     /**
      * Counterparty Details for the transfer.
      *
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getCounterparty(): iterable
     {
@@ -62,7 +60,7 @@ class CreateIncomingTransferRequest extends \ArrayObject
     /**
      * Counterparty Details for the transfer.
      *
-     * @param mixed[] $counterparty
+     * @param array<string, mixed> $counterparty
      */
     public function setCounterparty(iterable $counterparty): self
     {
@@ -75,7 +73,7 @@ class CreateIncomingTransferRequest extends \ArrayObject
     /**
      * Receiving account details for the transfer.
      *
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getReceivingAccount(): iterable
     {
@@ -85,7 +83,7 @@ class CreateIncomingTransferRequest extends \ArrayObject
     /**
      * Receiving account details for the transfer.
      *
-     * @param mixed[] $receivingAccount
+     * @param array<string, mixed> $receivingAccount
      */
     public function setReceivingAccount(iterable $receivingAccount): self
     {
@@ -96,8 +94,8 @@ class CreateIncomingTransferRequest extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function getAmount(): Money
     {
@@ -105,8 +103,8 @@ class CreateIncomingTransferRequest extends \ArrayObject
     }
 
     /**
-    Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
-    of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
+     * Money fields can be signed or unsigned. Fields are signed (an unsigned value will be interpreted as positive). The amount of money will be represented in the smallest denomination
+     * of the currency indicated. For example, USD 7.00 will be represented in cents with an amount of 700.
      */
     public function setAmount(Money $amount): self
     {
@@ -117,7 +115,7 @@ class CreateIncomingTransferRequest extends \ArrayObject
     }
 
     /**
-    Description of the transfer for internal use. Not exposed externally.
+     * Description of the transfer for internal use. Not exposed externally.
      */
     public function getDescription(): string
     {
@@ -125,7 +123,7 @@ class CreateIncomingTransferRequest extends \ArrayObject
     }
 
     /**
-    Description of the transfer for internal use. Not exposed externally.
+     * Description of the transfer for internal use. Not exposed externally.
      */
     public function setDescription(string $description): self
     {

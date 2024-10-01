@@ -10,30 +10,30 @@ declare(strict_types=1);
 
 namespace NxSys\Library\Clients\Brex\API\Travel;
 
-class Client extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Client\Client
+class Client extends Runtime\Client\Client
 {
     /**
      * Lists trips according to the filters passed in the query string.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $last_updated_after
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $last_updated_after
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Travel\Model\PageTrip|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageTrip|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripsBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripsUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripsForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripsInternalServerErrorException
+     * @throws Exception\ListTripsBadRequestException
+     * @throws Exception\ListTripsUnauthorizedException
+     * @throws Exception\ListTripsForbiddenException
+     * @throws Exception\ListTripsInternalServerErrorException
      */
     public function listTrips(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Travel\Endpoint\ListTrips($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListTrips($queryParameters), $fetch);
     }
 
     /**
@@ -41,17 +41,17 @@ class Client extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Client\Clien
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Travel\Model\Trip|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Trip|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetTripBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetTripUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetTripForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetTripNotFoundException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetTripInternalServerErrorException
+     * @throws Exception\GetTripBadRequestException
+     * @throws Exception\GetTripUnauthorizedException
+     * @throws Exception\GetTripForbiddenException
+     * @throws Exception\GetTripNotFoundException
+     * @throws Exception\GetTripInternalServerErrorException
      */
     public function getTrip(string $tripId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Travel\Endpoint\GetTrip($tripId), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetTrip($tripId), $fetch);
     }
 
     /**
@@ -59,23 +59,23 @@ class Client extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Client\Clien
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Travel\Model\PageBooking|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageBooking|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripBookingsBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripBookingsUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripBookingsForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripBookingsNotFoundException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\ListTripBookingsInternalServerErrorException
+     * @throws Exception\ListTripBookingsBadRequestException
+     * @throws Exception\ListTripBookingsUnauthorizedException
+     * @throws Exception\ListTripBookingsForbiddenException
+     * @throws Exception\ListTripBookingsNotFoundException
+     * @throws Exception\ListTripBookingsInternalServerErrorException
      */
     public function listTripBookings(string $tripId, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Travel\Endpoint\ListTripBookings($tripId, $queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListTripBookings($tripId, $queryParameters), $fetch);
     }
 
     /**
@@ -83,17 +83,17 @@ class Client extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Client\Clien
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Travel\Model\Booking|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Booking|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetBookingBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetBookingUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetBookingForbiddenException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetBookingNotFoundException
-     * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetBookingInternalServerErrorException
+     * @throws Exception\GetBookingBadRequestException
+     * @throws Exception\GetBookingUnauthorizedException
+     * @throws Exception\GetBookingForbiddenException
+     * @throws Exception\GetBookingNotFoundException
+     * @throws Exception\GetBookingInternalServerErrorException
      */
     public function getBooking(string $tripId, string $bookingId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Travel\Endpoint\GetBooking($tripId, $bookingId), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetBooking($tripId, $bookingId), $fetch);
     }
 
     public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [])
@@ -101,7 +101,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Client\Clien
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\Psr18ClientDiscovery::find();
             $plugins = [];
-            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUrlFactory()->createUri('https://platform.brexapis.com');
+            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUriFactory()->createUri('https://platform.brexapis.com');
             $plugins[] = new \Http\Client\Common\Plugin\AddHostPlugin($uri);
             if (count($additionalPlugins) > 0) {
                 $plugins = array_merge($plugins, $additionalPlugins);
@@ -110,7 +110,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Client\Clien
         }
         $requestFactory = \Http\Discovery\Psr17FactoryDiscovery::findRequestFactory();
         $streamFactory = \Http\Discovery\Psr17FactoryDiscovery::findStreamFactory();
-        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new \NxSys\Library\Clients\Brex\API\Travel\Normalizer\JaneObjectNormalizer()];
+        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new Normalizer\JaneObjectNormalizer()];
         if (count($additionalNormalizers) > 0) {
             $normalizers = array_merge($normalizers, $additionalNormalizers);
         }

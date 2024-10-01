@@ -26,7 +26,7 @@ class PageDepartmentResponse extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var DepartmentResponse[]
+     * @var list<DepartmentResponse>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageDepartmentResponse extends \ArrayObject
     }
 
     /**
-     * @return DepartmentResponse[]
+     * @return list<DepartmentResponse>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageDepartmentResponse extends \ArrayObject
     }
 
     /**
-     * @param DepartmentResponse[] $items
+     * @param list<DepartmentResponse> $items
      */
     public function setItems(array $items): self
     {

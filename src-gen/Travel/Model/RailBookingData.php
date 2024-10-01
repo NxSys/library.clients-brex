@@ -24,7 +24,7 @@ class RailBookingData extends \ArrayObject
     /**
      * The journeys that make up this booking.
      *
-     * @var RailBookingDataRailJourney[]
+     * @var list<RailBookingDataRailJourney>
      */
     protected $journeys;
     /**
@@ -35,7 +35,7 @@ class RailBookingData extends \ArrayObject
     /**
      * The journeys that make up this booking.
      *
-     * @return RailBookingDataRailJourney[]
+     * @return list<RailBookingDataRailJourney>
      */
     public function getJourneys(): array
     {
@@ -45,7 +45,7 @@ class RailBookingData extends \ArrayObject
     /**
      * The journeys that make up this booking.
      *
-     * @param RailBookingDataRailJourney[] $journeys
+     * @param list<RailBookingDataRailJourney> $journeys
      */
     public function setJourneys(array $journeys): self
     {

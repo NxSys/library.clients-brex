@@ -23,15 +23,17 @@ class PaymentAccountRequest extends \ArrayObject
     }
     /**
      * Payment Instruments associated with the vendor.
+     * Each vendor can only have one payment account per payment instrument type. For instance, a vendor may have associated details for each of ACH, DOMESTIC_WIRE, and CHEQUE, but they cannot have 2 entries for ACH. If you modify a vendor's existing payment instrument type with new details, it will overwrite any previous data.
      *
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $details;
 
     /**
      * Payment Instruments associated with the vendor.
+     * Each vendor can only have one payment account per payment instrument type. For instance, a vendor may have associated details for each of ACH, DOMESTIC_WIRE, and CHEQUE, but they cannot have 2 entries for ACH. If you modify a vendor's existing payment instrument type with new details, it will overwrite any previous data.
      *
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getDetails(): iterable
     {
@@ -40,8 +42,9 @@ class PaymentAccountRequest extends \ArrayObject
 
     /**
      * Payment Instruments associated with the vendor.
+     * Each vendor can only have one payment account per payment instrument type. For instance, a vendor may have associated details for each of ACH, DOMESTIC_WIRE, and CHEQUE, but they cannot have 2 entries for ACH. If you modify a vendor's existing payment instrument type with new details, it will overwrite any previous data.
      *
-     * @param mixed[] $details
+     * @param array<string, mixed> $details
      */
     public function setDetails(iterable $details): self
     {

@@ -15,13 +15,12 @@ class CreateDepartment extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clie
     use \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\EndpointTrait;
 
     /**
-    This endpoint creates a new department
-
+     * This endpoint creates a new department.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      */
     public function __construct(\NxSys\Library\Clients\Brex\API\Team\Model\CreateDepartmentRequest $requestBody, array $headerParameters = [])
     {
@@ -65,8 +64,6 @@ class CreateDepartment extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clie
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentBadRequestException
@@ -78,7 +75,7 @@ class CreateDepartment extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Clie
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\DepartmentResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentBadRequestException($response);

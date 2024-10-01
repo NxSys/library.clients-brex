@@ -28,8 +28,7 @@ class LockCardRequest extends \ArrayObject
      */
     protected $description;
     /**
-    Reason for card termination.
-
+     * Reason for card termination.
      *
      * @var string
      */
@@ -55,7 +54,7 @@ class LockCardRequest extends \ArrayObject
     }
 
     /**
-    Reason for card termination.
+     * Reason for card termination.
      */
     public function getReason(): string
     {
@@ -63,7 +62,7 @@ class LockCardRequest extends \ArrayObject
     }
 
     /**
-    Reason for card termination.
+     * Reason for card termination.
      */
     public function setReason(string $reason): self
     {

@@ -24,7 +24,7 @@ class AirBookingDataJourney extends \ArrayObject
     /**
      * The flights that make up this journey.
      *
-     * @var AirBookingDataFlight[]
+     * @var list<AirBookingDataFlight>
      */
     protected $flights;
     /**
@@ -41,7 +41,7 @@ class AirBookingDataJourney extends \ArrayObject
     /**
      * The flights that make up this journey.
      *
-     * @return AirBookingDataFlight[]
+     * @return list<AirBookingDataFlight>
      */
     public function getFlights(): array
     {
@@ -51,7 +51,7 @@ class AirBookingDataJourney extends \ArrayObject
     /**
      * The flights that make up this journey.
      *
-     * @param AirBookingDataFlight[] $flights
+     * @param list<AirBookingDataFlight> $flights
      */
     public function setFlights(array $flights): self
     {

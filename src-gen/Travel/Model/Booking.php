@@ -90,7 +90,7 @@ class Booking extends \ArrayObject
     /**
      * Type-specific booking data.
      *
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     protected $bookingData;
 
@@ -285,7 +285,7 @@ class Booking extends \ArrayObject
     /**
      * Type-specific booking data.
      *
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function getBookingData(): iterable
     {
@@ -295,7 +295,7 @@ class Booking extends \ArrayObject
     /**
      * Type-specific booking data.
      *
-     * @param mixed[] $bookingData
+     * @param array<string, mixed> $bookingData
      */
     public function setBookingData(iterable $bookingData): self
     {

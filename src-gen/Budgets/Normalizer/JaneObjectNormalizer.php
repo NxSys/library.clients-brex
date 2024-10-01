@@ -12,6 +12,7 @@ namespace NxSys\Library\Clients\Brex\API\Budgets\Normalizer;
 
 use NxSys\Library\Clients\Brex\API\Budgets\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Budgets\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -19,59 +20,187 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-    protected $normalizers = ['NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\Budget' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\BudgetNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\BudgetLimit' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\BudgetLimitNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\BudgetCurrentPeriodBalance' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\BudgetCurrentPeriodBalanceNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\BudgetPeriodBalance' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\BudgetPeriodBalanceNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\BudgetPeriodBalanceBalance' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\BudgetPeriodBalanceBalanceNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\CreateBudgetRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\CreateBudgetRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\Money' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\MoneyNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\PageBudget' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\PageBudgetNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\UpdateBudgetRequest' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\UpdateBudgetRequestNormalizer', 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Model\\UpdateBudgetRequestLimit' => 'NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Normalizer\\UpdateBudgetRequestLimitNormalizer', '\\Jane\\Component\\JsonSchemaRuntime\\Reference' => '\\NxSys\\Library\\Clients\\Brex\\API\\Budgets\\Runtime\\Normalizer\\ReferenceNormalizer'];
-    protected $normalizersCache = [];
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return array_key_exists($type, $this->normalizers);
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget::class => BudgetNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetLimit::class => BudgetLimitNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetCurrentPeriodBalance::class => BudgetCurrentPeriodBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetPeriodBalance::class => BudgetPeriodBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetPeriodBalanceBalance::class => BudgetPeriodBalanceBalanceNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class => CreateBudgetRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\Money::class => MoneyNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\PageBudget::class => PageBudgetNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequest::class => UpdateBudgetRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequestLimit::class => UpdateBudgetRequestLimitNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetCurrentPeriodBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetPeriodBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetPeriodBalanceBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\Money::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\PageBudget::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequestLimit::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
-
-    public function supportsNormalization($data, $format = null): bool
+} else {
+    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+        protected $normalizers = [
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget::class => BudgetNormalizer::class,
 
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
-    {
-        $normalizerClass = $this->normalizers[get_class($object)];
-        $normalizer = $this->getNormalizer($normalizerClass);
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetLimit::class => BudgetLimitNormalizer::class,
 
-        return $normalizer->normalize($object, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetCurrentPeriodBalance::class => BudgetCurrentPeriodBalanceNormalizer::class,
 
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        $denormalizerClass = $this->normalizers[$class];
-        $denormalizer = $this->getNormalizer($denormalizerClass);
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetPeriodBalance::class => BudgetPeriodBalanceNormalizer::class,
 
-        return $denormalizer->denormalize($data, $class, $format, $context);
-    }
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetPeriodBalanceBalance::class => BudgetPeriodBalanceBalanceNormalizer::class,
 
-    private function getNormalizer(string $normalizerClass)
-    {
-        return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
-    }
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class => CreateBudgetRequestNormalizer::class,
 
-    private function initNormalizer(string $normalizerClass)
-    {
-        $normalizer = new $normalizerClass();
-        $normalizer->setNormalizer($this->normalizer);
-        $normalizer->setDenormalizer($this->denormalizer);
-        $this->normalizersCache[$normalizerClass] = $normalizer;
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\Money::class => MoneyNormalizer::class,
 
-        return $normalizer;
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\PageBudget::class => PageBudgetNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequest::class => UpdateBudgetRequestNormalizer::class,
+
+            \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequestLimit::class => UpdateBudgetRequestLimitNormalizer::class,
+
+            \Jane\Component\JsonSchemaRuntime\Reference::class => \NxSys\Library\Clients\Brex\API\Budgets\Runtime\Normalizer\ReferenceNormalizer::class,
+        ];
+        protected $normalizersCache = [];
+
+        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+        {
+            return array_key_exists($type, $this->normalizers);
+        }
+
+        public function supportsNormalization($data, $format = null, array $context = []): bool
+        {
+            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $normalizerClass = $this->normalizers[get_class($object)];
+            $normalizer = $this->getNormalizer($normalizerClass);
+
+            return $normalizer->normalize($object, $format, $context);
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            $denormalizerClass = $this->normalizers[$type];
+            $denormalizer = $this->getNormalizer($denormalizerClass);
+
+            return $denormalizer->denormalize($data, $type, $format, $context);
+        }
+
+        private function getNormalizer(string $normalizerClass)
+        {
+            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+        }
+
+        private function initNormalizer(string $normalizerClass)
+        {
+            $normalizer = new $normalizerClass();
+            $normalizer->setNormalizer($this->normalizer);
+            $normalizer->setDenormalizer($this->denormalizer);
+            $this->normalizersCache[$normalizerClass] = $normalizer;
+
+            return $normalizer;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\Budget::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetLimit::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetCurrentPeriodBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetPeriodBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\BudgetPeriodBalanceBalance::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\CreateBudgetRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\Money::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\PageBudget::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequest::class => false,
+                \NxSys\Library\Clients\Brex\API\Budgets\Model\UpdateBudgetRequestLimit::class => false,
+                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
+            ];
+        }
     }
 }

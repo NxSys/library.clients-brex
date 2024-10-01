@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Travel\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,129 +21,259 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class CarRentalBookingDataRentalEndpointLocationNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class CarRentalBookingDataRentalEndpointLocationNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataRentalEndpointLocation';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\CarRentalBookingDataRentalEndpointLocation';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('country', $data) && $data['country'] !== null) {
+                $object->setCountry($data['country']);
+                unset($data['country']);
+            } elseif (\array_key_exists('country', $data) && $data['country'] === null) {
+                $object->setCountry(null);
+            }
+            if (\array_key_exists('administrative_area', $data) && $data['administrative_area'] !== null) {
+                $object->setAdministrativeArea($data['administrative_area']);
+                unset($data['administrative_area']);
+            } elseif (\array_key_exists('administrative_area', $data) && $data['administrative_area'] === null) {
+                $object->setAdministrativeArea(null);
+            }
+            if (\array_key_exists('city', $data) && $data['city'] !== null) {
+                $object->setCity($data['city']);
+                unset($data['city']);
+            } elseif (\array_key_exists('city', $data) && $data['city'] === null) {
+                $object->setCity(null);
+            }
+            if (\array_key_exists('postal_code', $data) && $data['postal_code'] !== null) {
+                $object->setPostalCode($data['postal_code']);
+                unset($data['postal_code']);
+            } elseif (\array_key_exists('postal_code', $data) && $data['postal_code'] === null) {
+                $object->setPostalCode(null);
+            }
+            if (\array_key_exists('address_line_1', $data) && $data['address_line_1'] !== null) {
+                $object->setAddressLine1($data['address_line_1']);
+                unset($data['address_line_1']);
+            } elseif (\array_key_exists('address_line_1', $data) && $data['address_line_1'] === null) {
+                $object->setAddressLine1(null);
+            }
+            if (\array_key_exists('address_line_2', $data) && $data['address_line_2'] !== null) {
+                $object->setAddressLine2($data['address_line_2']);
+                unset($data['address_line_2']);
+            } elseif (\array_key_exists('address_line_2', $data) && $data['address_line_2'] === null) {
+                $object->setAddressLine2(null);
+            }
+            if (\array_key_exists('coordinates', $data)) {
+                $object->setCoordinates($this->denormalizer->denormalize($data['coordinates'], \NxSys\Library\Clients\Brex\API\Travel\Model\AddressCoordinates::class, 'json', $context));
+                unset($data['coordinates']);
+            }
+            if (\array_key_exists('timezone', $data) && $data['timezone'] !== null) {
+                $object->setTimezone($data['timezone']);
+                unset($data['timezone']);
+            } elseif (\array_key_exists('timezone', $data) && $data['timezone'] === null) {
+                $object->setTimezone(null);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('country', $data) && $data['country'] !== null) {
-            $object->setCountry($data['country']);
-            unset($data['country']);
-        } elseif (\array_key_exists('country', $data) && $data['country'] === null) {
-            $object->setCountry(null);
-        }
-        if (\array_key_exists('administrative_area', $data) && $data['administrative_area'] !== null) {
-            $object->setAdministrativeArea($data['administrative_area']);
-            unset($data['administrative_area']);
-        } elseif (\array_key_exists('administrative_area', $data) && $data['administrative_area'] === null) {
-            $object->setAdministrativeArea(null);
-        }
-        if (\array_key_exists('city', $data) && $data['city'] !== null) {
-            $object->setCity($data['city']);
-            unset($data['city']);
-        } elseif (\array_key_exists('city', $data) && $data['city'] === null) {
-            $object->setCity(null);
-        }
-        if (\array_key_exists('postal_code', $data) && $data['postal_code'] !== null) {
-            $object->setPostalCode($data['postal_code']);
-            unset($data['postal_code']);
-        } elseif (\array_key_exists('postal_code', $data) && $data['postal_code'] === null) {
-            $object->setPostalCode(null);
-        }
-        if (\array_key_exists('address_line_1', $data) && $data['address_line_1'] !== null) {
-            $object->setAddressLine1($data['address_line_1']);
-            unset($data['address_line_1']);
-        } elseif (\array_key_exists('address_line_1', $data) && $data['address_line_1'] === null) {
-            $object->setAddressLine1(null);
-        }
-        if (\array_key_exists('address_line_2', $data) && $data['address_line_2'] !== null) {
-            $object->setAddressLine2($data['address_line_2']);
-            unset($data['address_line_2']);
-        } elseif (\array_key_exists('address_line_2', $data) && $data['address_line_2'] === null) {
-            $object->setAddressLine2(null);
-        }
-        if (\array_key_exists('coordinates', $data)) {
-            $object->setCoordinates($this->denormalizer->denormalize($data['coordinates'], 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\AddressCoordinates', 'json', $context));
-            unset($data['coordinates']);
-        }
-        if (\array_key_exists('timezone', $data) && $data['timezone'] !== null) {
-            $object->setTimezone($data['timezone']);
-            unset($data['timezone']);
-        } elseif (\array_key_exists('timezone', $data) && $data['timezone'] === null) {
-            $object->setTimezone(null);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            if ($object->isInitialized('country') && null !== $object->getCountry()) {
+                $data['country'] = $object->getCountry();
             }
+            if ($object->isInitialized('administrativeArea') && null !== $object->getAdministrativeArea()) {
+                $data['administrative_area'] = $object->getAdministrativeArea();
+            }
+            if ($object->isInitialized('city') && null !== $object->getCity()) {
+                $data['city'] = $object->getCity();
+            }
+            if ($object->isInitialized('postalCode') && null !== $object->getPostalCode()) {
+                $data['postal_code'] = $object->getPostalCode();
+            }
+            if ($object->isInitialized('addressLine1') && null !== $object->getAddressLine1()) {
+                $data['address_line_1'] = $object->getAddressLine1();
+            }
+            if ($object->isInitialized('addressLine2') && null !== $object->getAddressLine2()) {
+                $data['address_line_2'] = $object->getAddressLine2();
+            }
+            if ($object->isInitialized('coordinates') && null !== $object->getCoordinates()) {
+                $data['coordinates'] = $this->normalizer->normalize($object->getCoordinates(), 'json', $context);
+            }
+            if ($object->isInitialized('timezone') && null !== $object->getTimezone()) {
+                $data['timezone'] = $object->getTimezone();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class CarRentalBookingDataRentalEndpointLocationNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        if ($object->isInitialized('country') && null !== $object->getCountry()) {
-            $data['country'] = $object->getCountry();
-        }
-        if ($object->isInitialized('administrativeArea') && null !== $object->getAdministrativeArea()) {
-            $data['administrative_area'] = $object->getAdministrativeArea();
-        }
-        if ($object->isInitialized('city') && null !== $object->getCity()) {
-            $data['city'] = $object->getCity();
-        }
-        if ($object->isInitialized('postalCode') && null !== $object->getPostalCode()) {
-            $data['postal_code'] = $object->getPostalCode();
-        }
-        if ($object->isInitialized('addressLine1') && null !== $object->getAddressLine1()) {
-            $data['address_line_1'] = $object->getAddressLine1();
-        }
-        if ($object->isInitialized('addressLine2') && null !== $object->getAddressLine2()) {
-            $data['address_line_2'] = $object->getAddressLine2();
-        }
-        if ($object->isInitialized('coordinates') && null !== $object->getCoordinates()) {
-            $data['coordinates'] = $this->normalizer->normalize($object->getCoordinates(), 'json', $context);
-        }
-        if ($object->isInitialized('timezone') && null !== $object->getTimezone()) {
-            $data['timezone'] = $object->getTimezone();
-        }
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('country', $data) && $data['country'] !== null) {
+                $object->setCountry($data['country']);
+                unset($data['country']);
+            } elseif (\array_key_exists('country', $data) && $data['country'] === null) {
+                $object->setCountry(null);
+            }
+            if (\array_key_exists('administrative_area', $data) && $data['administrative_area'] !== null) {
+                $object->setAdministrativeArea($data['administrative_area']);
+                unset($data['administrative_area']);
+            } elseif (\array_key_exists('administrative_area', $data) && $data['administrative_area'] === null) {
+                $object->setAdministrativeArea(null);
+            }
+            if (\array_key_exists('city', $data) && $data['city'] !== null) {
+                $object->setCity($data['city']);
+                unset($data['city']);
+            } elseif (\array_key_exists('city', $data) && $data['city'] === null) {
+                $object->setCity(null);
+            }
+            if (\array_key_exists('postal_code', $data) && $data['postal_code'] !== null) {
+                $object->setPostalCode($data['postal_code']);
+                unset($data['postal_code']);
+            } elseif (\array_key_exists('postal_code', $data) && $data['postal_code'] === null) {
+                $object->setPostalCode(null);
+            }
+            if (\array_key_exists('address_line_1', $data) && $data['address_line_1'] !== null) {
+                $object->setAddressLine1($data['address_line_1']);
+                unset($data['address_line_1']);
+            } elseif (\array_key_exists('address_line_1', $data) && $data['address_line_1'] === null) {
+                $object->setAddressLine1(null);
+            }
+            if (\array_key_exists('address_line_2', $data) && $data['address_line_2'] !== null) {
+                $object->setAddressLine2($data['address_line_2']);
+                unset($data['address_line_2']);
+            } elseif (\array_key_exists('address_line_2', $data) && $data['address_line_2'] === null) {
+                $object->setAddressLine2(null);
+            }
+            if (\array_key_exists('coordinates', $data)) {
+                $object->setCoordinates($this->denormalizer->denormalize($data['coordinates'], \NxSys\Library\Clients\Brex\API\Travel\Model\AddressCoordinates::class, 'json', $context));
+                unset($data['coordinates']);
+            }
+            if (\array_key_exists('timezone', $data) && $data['timezone'] !== null) {
+                $object->setTimezone($data['timezone']);
+                unset($data['timezone']);
+            } elseif (\array_key_exists('timezone', $data) && $data['timezone'] === null) {
+                $object->setTimezone(null);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            if ($object->isInitialized('country') && null !== $object->getCountry()) {
+                $data['country'] = $object->getCountry();
+            }
+            if ($object->isInitialized('administrativeArea') && null !== $object->getAdministrativeArea()) {
+                $data['administrative_area'] = $object->getAdministrativeArea();
+            }
+            if ($object->isInitialized('city') && null !== $object->getCity()) {
+                $data['city'] = $object->getCity();
+            }
+            if ($object->isInitialized('postalCode') && null !== $object->getPostalCode()) {
+                $data['postal_code'] = $object->getPostalCode();
+            }
+            if ($object->isInitialized('addressLine1') && null !== $object->getAddressLine1()) {
+                $data['address_line_1'] = $object->getAddressLine1();
+            }
+            if ($object->isInitialized('addressLine2') && null !== $object->getAddressLine2()) {
+                $data['address_line_2'] = $object->getAddressLine2();
+            }
+            if ($object->isInitialized('coordinates') && null !== $object->getCoordinates()) {
+                $data['coordinates'] = $this->normalizer->normalize($object->getCoordinates(), 'json', $context);
+            }
+            if ($object->isInitialized('timezone') && null !== $object->getTimezone()) {
+                $data['timezone'] = $object->getTimezone();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\CarRentalBookingDataRentalEndpointLocation::class => false];
+        }
     }
 }

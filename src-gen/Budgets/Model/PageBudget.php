@@ -26,7 +26,7 @@ class PageBudget extends \ArrayObject
      */
     protected $nextCursor;
     /**
-     * @var Budget[]
+     * @var list<Budget>
      */
     protected $items;
 
@@ -44,7 +44,7 @@ class PageBudget extends \ArrayObject
     }
 
     /**
-     * @return Budget[]
+     * @return list<Budget>
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class PageBudget extends \ArrayObject
     }
 
     /**
-     * @param Budget[] $items
+     * @param list<Budget> $items
      */
     public function setItems(array $items): self
     {

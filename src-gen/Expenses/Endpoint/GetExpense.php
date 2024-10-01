@@ -20,8 +20,8 @@ class GetExpense extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Client
      *
      * @param array $queryParameters {
      *
-     *     @var array $expand[]
-     * }
+     * @var array $expand[]
+     *            }
      */
     public function __construct(string $expenseId, array $queryParameters = [])
     {
@@ -61,8 +61,6 @@ class GetExpense extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Client
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpense|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Expenses\Exception\GetExpenseBadRequestException
@@ -75,7 +73,7 @@ class GetExpense extends \NxSys\Library\Clients\Brex\API\Expenses\Runtime\Client
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Expenses\\Model\\ExpandableExpense', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Expenses\Model\ExpandableExpense', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Expenses\Exception\GetExpenseBadRequestException($response);

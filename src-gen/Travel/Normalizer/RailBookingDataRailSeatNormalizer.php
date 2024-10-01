@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Travel\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Travel\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,77 +21,155 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class RailBookingDataRailSeatNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class RailBookingDataRailSeatNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailSeat';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\RailBookingDataRailSeat';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('coach_number', $data) && $data['coach_number'] !== null) {
+                $object->setCoachNumber($data['coach_number']);
+                unset($data['coach_number']);
+            } elseif (\array_key_exists('coach_number', $data) && $data['coach_number'] === null) {
+                $object->setCoachNumber(null);
+            }
+            if (\array_key_exists('seat_number', $data) && $data['seat_number'] !== null) {
+                $object->setSeatNumber($data['seat_number']);
+                unset($data['seat_number']);
+            } elseif (\array_key_exists('seat_number', $data) && $data['seat_number'] === null) {
+                $object->setSeatNumber(null);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('coach_number', $data) && $data['coach_number'] !== null) {
-            $object->setCoachNumber($data['coach_number']);
-            unset($data['coach_number']);
-        } elseif (\array_key_exists('coach_number', $data) && $data['coach_number'] === null) {
-            $object->setCoachNumber(null);
-        }
-        if (\array_key_exists('seat_number', $data) && $data['seat_number'] !== null) {
-            $object->setSeatNumber($data['seat_number']);
-            unset($data['seat_number']);
-        } elseif (\array_key_exists('seat_number', $data) && $data['seat_number'] === null) {
-            $object->setSeatNumber(null);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            if ($object->isInitialized('coachNumber') && null !== $object->getCoachNumber()) {
+                $data['coach_number'] = $object->getCoachNumber();
             }
+            if ($object->isInitialized('seatNumber') && null !== $object->getSeatNumber()) {
+                $data['seat_number'] = $object->getSeatNumber();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class RailBookingDataRailSeatNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        if ($object->isInitialized('coachNumber') && null !== $object->getCoachNumber()) {
-            $data['coach_number'] = $object->getCoachNumber();
-        }
-        if ($object->isInitialized('seatNumber') && null !== $object->getSeatNumber()) {
-            $data['seat_number'] = $object->getSeatNumber();
-        }
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('coach_number', $data) && $data['coach_number'] !== null) {
+                $object->setCoachNumber($data['coach_number']);
+                unset($data['coach_number']);
+            } elseif (\array_key_exists('coach_number', $data) && $data['coach_number'] === null) {
+                $object->setCoachNumber(null);
+            }
+            if (\array_key_exists('seat_number', $data) && $data['seat_number'] !== null) {
+                $object->setSeatNumber($data['seat_number']);
+                unset($data['seat_number']);
+            } elseif (\array_key_exists('seat_number', $data) && $data['seat_number'] === null) {
+                $object->setSeatNumber(null);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            if ($object->isInitialized('coachNumber') && null !== $object->getCoachNumber()) {
+                $data['coach_number'] = $object->getCoachNumber();
+            }
+            if ($object->isInitialized('seatNumber') && null !== $object->getSeatNumber()) {
+                $data['seat_number'] = $object->getSeatNumber();
+            }
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Travel\Model\RailBookingDataRailSeat::class => false];
+        }
     }
 }

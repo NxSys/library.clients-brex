@@ -13,6 +13,7 @@ namespace NxSys\Library\Clients\Brex\API\Transactions\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use NxSys\Library\Clients\Brex\API\Transactions\Runtime\Normalizer\CheckArray;
 use NxSys\Library\Clients\Brex\API\Transactions\Runtime\Normalizer\ValidatorTrait;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,97 +21,195 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class CardAccountNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
-{
-    use DenormalizerAwareTrait;
-    use NormalizerAwareTrait;
-    use CheckArray;
-    use ValidatorTrait;
-
-    public function supportsDenormalization($data, $type, $format = null): bool
+if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
+    class CardAccountNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        return $type === 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccount';
-    }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
 
-    public function supportsNormalization($data, $format = null): bool
-    {
-        return is_object($data) && get_class($data) === 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccount';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function denormalize($data, $class, $format = null, array $context = [])
-    {
-        if (isset($data['$ref'])) {
-            return new Reference($data['$ref'], $context['document-origin']);
+        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class;
         }
-        if (isset($data['$recursiveRef'])) {
-            return new Reference($data['$recursiveRef'], $context['document-origin']);
+
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class;
         }
-        $object = new \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount();
-        if (null === $data || false === \is_array($data)) {
+
+        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('status', $data)) {
+                $object->setStatus($data['status']);
+                unset($data['status']);
+            }
+            if (\array_key_exists('current_balance', $data)) {
+                $object->setCurrentBalance($this->denormalizer->denormalize($data['current_balance'], \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountCurrentBalance::class, 'json', $context));
+                unset($data['current_balance']);
+            }
+            if (\array_key_exists('available_balance', $data)) {
+                $object->setAvailableBalance($this->denormalizer->denormalize($data['available_balance'], \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAvailableBalance::class, 'json', $context));
+                unset($data['available_balance']);
+            }
+            if (\array_key_exists('account_limit', $data)) {
+                $object->setAccountLimit($this->denormalizer->denormalize($data['account_limit'], \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAccountLimit::class, 'json', $context));
+                unset($data['account_limit']);
+            }
+            if (\array_key_exists('current_statement_period', $data)) {
+                $object->setCurrentStatementPeriod($this->denormalizer->denormalize($data['current_statement_period'], \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementPeriod::class, 'json', $context));
+                unset($data['current_statement_period']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
             return $object;
         }
-        if (\array_key_exists('id', $data)) {
-            $object->setId($data['id']);
-            unset($data['id']);
-        }
-        if (\array_key_exists('status', $data)) {
-            $object->setStatus($data['status']);
-            unset($data['status']);
-        }
-        if (\array_key_exists('current_balance', $data)) {
-            $object->setCurrentBalance($this->denormalizer->denormalize($data['current_balance'], 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccountCurrentBalance', 'json', $context));
-            unset($data['current_balance']);
-        }
-        if (\array_key_exists('available_balance', $data)) {
-            $object->setAvailableBalance($this->denormalizer->denormalize($data['available_balance'], 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccountAvailableBalance', 'json', $context));
-            unset($data['available_balance']);
-        }
-        if (\array_key_exists('account_limit', $data)) {
-            $object->setAccountLimit($this->denormalizer->denormalize($data['account_limit'], 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\CardAccountAccountLimit', 'json', $context));
-            unset($data['account_limit']);
-        }
-        if (\array_key_exists('current_statement_period', $data)) {
-            $object->setCurrentStatementPeriod($this->denormalizer->denormalize($data['current_statement_period'], 'NxSys\\Library\\Clients\\Brex\\API\\Transactions\\Model\\StatementPeriod', 'json', $context));
-            unset($data['current_statement_period']);
-        }
-        foreach ($data as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $object[$key] = $value;
+
+        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            if ($object->isInitialized('status') && null !== $object->getStatus()) {
+                $data['status'] = $object->getStatus();
             }
+            if ($object->isInitialized('currentBalance') && null !== $object->getCurrentBalance()) {
+                $data['current_balance'] = $this->normalizer->normalize($object->getCurrentBalance(), 'json', $context);
+            }
+            if ($object->isInitialized('availableBalance') && null !== $object->getAvailableBalance()) {
+                $data['available_balance'] = $this->normalizer->normalize($object->getAvailableBalance(), 'json', $context);
+            }
+            if ($object->isInitialized('accountLimit') && null !== $object->getAccountLimit()) {
+                $data['account_limit'] = $this->normalizer->normalize($object->getAccountLimit(), 'json', $context);
+            }
+            $data['current_statement_period'] = $this->normalizer->normalize($object->getCurrentStatementPeriod(), 'json', $context);
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
         }
 
-        return $object;
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class => false];
+        }
     }
-
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
-    public function normalize($object, $format = null, array $context = [])
+} else {
+    class CardAccountNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
     {
-        $data = [];
-        $data['id'] = $object->getId();
-        if ($object->isInitialized('status') && null !== $object->getStatus()) {
-            $data['status'] = $object->getStatus();
-        }
-        if ($object->isInitialized('currentBalance') && null !== $object->getCurrentBalance()) {
-            $data['current_balance'] = $this->normalizer->normalize($object->getCurrentBalance(), 'json', $context);
-        }
-        if ($object->isInitialized('availableBalance') && null !== $object->getAvailableBalance()) {
-            $data['available_balance'] = $this->normalizer->normalize($object->getAvailableBalance(), 'json', $context);
-        }
-        if ($object->isInitialized('accountLimit') && null !== $object->getAccountLimit()) {
-            $data['account_limit'] = $this->normalizer->normalize($object->getAccountLimit(), 'json', $context);
-        }
-        $data['current_statement_period'] = $this->normalizer->normalize($object->getCurrentStatementPeriod(), 'json', $context);
-        foreach ($object as $key => $value) {
-            if (preg_match('/.*/', (string) $key)) {
-                $data[$key] = $value;
-            }
+        use DenormalizerAwareTrait;
+        use NormalizerAwareTrait;
+        use CheckArray;
+        use ValidatorTrait;
+
+        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
+        {
+            return $type === \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class;
         }
 
-        return $data;
+        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+        {
+            return is_object($data) && get_class($data) === \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class;
+        }
+
+        public function denormalize($data, $type, $format = null, array $context = [])
+        {
+            if (isset($data['$ref'])) {
+                return new Reference($data['$ref'], $context['document-origin']);
+            }
+            if (isset($data['$recursiveRef'])) {
+                return new Reference($data['$recursiveRef'], $context['document-origin']);
+            }
+            $object = new \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount();
+            if (null === $data || false === \is_array($data)) {
+                return $object;
+            }
+            if (\array_key_exists('id', $data)) {
+                $object->setId($data['id']);
+                unset($data['id']);
+            }
+            if (\array_key_exists('status', $data)) {
+                $object->setStatus($data['status']);
+                unset($data['status']);
+            }
+            if (\array_key_exists('current_balance', $data)) {
+                $object->setCurrentBalance($this->denormalizer->denormalize($data['current_balance'], \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountCurrentBalance::class, 'json', $context));
+                unset($data['current_balance']);
+            }
+            if (\array_key_exists('available_balance', $data)) {
+                $object->setAvailableBalance($this->denormalizer->denormalize($data['available_balance'], \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAvailableBalance::class, 'json', $context));
+                unset($data['available_balance']);
+            }
+            if (\array_key_exists('account_limit', $data)) {
+                $object->setAccountLimit($this->denormalizer->denormalize($data['account_limit'], \NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccountAccountLimit::class, 'json', $context));
+                unset($data['account_limit']);
+            }
+            if (\array_key_exists('current_statement_period', $data)) {
+                $object->setCurrentStatementPeriod($this->denormalizer->denormalize($data['current_statement_period'], \NxSys\Library\Clients\Brex\API\Transactions\Model\StatementPeriod::class, 'json', $context));
+                unset($data['current_statement_period']);
+            }
+            foreach ($data as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $object[$key] = $value;
+                }
+            }
+
+            return $object;
+        }
+
+        /**
+         * @return array|string|int|float|bool|\ArrayObject|null
+         */
+        public function normalize($object, $format = null, array $context = [])
+        {
+            $data = [];
+            $data['id'] = $object->getId();
+            if ($object->isInitialized('status') && null !== $object->getStatus()) {
+                $data['status'] = $object->getStatus();
+            }
+            if ($object->isInitialized('currentBalance') && null !== $object->getCurrentBalance()) {
+                $data['current_balance'] = $this->normalizer->normalize($object->getCurrentBalance(), 'json', $context);
+            }
+            if ($object->isInitialized('availableBalance') && null !== $object->getAvailableBalance()) {
+                $data['available_balance'] = $this->normalizer->normalize($object->getAvailableBalance(), 'json', $context);
+            }
+            if ($object->isInitialized('accountLimit') && null !== $object->getAccountLimit()) {
+                $data['account_limit'] = $this->normalizer->normalize($object->getAccountLimit(), 'json', $context);
+            }
+            $data['current_statement_period'] = $this->normalizer->normalize($object->getCurrentStatementPeriod(), 'json', $context);
+            foreach ($object as $key => $value) {
+                if (preg_match('/.*/', (string) $key)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            return $data;
+        }
+
+        public function getSupportedTypes(?string $format = null): array
+        {
+            return [\NxSys\Library\Clients\Brex\API\Transactions\Model\CardAccount::class => false];
+        }
     }
 }

@@ -46,8 +46,6 @@ class GetBooking extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Client\B
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Travel\Model\Booking|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Travel\Exception\GetBookingBadRequestException
@@ -61,7 +59,7 @@ class GetBooking extends \NxSys\Library\Clients\Brex\API\Travel\Runtime\Client\B
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Travel\\Model\\Booking', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Travel\Model\Booking', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Travel\Exception\GetBookingBadRequestException($response);

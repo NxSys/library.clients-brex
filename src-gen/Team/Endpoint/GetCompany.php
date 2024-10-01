@@ -35,8 +35,6 @@ class GetCompany extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse|null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetCompanyBadRequestException
@@ -48,7 +46,7 @@ class GetCompany extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Bas
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
-            return $serializer->deserialize($body, 'NxSys\\Library\\Clients\\Brex\\API\\Team\\Model\\CompanyResponse', 'json');
+            return $serializer->deserialize($body, 'NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse', 'json');
         }
         if (400 === $status) {
             throw new \NxSys\Library\Clients\Brex\API\Team\Exception\GetCompanyBadRequestException($response);

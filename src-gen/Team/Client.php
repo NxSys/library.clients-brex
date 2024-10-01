@@ -10,127 +10,116 @@ declare(strict_types=1);
 
 namespace NxSys\Library\Clients\Brex\API\Team;
 
-class Client extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Client
+class Client extends Runtime\Client\Client
 {
     /**
-    Lists all cards by a `user_id`.
-    Only cards with `limit_type = CARD` have `spend_controls`
-
+     * Lists all cards by a `user_id`.
+     * Only cards with `limit_type = CARD` have `spend_controls`.
      *
      * @param array $queryParameters {
      *
-     *     @var string $user_id
-     *     @var string $cursor
-     *     @var int $limit
-     * }
+     * @var string $user_id
+     * @var string $cursor
+     * @var int    $limit
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\PageCard|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageCard|\Psr\Http\Message\ResponseInterface|null
      */
     public function listCardsByUserId(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\ListCardsByUserId($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListCardsByUserId($queryParameters), $fetch);
     }
 
     /**
-    Creates a new card.
-    The `spend_controls` field is required when `limit_type` = `CARD`.
-    The `mailing_address` field is required for physical cards and is the shipping address used to send the card; it is not the same as the billing and mailing address used for online purchases.
-    The first 2 lines of this address must be under 60 characters long. Each user can only have up to 10 active physical cards.
-
+     * Creates a new card.
+     * The `spend_controls` field is required when `limit_type` = `CARD`.
+     * The `mailing_address` field is required for physical cards and is the shipping address used to send the card; it is not the same as the billing and mailing address used for online purchases.
+     * The first 2 lines of this address must be under 60 characters long. Each user can only have up to 10 active physical cards.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\CreateCardRequest $requestBody
-     * @param array                                                        $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Card|\Psr\Http\Message\ResponseInterface|null
      */
     public function createCard(Model\CreateCardRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\CreateCard($requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\CreateCard($requestBody, $headerParameters), $fetch);
     }
 
     /**
-    Retrieves a card by ID. Only cards with `limit_type = CARD` have `spend_controls`
-
+     * Retrieves a card by ID. Only cards with `limit_type = CARD` have `spend_controls`.
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Card|\Psr\Http\Message\ResponseInterface|null
      */
     public function getCardById(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\GetCardById($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetCardById($id), $fetch);
     }
 
     /**
-    Update an existing vendor card
-
+     * Update an existing vendor card.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\UpdateCardRequest $requestBody
-     * @param array                                                        $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Card|\Psr\Http\Message\ResponseInterface|null
      */
     public function updateCard(string $id, Model\UpdateCardRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\UpdateCard($id, $requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdateCard($id, $requestBody, $headerParameters), $fetch);
     }
 
     /**
-    Locks an existing, unlocked card. And the card owner will receive a notification about it.
-
+     * Locks an existing, unlocked card. And the card owner will receive a notification about it.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\LockCardRequest $requestBody
-     * @param array                                                      $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Card|\Psr\Http\Message\ResponseInterface|null
      */
     public function lockCard(string $id, Model\LockCardRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\LockCard($id, $requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\LockCard($id, $requestBody, $headerParameters), $fetch);
     }
 
     /**
-    Retrieves card number, CVV, and expiration date of a card by ID.
-
+     * Retrieves card number, CVV, and expiration date of a card by ID.
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\CardNumberResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\CardNumberResponse|\Psr\Http\Message\ResponseInterface|null
      */
     public function getCardNumber(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\GetCardNumber($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetCardNumber($id), $fetch);
     }
 
     /**
-    Creates a secure email to send card number, CVV, and expiration date of a card by ID to the specified email.
-
-    This endpoint is currently gated. If you would like to request access, please reach out to
-    developer-access@brex.com
-
+     * Creates a secure email to send card number, CVV, and expiration date of a card by ID to the specified email.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\SecureEmailForCardDetailsRequest $requestBody
-     * @param array                                                                       $headerParameters {
+     * This endpoint is currently gated. If you would like to request access, please reach out to
+     * developer-access@brex.com
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @param array $headerParameters {
+     *
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
@@ -138,323 +127,303 @@ class Client extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Client
      */
     public function emailCardNumber(string $id, Model\SecureEmailForCardDetailsRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\EmailCardNumber($id, $requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\EmailCardNumber($id, $requestBody, $headerParameters), $fetch);
     }
 
     /**
-    Terminates an existing card. The card owner will receive a notification about it.
-
-     *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\TerminateCardRequest $requestBody
-     * @param array                                                           $headerParameters {
-     *
-     *     @var string $Idempotency-Key
-     * }
-     *
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
-     *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|\Psr\Http\Message\ResponseInterface|null
-     */
-    public function terminateCard(string $id, Model\TerminateCardRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
-    {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\TerminateCard($id, $requestBody, $headerParameters), $fetch);
-    }
-
-    /**
-    Unlocks an existing card.
-
+     * Terminates an existing card. The card owner will receive a notification about it.
      *
      * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\Card|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\Card|\Psr\Http\Message\ResponseInterface|null
+     */
+    public function terminateCard(string $id, Model\TerminateCardRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
+    {
+        return $this->executeEndpoint(new Endpoint\TerminateCard($id, $requestBody, $headerParameters), $fetch);
+    }
+
+    /**
+     * Unlocks an existing card.
+     *
+     * @param array $headerParameters {
+     *
+     * @var string $Idempotency-Key
+     *             }
+     *
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @return Model\Card|\Psr\Http\Message\ResponseInterface|null
      */
     public function unlockCard(string $id, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\UnlockCard($id, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\UnlockCard($id, $headerParameters), $fetch);
     }
 
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\CompanyResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\CompanyResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetCompanyBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetCompanyUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetCompanyForbiddenException
+     * @throws Exception\GetCompanyBadRequestException
+     * @throws Exception\GetCompanyUnauthorizedException
+     * @throws Exception\GetCompanyForbiddenException
      */
     public function getCompany(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\GetCompany(), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetCompany(), $fetch);
     }
 
     /**
-    This endpoint lists all departments.
-
+     * This endpoint lists all departments.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $name
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $name
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\PageDepartmentResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageDepartmentResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListDepartmentsBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListDepartmentsUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListDepartmentsForbiddenException
+     * @throws Exception\ListDepartmentsBadRequestException
+     * @throws Exception\ListDepartmentsUnauthorizedException
+     * @throws Exception\ListDepartmentsForbiddenException
      */
     public function listDepartments(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\ListDepartments($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListDepartments($queryParameters), $fetch);
     }
 
     /**
-    This endpoint creates a new department
-
+     * This endpoint creates a new department.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\CreateDepartmentRequest $requestBody
-     * @param array                                                              $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\DepartmentResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateDepartmentForbiddenException
+     * @throws Exception\CreateDepartmentBadRequestException
+     * @throws Exception\CreateDepartmentUnauthorizedException
+     * @throws Exception\CreateDepartmentForbiddenException
      */
     public function createDepartment(Model\CreateDepartmentRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\CreateDepartment($requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\CreateDepartment($requestBody, $headerParameters), $fetch);
     }
 
     /**
-    This endpoint gets a department by ID.
-
+     * This endpoint gets a department by ID.
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\DepartmentResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\DepartmentResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetDepartmentByIdBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetDepartmentByIdUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetDepartmentByIdForbiddenException
+     * @throws Exception\GetDepartmentByIdBadRequestException
+     * @throws Exception\GetDepartmentByIdUnauthorizedException
+     * @throws Exception\GetDepartmentByIdForbiddenException
      */
     public function getDepartmentById(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\GetDepartmentById($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetDepartmentById($id), $fetch);
     }
 
     /**
-    This endpoint lists all locations.
-
+     * This endpoint lists all locations.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $name
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $name
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\PageLocationResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageLocationResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListLocationsForbiddenException
+     * @throws Exception\ListLocationsBadRequestException
+     * @throws Exception\ListLocationsUnauthorizedException
+     * @throws Exception\ListLocationsForbiddenException
      */
     public function listLocations(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\ListLocations($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListLocations($queryParameters), $fetch);
     }
 
     /**
-    This endpoint creates a new location.
-
+     * This endpoint creates a new location.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\CreateLocationRequest $requestBody
-     * @param array                                                            $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\LocationResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateLocationBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateLocationUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateLocationForbiddenException
+     * @throws Exception\CreateLocationBadRequestException
+     * @throws Exception\CreateLocationUnauthorizedException
+     * @throws Exception\CreateLocationForbiddenException
      */
     public function createLocation(Model\CreateLocationRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\CreateLocation($requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\CreateLocation($requestBody, $headerParameters), $fetch);
     }
 
     /**
-    This endpoint gets a location by ID.
-
+     * This endpoint gets a location by ID.
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\LocationResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\LocationResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetLocationByIdBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetLocationByIdUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetLocationByIdForbiddenException
+     * @throws Exception\GetLocationByIdBadRequestException
+     * @throws Exception\GetLocationByIdUnauthorizedException
+     * @throws Exception\GetLocationByIdForbiddenException
      */
     public function getLocationById(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\GetLocationById($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetLocationById($id), $fetch);
     }
 
     /**
-    This endpoint lists all users. To find a user id by email, you can filter using the `email` query parameter.
-
+     * This endpoint lists all users. To find a user id by email, you can filter using the `email` query parameter.
      *
      * @param array $queryParameters {
      *
-     *     @var string $cursor
-     *     @var int $limit
-     *     @var string $email
-     *     @var array $expand[]
-     * }
+     * @var string $cursor
+     * @var int    $limit
+     * @var string $email
+     * @var array  $expand[]
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\PageUserResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\PageUserResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\ListUsersForbiddenException
+     * @throws Exception\ListUsersBadRequestException
+     * @throws Exception\ListUsersUnauthorizedException
+     * @throws Exception\ListUsersForbiddenException
      */
     public function listUsers(array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\ListUsers($queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\ListUsers($queryParameters), $fetch);
     }
 
     /**
-    This endpoint invites a new user as an employee.
-    To update user's role, check out [this article](https://support.brex.com/how-do-i-change-another-user-s-role/).
-
+     * This endpoint invites a new user as an employee.
+     * To update user's role, check out [this article](https://support.brex.com/how-do-i-change-another-user-s-role/).
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\CreateUserRequest $requestBody
-     * @param array                                                        $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\UserResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateUserBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateUserUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\CreateUserForbiddenException
+     * @throws Exception\CreateUserBadRequestException
+     * @throws Exception\CreateUserUnauthorizedException
+     * @throws Exception\CreateUserForbiddenException
      */
     public function createUser(Model\CreateUserRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\CreateUser($requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\CreateUser($requestBody, $headerParameters), $fetch);
     }
 
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\UserResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetMeBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetMeUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetMeForbiddenException
+     * @throws Exception\GetMeBadRequestException
+     * @throws Exception\GetMeUnauthorizedException
+     * @throws Exception\GetMeForbiddenException
      */
     public function getMe(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\GetMe(), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetMe(), $fetch);
     }
 
     /**
-    This endpoint gets a user by ID.
-
+     * This endpoint gets a user by ID.
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\UserResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetUserByIdBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetUserByIdUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\GetUserByIdForbiddenException
+     * @throws Exception\GetUserByIdBadRequestException
+     * @throws Exception\GetUserByIdUnauthorizedException
+     * @throws Exception\GetUserByIdForbiddenException
      */
     public function getUserById(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\GetUserById($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetUserById($id), $fetch);
     }
 
     /**
-    This endpoint updates a user. Any parameters not provided will be left unchanged.
-
+     * This endpoint updates a user. Any parameters not provided will be left unchanged.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\UpdateUserRequest $requestBody
-     * @param array                                                        $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\UserResponse|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\UpdateUserBadRequestException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\UpdateUserUnauthorizedException
-     * @throws \NxSys\Library\Clients\Brex\API\Team\Exception\UpdateUserForbiddenException
+     * @throws Exception\UpdateUserBadRequestException
+     * @throws Exception\UpdateUserUnauthorizedException
+     * @throws Exception\UpdateUserForbiddenException
      */
     public function updateUser(string $id, Model\UpdateUserRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\UpdateUser($id, $requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdateUser($id, $requestBody, $headerParameters), $fetch);
     }
 
     /**
-    This endpoint gets the monthly limit for the user including the monthly available limit.
-
+     * This endpoint gets the monthly limit for the user including the monthly available limit.
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\UserLimitResponse|\Psr\Http\Message\ResponseInterface|null
      */
     public function getUserLimit(string $id, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\GetUserLimit($id), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetUserLimit($id), $fetch);
     }
 
     /**
-    This endpoint sets the monthly limit for a user.
-    The limit amount must be non-negative.
-    To unset the monthly limit of the user, just set `monthly_limit` to null.
-
+     * This endpoint sets the monthly limit for a user.
+     * The limit amount must be non-negative.
+     * To unset the monthly limit of the user, just set `monthly_limit` to null.
      *
-     * @param \NxSys\Library\Clients\Brex\API\Team\Model\SetUserLimitRequest $requestBody
-     * @param array                                                          $headerParameters {
+     * @param array $headerParameters {
      *
-     *     @var string $Idempotency-Key
-     * }
+     * @var string $Idempotency-Key
+     *             }
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \NxSys\Library\Clients\Brex\API\Team\Model\UserLimitResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return Model\UserLimitResponse|\Psr\Http\Message\ResponseInterface|null
      */
     public function setUserLimit(string $id, Model\SetUserLimitRequest $requestBody, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \NxSys\Library\Clients\Brex\API\Team\Endpoint\SetUserLimit($id, $requestBody, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\SetUserLimit($id, $requestBody, $headerParameters), $fetch);
     }
 
     public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [])
@@ -462,7 +431,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Client
         if (null === $httpClient) {
             $httpClient = \Http\Discovery\Psr18ClientDiscovery::find();
             $plugins = [];
-            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUrlFactory()->createUri('https://platform.brexapis.com');
+            $uri = \Http\Discovery\Psr17FactoryDiscovery::findUriFactory()->createUri('https://platform.brexapis.com');
             $plugins[] = new \Http\Client\Common\Plugin\AddHostPlugin($uri);
             if (count($additionalPlugins) > 0) {
                 $plugins = array_merge($plugins, $additionalPlugins);
@@ -471,7 +440,7 @@ class Client extends \NxSys\Library\Clients\Brex\API\Team\Runtime\Client\Client
         }
         $requestFactory = \Http\Discovery\Psr17FactoryDiscovery::findRequestFactory();
         $streamFactory = \Http\Discovery\Psr17FactoryDiscovery::findStreamFactory();
-        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new \NxSys\Library\Clients\Brex\API\Team\Normalizer\JaneObjectNormalizer()];
+        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new Normalizer\JaneObjectNormalizer()];
         if (count($additionalNormalizers) > 0) {
             $normalizers = array_merge($normalizers, $additionalNormalizers);
         }

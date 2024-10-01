@@ -39,8 +39,6 @@ class DeleteSubscription extends \NxSys\Library\Clients\Brex\API\Webhooks\Runtim
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return null
      *
      * @throws \NxSys\Library\Clients\Brex\API\Webhooks\Exception\DeleteSubscriptionBadRequestException
