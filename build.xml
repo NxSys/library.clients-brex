@@ -9,7 +9,7 @@
 # Description:
 #  Build file for PHP SDK for Brex
 #
-# @link http://nxsys.org/spaces/library.client-brex
+# @link http://nxsys.org/spaces/library.clients-brex
 # @link https://onx.zulipchat.com Questions? Get project help!
 # @package NAME\SUB
 # @author ONX Group <onx@nxs.systems>
@@ -17,11 +17,11 @@
 #
 # @version $Revision: 1337 $
 # @copyright Copyright 2023 Nexus Systems Inc.
-# @license http://nxsys.org/spaces/library.client-brexlibrary.client-brex/wiki/license.html
+# @license http://nxsys.org/spaces/library.clients-brex/wiki/license.html
 # Please see the license.txt file or the url above for full copyright and
 # license terms.
 ============================================================================ -->
-<project name="library.client-brex" default="dist-full">
+<project name="library.clients-brex" default="dist-full">
 	<property name="dir.buildConfs"  value=".config" />
 	<property file="${dir.buildConfs}/build.properties" />
 	<fileset dir="." includesfile="${dir.buildConfs}/_dist-texts.txt" id="dist-texts"/>
