@@ -38,10 +38,10 @@ CAUTION: This is financial software. The nature of the Brex API means that most 
 * A [library that implements PSR7](https://packagist.org/providers/psr/http-factory-implementation)
 
 ### Installation
-Install `nxsys/library.client-brex` with composer.
+Install `nxsys/library.clients-brex` with composer.
 
 ```bash
-composer require nxsys/library.client-brex
+composer require nxsys/library.clients-brex
 ```
 This library allows you to keep the http client library you may already
 be using in your application. It does this through [service discovery](https://docs.php-http.org/en/latest/discovery.html).
@@ -112,7 +112,7 @@ The following communication channels are open:
 - Chat: https://onx.zulipchat.com
 - Issues: https://github.com/NxSys/library.clients-brex/issues
 - Forum: https://github.com/NxSys/library.clients-brex/discussions
-<!-- - Wiki: https://nxsys.assembla.com/spaces/library.client-brex/wiki -->
+<!-- - Wiki: https://nxsys.assembla.com/spaces/library.clients-brex/wiki -->
 - Src: https://github.com/NxSys/library.clients-brex
 
 If you have any feedback, please reach out to us at onx@nxs.systems

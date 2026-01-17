@@ -53,7 +53,7 @@ The following communication channels are open:
 * Issues: https://github.com/NxSys/library.clients-brex/issues
 * Forum: https://github.com/NxSys/library.clients-brex/discussions
 
-.. <!-- - Wiki: https://nxsys.assembla.com/spaces/library.client-brex/wiki -->
+.. <!-- - Wiki: https://nxsys.assembla.com/spaces/library.clients-brex/wiki -->
 
 If you have any additional feedback, or commercial inquiries, please reach out to us at onx@nxs.systems.
 
