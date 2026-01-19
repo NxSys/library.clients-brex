@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a516cec6c1f73a0ea03bc338e9767939",
+    "content-hash": "93cc3ef23007787b657ea8d722e7b5d3",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -1595,60 +1595,6 @@
             "time": "2022-12-23T10:58:28+00:00"
         },
         {
-            "name": "comcast/php-legal-licenses",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Comcast/php-legal-licenses.git",
-                "reference": "3ebbbc4a9b0bb9c2d43434455aee077ee22ada65"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Comcast/php-legal-licenses/zipball/3ebbbc4a9b0bb9c2d43434455aee077ee22ada65",
-                "reference": "3ebbbc4a9b0bb9c2d43434455aee077ee22ada65",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "symfony/console": ">=5.4.46 < 6.0.0 || >=6.4.14 < 7.0.0 || >=7.1.7",
-                "symfony/process": ">=5.4.46 < 6.0.0 || >=6.4.14 < 7.0.0 || >=7.1.7"
-            },
-            "bin": [
-                "bin/php-legal-licenses"
-            ],
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Adam Marshall",
-                    "email": "adam_marshall2@comcast.com",
-                    "role": "lead"
-                }
-            ],
-            "description": "A utility to generate a Licenses file containing the full license text for every dependency in your project for legal purposes.",
-            "homepage": "https://github.com/Comcast/php-legal-licenses",
-            "keywords": [
-                "binary",
-                "legal",
-                "license",
-                "licenses",
-                "utility"
-            ],
-            "support": {
-                "issues": "https://github.com/Comcast/php-legal-licenses/issues",
-                "source": "https://github.com/Comcast/php-legal-licenses/tree/v2.0.0"
-            },
-            "time": "2024-11-07T19:17:33+00:00"
-        },
-        {
             "name": "composer/pcre",
             "version": "3.3.2",
             "source": {
@@ -2070,16 +2016,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.92.5",
+            "version": "v3.90.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "260cc8c4a1d2f6d2f22cd4f9c70aa72e55ebac58"
+                "reference": "ad732c2e9299c9743f9c55ae53cc0e7642ab1155"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/260cc8c4a1d2f6d2f22cd4f9c70aa72e55ebac58",
-                "reference": "260cc8c4a1d2f6d2f22cd4f9c70aa72e55ebac58",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/ad732c2e9299c9743f9c55ae53cc0e7642ab1155",
+                "reference": "ad732c2e9299c9743f9c55ae53cc0e7642ab1155",
                 "shasum": ""
             },
             "require": {
@@ -2111,17 +2057,16 @@
             },
             "require-dev": {
                 "facile-it/paraunit": "^1.3.1 || ^2.7",
-                "infection/infection": "^0.31",
-                "justinrainbow/json-schema": "^6.6",
-                "keradus/cli-executor": "^2.3",
+                "infection/infection": "^0.31.0",
+                "justinrainbow/json-schema": "^6.5",
+                "keradus/cli-executor": "^2.2",
                 "mikey179/vfsstream": "^1.6.12",
                 "php-coveralls/php-coveralls": "^2.9",
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.6",
                 "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.6",
-                "phpunit/phpunit": "^9.6.31 || ^10.5.60 || ^11.5.46",
-                "symfony/polyfill-php85": "^1.33",
-                "symfony/var-dumper": "^5.4.48 || ^6.4.26 || ^7.4.0 || ^8.0",
-                "symfony/yaml": "^5.4.45 || ^6.4.30 || ^7.4.1 || ^8.0"
+                "phpunit/phpunit": "^9.6.25 || ^10.5.53 || ^11.5.34",
+                "symfony/var-dumper": "^5.4.48 || ^6.4.24 || ^7.3.2 || ^8.0",
+                "symfony/yaml": "^5.4.45 || ^6.4.24 || ^7.3.2 || ^8.0"
             },
             "suggest": {
                 "ext-dom": "For handling output formats in XML",
@@ -2136,7 +2081,7 @@
                     "PhpCsFixer\\": "src/"
                 },
                 "exclude-from-classmap": [
-                    "src/**/Internal/"
+                    "src/Fixer/Internal/*"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2162,7 +2107,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.5"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.90.0"
             },
             "funding": [
                 {
@@ -2170,7 +2115,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-08T21:57:37+00:00"
+            "time": "2025-11-20T15:15:16+00:00"
         },
         {
             "name": "jane-php/json-schema",

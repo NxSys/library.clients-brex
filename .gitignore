@@ -18,3 +18,4 @@ doxy/
 tests/_output/
 tests/Support/_generated/
 .scannerwork
+.config/_license_inventory.txt
