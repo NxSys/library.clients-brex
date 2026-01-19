@@ -4,11 +4,11 @@ Getting Started
 
 Installation
 ------------
-Install `nxsys/library.client-brex <https://packagist.org/packages/nxsys/library.clients-brex>`_ with `Composer <https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos>`_.
+Install `nxsys/library.clients-brex <https://packagist.org/packages/nxsys/library.clients-brex>`_ with `Composer <https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos>`_.
 
 .. code-block::
 
-	composer require nxsys/library.client-brex
+        composer require nxsys/library.clients-brex
 
 And please don't forget
 
