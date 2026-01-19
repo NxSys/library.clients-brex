@@ -87,6 +87,9 @@ class BasicTest extends \Codeception\Test\Unit
 		$this->assertInstanceOf(BrexSdk\API\Transactions\Client::class,	$this->oSDK->getTransactionsClient());
 		$this->assertInstanceOf(BrexSdk\API\Webhooks\Client::class,	$this->oSDK->getWebhooksClient());
 		$this->assertInstanceOf(BrexSdk\API\Travel\Client::class,	$this->oSDK->getTravelClient());
+		$this->assertInstanceOf(BrexSdk\API\Accounting\Client::class,	$this->oSDK->getTravelClient());
+		$this->assertInstanceOf(BrexSdk\API\Fields\Client::class,	$this->oSDK->getTravelClient());
+		$this->assertInstanceOf(BrexSdk\API\Onboarding\Client::class,	$this->oSDK->getTravelClient());
     }
 
     public function testApiTeamClientSetup()
@@ -132,6 +135,24 @@ class BasicTest extends \Codeception\Test\Unit
 	{
 		$this->oSDK->setupTravelClient();
 		$this->assertInstanceOf(BrexSdk\API\Travel\Client::class, $this->oSDK->getTravelClient());
+	}
+
+	public function testApiAccountingClientSetup()
+	{
+		$this->oSDK->setupAccountingClient();
+		$this->assertInstanceOf(BrexSdk\API\Accounting\Client::class, $this->oSDK->getAccountingClient());
+	}
+
+	public function testApiFieldsClientSetup()
+	{
+		$this->oSDK->setupFieldsClient();
+		$this->assertInstanceOf(BrexSdk\API\Fields\Client::class, $this->oSDK->getFieldsClient());
+	}
+
+	public function testApiOnboardingClientSetup()
+	{
+		$this->oSDK->setupOnboardingClient();
+		$this->assertInstanceOf(BrexSdk\API\Onboarding\Client::class, $this->oSDK->getOnboardingClient());
 	}
 
 

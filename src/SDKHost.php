@@ -53,6 +53,9 @@ class SDKHost
 		$this->setupTransactionsClient($httpClient, $additionalPlugins, $additionalNormalizers);
 		$this->setupWebhooksClient($httpClient, $additionalPlugins, $additionalNormalizers);
 		$this->setupTravelClient($httpClient, $additionalPlugins, $additionalNormalizers);
+		$this->setupAccountingClient($httpClient, $additionalPlugins, $additionalNormalizers);
+		$this->setupFieldsClient($httpClient, $additionalPlugins, $additionalNormalizers);
+		$this->setupOnboardingClient($httpClient, $additionalPlugins, $additionalNormalizers);
 
 		return $this;
 	}
@@ -262,6 +265,96 @@ class SDKHost
 	public function getTravelClient(): API\Travel\Client
 	{
 		return $this->aApiClients['travel']??throw new Exception\SDKRuntimeException("Travel client has not been setup yet.");
+	}
+
+	/**
+	 *  Sets up the Accounting client
+	 *
+	 * @param PsrHttpClient|null $httpClient
+	 * @param HttpPlugin[] $additionalPlugins
+	 * @param array $additionalNormalizers
+	 * @return API\Accounting\Client
+	 */
+	public function setupAccountingClient($httpClient = null, array $additionalPlugins = [],
+		array $additionalNormalizers = []): API\Accounting\Client
+	{
+		if(!$httpClient)
+		{
+			$httpClient = $this->getHttpClient();
+		}
+		$additionalPlugins = array_merge(
+			$additionalPlugins,
+			$this->getHttpPlugins(),
+			[$this->getAuthPlugin()]
+		);
+		$this->aApiClients['accounting']
+			 = API\Accounting\Client::create($httpClient, $additionalPlugins, $additionalNormalizers);
+		return $this->aApiClients['accounting'];
+	}
+
+	public function getAccountingClient(): API\Accounting\Client
+	{
+		return $this->aApiClients['accounting']??throw new Exception\SDKRuntimeException("Accounting client has not been setup yet.");
+	}
+
+	/**
+	 *  Sets up the Fields client
+	 *
+	 * @param PsrHttpClient|null $httpClient
+	 * @param HttpPlugin[] $additionalPlugins
+	 * @param array $additionalNormalizers
+	 * @return API\Fields\Client
+	 */
+	public function setupFieldsClient($httpClient = null, array $additionalPlugins = [],
+		array $additionalNormalizers = []): API\Fields\Client
+	{
+		if(!$httpClient)
+		{
+			$httpClient = $this->getHttpClient();
+		}
+		$additionalPlugins = array_merge(
+			$additionalPlugins,
+			$this->getHttpPlugins(),
+			[$this->getAuthPlugin()]
+		);
+		$this->aApiClients['fields']
+			 = API\Fields\Client::create($httpClient, $additionalPlugins, $additionalNormalizers);
+		return $this->aApiClients['fields'];
+	}
+
+	public function getFieldsClient(): API\Fields\Client
+	{
+		return $this->aApiClients['fields']??throw new Exception\SDKRuntimeException("Fields client has not been setup yet.");
+	}
+
+	/**
+	 *  Sets up the Onboarding client
+	 *
+	 * @param PsrHttpClient|null $httpClient
+	 * @param HttpPlugin[] $additionalPlugins
+	 * @param array $additionalNormalizers
+	 * @return API\Onboarding\Client
+	 */
+	public function setupOnboardingClient($httpClient = null, array $additionalPlugins = [],
+		array $additionalNormalizers = []): API\Onboarding\Client
+	{
+		if(!$httpClient)
+		{
+			$httpClient = $this->getHttpClient();
+		}
+		$additionalPlugins = array_merge(
+			$additionalPlugins,
+			$this->getHttpPlugins(),
+			[$this->getAuthPlugin()]
+		);
+		$this->aApiClients['onboarding']
+			 = API\Onboarding\Client::create($httpClient, $additionalPlugins, $additionalNormalizers);
+		return $this->aApiClients['onboarding'];
+	}
+
+	public function getOnboardingClient(): API\Onboarding\Client
+	{
+		return $this->aApiClients['onboarding']??throw new Exception\SDKRuntimeException("Onboarding client has not been setup yet.");
 	}
 
 	/**

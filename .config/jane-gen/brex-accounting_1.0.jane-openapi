@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'openapi-file' => '.config/jane-gen/brex-accounting_1.0.json',
+    'namespace' => 'NxSys\Library\Clients\Brex\API\Accounting',
+    'directory' => __DIR__ . '../../../src-gen/Accounting',
+    'use-fixer' => true,
+];

@@ -190,10 +190,24 @@
 			<arg value="--verbose"/>
 		</exec>
 
-		<echo msg="... for Budgets API (last one!)" />
+		<echo msg="... for Accounting API" />
 		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
 			<arg value="generate"/>
-			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-budgets_1.0.jane-openapi'"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-accounting_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+
+		<echo msg="... for Fields API" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-fields_1.0.jane-openapi'"/>
+			<arg value="--verbose"/>
+		</exec>
+
+		<echo msg="... for Onboarding API (last one!)" />
+		<exec executable="vendor/bin/jane-openapi" passthru="${build.isVerbose}" checkreturn="true">
+			<arg value="generate"/>
+			<arg line="--config-file='${dir.buildConfs}/jane-gen/brex-onboarding_1.0.jane-openapi'"/>
 			<arg value="--verbose"/>
 		</exec>
 	</target>

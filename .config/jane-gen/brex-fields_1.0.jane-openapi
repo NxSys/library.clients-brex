@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'openapi-file' => '.config/jane-gen/brex-fields_1.0.0-beta.json',
+    'namespace' => 'NxSys\Library\Clients\Brex\API\Fields',
+    'directory' => __DIR__ . '../../../src-gen/Fields',
+    'use-fixer' => true,
+];

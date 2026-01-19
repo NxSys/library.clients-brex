@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'openapi-file' => '.config/jane-gen/brex-onboarding_1.0.json',
+    'namespace' => 'NxSys\Library\Clients\Brex\API\Onboarding',
+    'directory' => __DIR__ . '../../../src-gen/Onboarding',
+    'use-fixer' => true,
+];
