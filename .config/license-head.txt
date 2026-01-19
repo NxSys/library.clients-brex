@@ -1,6 +1,6 @@
 PHP SDK for Brex
 
-Copyright (c) 2024 Nexus Systems, Inc. Any rights not expressly granted herein are reserved.
+Copyright (c) 2023-2026 Nexus Systems, Inc. Any rights not expressly granted herein are reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 Questions or concerns can be directed toward any of the following channels:
 
 Web:
-    http://nxs.systems/corp/contact-us.html
+    https://nxs.systems/go/contact
 
 Email:
     <os@nxs.systems>

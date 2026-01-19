@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Brex SDK for PHP'
-copyright = '2024, Nexus Systems, Inc.'
+copyright = '2023-2026, Nexus Systems, Inc.'
 author = 'ONX Group <onx@nxs.systems>'
 release = 'GA'
 
@@ -25,7 +25,7 @@ numfig = True
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'pyramid'
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 
 import re

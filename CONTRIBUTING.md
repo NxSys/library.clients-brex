@@ -14,11 +14,14 @@ To set up a development environment, please follow these steps:
 
 2. Install `phing`. https://www.phing.info/guide/chunkhtml/ch03s02.html
 
-2. Obtain the code and install packages
+3. Install `codeception`. https://codeception.com/install (We recommend using the global Phar as you can use it for several projects more easily)
+
+4. Obtain the code and install packages
 
    ```sh
    composer create-project nxsys/library.clients-brex --stability dev
    ```
+> You may want to follow the "Building" chapter in the documentation. It will have additional details you may find helpful.
 
 ## Tests and Builds
 
@@ -28,7 +31,7 @@ To set up a development environment, please follow these steps:
 You must set `BREX_TOKEN` and `BREX_ENDPOINT` in your environment before running tests.
 
 ``` sh
-	set BREX_TOKEN=3a6a5c7b4747e5f5a577
+	set BREX_TOKEN=<BREX TOKEN>
 	set BREX_ENDPOINT=https://platform.brexapis.com
 	phing testcov
 ```

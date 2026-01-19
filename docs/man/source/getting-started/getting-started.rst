@@ -20,7 +20,7 @@ And please don't forget
 Getting a Token From Brex
 -------------------------
 
-For consumer accounts, you will need an API token from Brex. Instructions for getting that token can be found on Brex’s developer website:
+For production accounts, you will need an API token from Brex. Instructions for getting that token can be found on Brex’s developer website:
 
 https://developer.brex.com/docs/authentication/
 
